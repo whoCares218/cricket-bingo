@@ -1,0 +1,6 @@
+flask
+flask-login
+flask-dance
+flask-socketio
+eventlet
+python-dotenv

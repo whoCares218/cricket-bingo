@@ -1,0 +1,5471 @@
+[
+    {
+      "id": 1,
+      "name": "MS Dhoni",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Rising Pune Supergiant"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Virat Kohli",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Rohit Sharma",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Ravindra Jadeja",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Kochi Tuskers Kerala",
+        "Chennai Super Kings",
+        "Gujarat Lions",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "R Ashwin",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Rising Pune Supergiant",
+        "Punjab Kings",
+        "Delhi Capitals",
+        "Rajasthan Royals",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Jasprit Bumrah",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Hardik Pandya",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Suryakumar Yadav",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "KL Rahul",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Sunrisers Hyderabad",
+        "Punjab Kings",
+        "Lucknow Super Giants",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Shikhar Dhawan",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Mumbai Indians",
+        "Sunrisers Hyderabad",
+        "Punjab Kings",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Yuvraj Singh",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Punjab Kings",
+        "Royal Challengers Bengaluru",
+        "Sunrisers Hyderabad",
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Gautam Gambhir",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Harbhajan Singh",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Chennai Super Kings",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Zaheer Khan",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Delhi Daredevils",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Suresh Raina",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Gujarat Lions"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Ishant Sharma",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Deccan Chargers",
+        "Punjab Kings",
+        "Delhi Daredevils",
+        "Rising Pune Supergiant",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Dinesh Karthik",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Royal Challengers Bengaluru",
+        "Kings XI Punjab",
+        "Mumbai Indians",
+        "Kolkata Knight Riders",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Ambati Rayudu",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Mumbai Indians",
+        "Chennai Super Kings",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Manoj Tiwary",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Delhi Daredevils",
+        "Pune Warriors India",
+        "Royal Challengers Bengaluru",
+        "Deccan Chargers",
+        "Rising Pune Supergiant"
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Manish Pandey",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders",
+        "Sunrisers Hyderabad",
+        "Punjab Kings",
+        "Lucknow Super Giants",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Ajinkya Rahane",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Rising Pune Supergiant",
+        "Delhi Daredevils",
+        "Mumbai Indians",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Cheteshwar Pujara",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Amit Mishra",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Sunrisers Hyderabad",
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Pragyan Ojha",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Mumbai Indians",
+        "Sunrisers Hyderabad",
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 25,
+      "name": "S Sreesanth",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Rajasthan Royals",
+        "Kochi Tuskers Kerala"
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Robin Uthappa",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Mumbai Indians",
+        "Pune Warriors India",
+        "Kolkata Knight Riders",
+        "Rajasthan Royals",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Irfan Pathan",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Deccan Chargers",
+        "Delhi Daredevils",
+        "Rising Pune Supergiant",
+        "Gujarat Lions"
+      ]
+    },
+    {
+      "id": 28,
+      "name": "Yusuf Pathan",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Kolkata Knight Riders",
+        "Sunrisers Hyderabad",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 29,
+      "name": "Ravichandran Ashwin",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Rising Pune Supergiant",
+        "Punjab Kings",
+        "Delhi Capitals",
+        "Rajasthan Royals",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 30,
+      "name": "Murali Vijay",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Mumbai Indians",
+        "Punjab Kings",
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 31,
+      "name": "Piyush Chawla",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Kolkata Knight Riders",
+        "Chennai Super Kings",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 32,
+      "name": "Umesh Yadav",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders",
+        "Gujarat Titans",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 33,
+      "name": "Vinay Kumar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 34,
+      "name": "Parthiv Patel",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Sunrisers Hyderabad",
+        "Chennai Super Kings",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 35,
+      "name": "Paul Valthaty",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 36,
+      "name": "Mohit Sharma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Kings XI Punjab",
+        "Delhi Capitals",
+        "Sunrisers Hyderabad",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 37,
+      "name": "Manpreet Gony",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Kings XI Punjab",
+        "Deccan Chargers"
+      ]
+    },
+    {
+      "id": 38,
+      "name": "Siddarth Trivedi",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 39,
+      "name": "Abhishek Nayar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Kolkata Knight Riders",
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 40,
+      "name": "Shadab Jakati",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Chennai Super Kings",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 41,
+      "name": "Bhuvneshwar Kumar",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Pune Warriors India",
+        "Sunrisers Hyderabad",
+        "Punjab Kings",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 42,
+      "name": "Shubman Gill",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 43,
+      "name": "Yashasvi Jaiswal",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 44,
+      "name": "Ruturaj Gaikwad",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 45,
+      "name": "Devdutt Padikkal",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Rajasthan Royals",
+        "Delhi Capitals",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 46,
+      "name": "Ishan Kishan",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Gujarat Lions",
+        "Mumbai Indians",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 47,
+      "name": "Rishabh Pant",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Delhi Capitals",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 48,
+      "name": "Sanju Samson",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 49,
+      "name": "Shreyas Iyer",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Delhi Capitals",
+        "Kolkata Knight Riders",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 50,
+      "name": "Prithvi Shaw",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 51,
+      "name": "Krunal Pandya",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Lucknow Super Giants",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 52,
+      "name": "Axar Patel",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Gujarat Lions",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 53,
+      "name": "Washington Sundar",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Rising Pune Supergiant",
+        "Royal Challengers Bengaluru",
+        "Sunrisers Hyderabad",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 54,
+      "name": "Yuzvendra Chahal",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Royal Challengers Bengaluru",
+        "Rajasthan Royals",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 55,
+      "name": "Kuldeep Yadav",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Kolkata Knight Riders",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 56,
+      "name": "Mohammed Shami",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Delhi Daredevils",
+        "Punjab Kings",
+        "Royal Challengers Bengaluru",
+        "Gujarat Titans",
+        "Sunrisers Hyderabad",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 57,
+      "name": "Mohammed Siraj",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Royal Challengers Bengaluru",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 58,
+      "name": "Shardul Thakur",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Rising Pune Supergiant",
+        "Chennai Super Kings",
+        "Delhi Capitals",
+        "Kolkata Knight Riders",
+        "Lucknow Super Giants",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 59,
+      "name": "Deepak Chahar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Rising Pune Supergiant",
+        "Chennai Super Kings",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 60,
+      "name": "Tilak Varma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 61,
+      "name": "Rinku Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 62,
+      "name": "Riyan Parag",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 63,
+      "name": "Dhruv Jurel",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 64,
+      "name": "Nitish Kumar Reddy",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 65,
+      "name": "Abhishek Sharma",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Punjab Kings",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 66,
+      "name": "Harshit Rana",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 67,
+      "name": "Akash Deep",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 68,
+      "name": "Mayank Yadav",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 69,
+      "name": "Vaibhav Suryavanshi",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 70,
+      "name": "Angkrish Raghuvanshi",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 71,
+      "name": "Ayush Mhatre",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 72,
+      "name": "Ramandeep Singh",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 73,
+      "name": "Anukul Roy",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 74,
+      "name": "Vaibhav Arora",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 75,
+      "name": "Varun Chakravarthy",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 76,
+      "name": "Umran Malik",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 77,
+      "name": "Anshul Kamboj",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 78,
+      "name": "Prasidh Krishna",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Rajasthan Royals",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 79,
+      "name": "Avesh Khan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 80,
+      "name": "Khaleel Ahmed",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Delhi Capitals",
+        "Rajasthan Royals",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 81,
+      "name": "Harshal Patel",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Royal Challengers Bengaluru",
+        "Punjab Kings",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 82,
+      "name": "Mukesh Kumar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 83,
+      "name": "T Natarajan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Sunrisers Hyderabad",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 84,
+      "name": "Yash Dayal",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Gujarat Titans",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 85,
+      "name": "Arshdeep Singh",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 86,
+      "name": "Shivam Mavi",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Gujarat Titans",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 87,
+      "name": "Kartik Tyagi",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Sunrisers Hyderabad",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 88,
+      "name": "Ravi Bishnoi",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Punjab Kings",
+        "Lucknow Super Giants",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 89,
+      "name": "Rahul Chahar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Mumbai Indians",
+        "Punjab Kings",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 90,
+      "name": "Jaydev Unadkat",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Royal Challengers Bengaluru",
+        "Rising Pune Supergiant",
+        "Rajasthan Royals",
+        "Mumbai Indians",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 91,
+      "name": "Sandeep Sharma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Rajasthan Royals",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 92,
+      "name": "Siddarth Kaul",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Kings XI Punjab",
+        "Royal Challengers Bengaluru",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 93,
+      "name": "Basil Thampi",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Lions",
+        "Sunrisers Hyderabad",
+        "Royal Challengers Bengaluru",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 94,
+      "name": "Baba Aparajith",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 95,
+      "name": "Sai Sudharsan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 96,
+      "name": "Sarfaraz Khan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Punjab Kings",
+        "Kolkata Knight Riders",
+        "Delhi Capitals",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 97,
+      "name": "Naman Dhir",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 98,
+      "name": "Robin Minz",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 99,
+      "name": "Raj Angad Bawa",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 100,
+      "name": "Ashwani Kumar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Lucknow Super Giants",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 101,
+      "name": "Shivam Dube",
+      "nation": "India",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Rajasthan Royals",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 102,
+      "name": "Musheer Khan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 103,
+      "name": "Karun Nair",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Kings XI Punjab",
+        "Delhi Capitals",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 104,
+      "name": "Nitish Rana",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Kolkata Knight Riders",
+        "Rajasthan Royals",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 105,
+      "name": "Abishek Porel",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 106,
+      "name": "Sameer Rizvi",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 107,
+      "name": "Kuldeep Sen",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 108,
+      "name": "Arjun Tendulkar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 109,
+      "name": "Ayush Badoni",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 110,
+      "name": "Abdul Samad",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 111,
+      "name": "Digvesh Rathi",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 112,
+      "name": "Manimaran Siddharth",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Delhi Capitals",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 113,
+      "name": "Mohsin Khan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 114,
+      "name": "Arshin Kulkarni",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 115,
+      "name": "Rajat Patidar",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 116,
+      "name": "Gurjapneet Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 117,
+      "name": "Urvil Patel",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 118,
+      "name": "Shreyas Gopal",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Rajasthan Royals",
+        "Sunrisers Hyderabad",
+        "Gujarat Titans",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 119,
+      "name": "Mukesh Choudhary",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 120,
+      "name": "Ramakrishna Ghosh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 121,
+      "name": "Anuj Rawat",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 122,
+      "name": "Gurnoor Brar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 123,
+      "name": "Kumar Kushagra",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Sunrisers Hyderabad",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 124,
+      "name": "Manav Suthar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 125,
+      "name": "Arshad Khan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 126,
+      "name": "Nishant Sindhu",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 127,
+      "name": "Rahul Tewatia",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Kings XI Punjab",
+        "Delhi Capitals",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 128,
+      "name": "M Shahrukh Khan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 129,
+      "name": "Jayant Yadav",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Mumbai Indians",
+        "Sunrisers Hyderabad",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 130,
+      "name": "R Sai Kishore",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 131,
+      "name": "Venkatesh Iyer",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 132,
+      "name": "Ashutosh Sharma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 133,
+      "name": "Tripurana Vijay",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Sunrisers Hyderabad",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 134,
+      "name": "Madhav Tiwari",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 135,
+      "name": "Vipraj Nigam",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 136,
+      "name": "Ajay Mandal",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 137,
+      "name": "Harnoor Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 138,
+      "name": "Nehal Wadhera",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 139,
+      "name": "Priyansh Arya",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 140,
+      "name": "Pyla Avinash",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 141,
+      "name": "Shashank Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chhattisgarh",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 142,
+      "name": "Suryansh Shedge",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 143,
+      "name": "Vishnu Vinod",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 144,
+      "name": "Vyshak Vijaykumar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 145,
+      "name": "Yash Thakur",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 146,
+      "name": "Harpreet Brar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 147,
+      "name": "Naman Tiwari",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 148,
+      "name": "Yudhvir Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 149,
+      "name": "Shubham Dubey",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 150,
+      "name": "Vicky Ostwal",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 151,
+      "name": "Swapnil Singh",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Rajasthan Royals",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 152,
+      "name": "Rasikh Salam",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 153,
+      "name": "Mangesh Yadav",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 154,
+      "name": "Suyash Sharma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 155,
+      "name": "Raghu Sharma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 156,
+      "name": "Jitesh Sharma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 157,
+      "name": "Aman Khan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 158,
+      "name": "Prince Yadav",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 159,
+      "name": "Shahbaz Ahmed",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Sunrisers Hyderabad",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 160,
+      "name": "Akash Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 161,
+      "name": "Himmat Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 162,
+      "name": "Daksh Kamra",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 163,
+      "name": "Prashant Solanki",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 164,
+      "name": "Sarthak Ranjan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 165,
+      "name": "Aniket Verma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 166,
+      "name": "R Smaran",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 167,
+      "name": "Harsh Dubey",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 168,
+      "name": "Zeeshan Ansari",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 169,
+      "name": "Eshan Malinga",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 170,
+      "name": "Abhinandan Singh",
+      "nation": "India",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 171,
+      "name": "Kanishk Chouhan",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 172,
+      "name": "Vihaan Malhotra",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 173,
+      "name": "Satvik Deswal",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 174,
+      "name": "Atharva Ankolekar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 175,
+      "name": "Danish Malewar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 176,
+      "name": "Mayank Rawat",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Delhi Capitals",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 177,
+      "name": "Akshat Raghuwanshi",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 178,
+      "name": "Mukul Choudhary",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 179,
+      "name": "Kartik Sharma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 180,
+      "name": "Prashant Veer",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 181,
+      "name": "Prithvi Raj",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 182,
+      "name": "Ashok Sharma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 183,
+      "name": "Vishal Nishad",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 184,
+      "name": "Pravin Dubey",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 185,
+      "name": "Ravi Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 186,
+      "name": "Sushant Mishra",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 187,
+      "name": "Vignesh Puthur",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 188,
+      "name": "Yash Punja",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 189,
+      "name": "Aman Rao",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 190,
+      "name": "Brijesh Sharma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 191,
+      "name": "Tejasvi Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 192,
+      "name": "Mohammad Izhar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 193,
+      "name": "Sahil Parikh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 194,
+      "name": "Shane Watson",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 195,
+      "name": "Adam Gilchrist",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 196,
+      "name": "Matthew Hayden",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 197,
+      "name": "Andrew Symonds",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 198,
+      "name": "Brad Hodge",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Rajasthan Royals",
+        "Mumbai Indians",
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 199,
+      "name": "Cameron White",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Deccan Chargers"
+      ]
+    },
+    {
+      "id": 200,
+      "name": "Nathan Bracken",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 201,
+      "name": "Jason Gillespie",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 202,
+      "name": "Brett Lee",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Kings XI Punjab",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 203,
+      "name": "Mitchell Johnson",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup",
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 204,
+      "name": "Stuart Clark",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 205,
+      "name": "James Hopes",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 206,
+      "name": "Michael Hussey",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 207,
+      "name": "David Warner",
+      "nation": "Australia",
+      "trophies": [
+        "ICC T20 World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Sunrisers Hyderabad",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 208,
+      "name": "Glenn Maxwell",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup",
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Mumbai Indians",
+        "Kings XI Punjab",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 209,
+      "name": "Mitchell Starc",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup",
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 210,
+      "name": "Pat Cummins",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup",
+        "ICC T20 World Cup",
+        "WTC"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 211,
+      "name": "Josh Hazlewood",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup",
+        "ICC T20 World Cup",
+        "WTC"
+      ],
+      "iplTeams": [
+        "Rising Pune Supergiant",
+        "Chennai Super Kings",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 212,
+      "name": "Travis Head",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup",
+        "ICC T20 World Cup",
+        "WTC"
+      ],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 213,
+      "name": "Steve Smith",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup",
+        "WTC"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Pune Warriors India",
+        "Rajasthan Royals",
+        "Rising Pune Supergiant",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 214,
+      "name": "Marcus Stoinis",
+      "nation": "Australia",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Delhi Capitals",
+        "Lucknow Super Giants",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 215,
+      "name": "David Miller",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Rajasthan Royals",
+        "Gujarat Titans",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 216,
+      "name": "AB de Villiers",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 217,
+      "name": "Faf du Plessis",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Rising Pune Supergiant",
+        "Delhi Capitals",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 218,
+      "name": "Kagiso Rabada",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Punjab Kings",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 219,
+      "name": "Lungi Ngidi",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 220,
+      "name": "Anrich Nortje",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Delhi Capitals",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 221,
+      "name": "Aiden Markram",
+      "nation": "South Africa",
+      "trophies": [
+        "WTC"
+      ],
+      "iplTeams": [
+        "Punjab Kings",
+        "Sunrisers Hyderabad",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 222,
+      "name": "Marco Jansen",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Mumbai Indians",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 223,
+      "name": "Tristan Stubbs",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 224,
+      "name": "Matthew Breetzke",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 225,
+      "name": "Lhuan-dre Pretorius",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 226,
+      "name": "Donovan Ferreira",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 227,
+      "name": "Nandre Burger",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 228,
+      "name": "Kwena Maphaka",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 229,
+      "name": "Corbin Bosch",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 230,
+      "name": "Ryan Rickelton",
+      "nation": "South Africa",
+      "trophies": [
+        "WTC"
+      ],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 231,
+      "name": "Chris Gayle",
+      "nation": "West Indies",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Royal Challengers Bengaluru",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 232,
+      "name": "Dwayne Bravo",
+      "nation": "West Indies",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Mumbai Indians",
+        "Gujarat Lions"
+      ]
+    },
+    {
+      "id": 233,
+      "name": "Andre Russell",
+      "nation": "West Indies",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 234,
+      "name": "Sunil Narine",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 235,
+      "name": "Kieron Pollard",
+      "nation": "West Indies",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 236,
+      "name": "Marlon Samuels",
+      "nation": "West Indies",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Pune Warriors India",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 237,
+      "name": "Darren Sammy",
+      "nation": "West Indies",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 238,
+      "name": "Rovman Powell",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Rajasthan Royals",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 239,
+      "name": "Nicholas Pooran",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Sunrisers Hyderabad",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 240,
+      "name": "Shimron Hetmyer",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Royal Challengers Bengaluru",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 241,
+      "name": "Sherfane Rutherford",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 242,
+      "name": "Romario Shepherd",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Mumbai Indians",
+        "Lucknow Super Giants",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 243,
+      "name": "Akeal Hosein",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 244,
+      "name": "Jayden Seales",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 245,
+      "name": "Carlos Brathwaite",
+      "nation": "West Indies",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kolkata Knight Riders",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 246,
+      "name": "Evin Lewis",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 247,
+      "name": "Lendl Simmons",
+      "nation": "West Indies",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Rajasthan Royals",
+        "Rising Pune Supergiant",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 248,
+      "name": "Ravi Rampaul",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Delhi Daredevils",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 249,
+      "name": "Jason Holder",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Kolkata Knight Riders",
+        "Lucknow Super Giants",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 250,
+      "name": "Fabian Allen",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 251,
+      "name": "Odean Smith",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 252,
+      "name": "Alzarri Joseph",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 253,
+      "name": "Shai Hope",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 254,
+      "name": "Rahkeem Cornwall",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 255,
+      "name": "Shamarh Brooks",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 256,
+      "name": "Sachin Tendulkar",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 257,
+      "name": "Sourav Ganguly",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 258,
+      "name": "Anil Kumble",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 259,
+      "name": "VVS Laxman",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers"
+      ]
+    },
+    {
+      "id": 260,
+      "name": "Virender Sehwag",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 261,
+      "name": "Rahul Dravid",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Delhi Daredevils",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 262,
+      "name": "Sanath Jayasuriya",
+      "nation": "Sri Lanka",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 263,
+      "name": "Muttiah Muralitharan",
+      "nation": "Sri Lanka",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Kochi Tuskers Kerala"
+      ]
+    },
+    {
+      "id": 264,
+      "name": "Kumar Sangakkara",
+      "nation": "Sri Lanka",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 265,
+      "name": "Mahela Jayawardene",
+      "nation": "Sri Lanka",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kochi Tuskers Kerala",
+        "Mumbai Indians",
+        "Rising Pune Supergiant"
+      ]
+    },
+    {
+      "id": 266,
+      "name": "Lasith Malinga",
+      "nation": "Sri Lanka",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 267,
+      "name": "Tillakaratne Dilshan",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 268,
+      "name": "Chamara Kapugedera",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 269,
+      "name": "Angelo Mathews",
+      "nation": "Sri Lanka",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Rising Pune Supergiant",
+        "Pune Warriors India"
+      ]
+    },
+    {
+      "id": 270,
+      "name": "Nuwan Kulasekara",
+      "nation": "Sri Lanka",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 271,
+      "name": "Ajantha Mendis",
+      "nation": "Sri Lanka",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 272,
+      "name": "Thisara Perera",
+      "nation": "Sri Lanka",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 273,
+      "name": "Dinesh Chandimal",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers"
+      ]
+    },
+    {
+      "id": 274,
+      "name": "Sachithra Senanayake",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 275,
+      "name": "Kusal Perera",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 276,
+      "name": "Dhananjaya de Silva",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 277,
+      "name": "Wanindu Hasaranga",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Sunrisers Hyderabad",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 278,
+      "name": "Pathum Nissanka",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 279,
+      "name": "Kamindu Mendis",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 280,
+      "name": "Matheesha Pathirana",
+      "nation": "Sri Lanka",
+      "trophies": [
+        "IPL"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 281,
+      "name": "Nuwan Thushara",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 282,
+      "name": "Noor Ahmad",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 283,
+      "name": "Rashid Khan",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Delhi Capitals",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 284,
+      "name": "Mohammad Nabi",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 285,
+      "name": "Mujeeb Ur Rahman",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Rajasthan Royals",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 286,
+      "name": "Rahmanullah Gurbaz",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 287,
+      "name": "Azmatullah Omarzai",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 288,
+      "name": "Allah Ghazanfar",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 289,
+      "name": "Imran Tahir",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 290,
+      "name": "Albie Morkel",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Pune Warriors India"
+      ]
+    },
+    {
+      "id": 291,
+      "name": "Dale Steyn",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Royal Challengers Bengaluru",
+        "Gujarat Lions",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 292,
+      "name": "Morne Morkel",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 293,
+      "name": "Herschelle Gibbs",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers"
+      ]
+    },
+    {
+      "id": 294,
+      "name": "Jacques Kallis",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 295,
+      "name": "Robin Peterson",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 296,
+      "name": "Charl Langeveldt",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 297,
+      "name": "Graeme Smith",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 298,
+      "name": "J-P Duminy",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Mumbai Indians",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 299,
+      "name": "Johan Botha",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers"
+      ]
+    },
+    {
+      "id": 300,
+      "name": "Wayne Parnell",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kolkata Knight Riders",
+        "Kings XI Punjab",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 301,
+      "name": "Quinton de Kock",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Royal Challengers Bengaluru",
+        "Mumbai Indians",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 302,
+      "name": "Tabraiz Shamsi",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Royal Challengers Bengaluru",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 303,
+      "name": "Shahid Afridi",
+      "nation": "Pakistan",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Deccan Chargers"
+      ]
+    },
+    {
+      "id": 304,
+      "name": "Shoaib Akhtar",
+      "nation": "Pakistan",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 305,
+      "name": "Shoaib Malik",
+      "nation": "Pakistan",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 306,
+      "name": "Sohail Tanvir",
+      "nation": "Pakistan",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Mumbai Indians",
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 307,
+      "name": "Umar Gul",
+      "nation": "Pakistan",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 308,
+      "name": "Rana Naved-ul-Hasan",
+      "nation": "Pakistan",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Kolkata Knight Riders",
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 309,
+      "name": "Kamran Akmal",
+      "nation": "Pakistan",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 310,
+      "name": "Yasir Shah",
+      "nation": "Pakistan",
+      "trophies": [],
+      "iplTeams": [
+        "Rising Pune Supergiant"
+      ]
+    },
+    {
+      "id": 311,
+      "name": "Dimitri Mascarenhas",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 312,
+      "name": "Andrew Flintoff",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 313,
+      "name": "Paul Collingwood",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 314,
+      "name": "Kevin Pietersen",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Delhi Daredevils",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 315,
+      "name": "Stuart Broad",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 316,
+      "name": "Graeme Swann",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Deccan Chargers"
+      ]
+    },
+    {
+      "id": 317,
+      "name": "Michael Lumb",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 318,
+      "name": "Owais Shah",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 319,
+      "name": "Luke Wright",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Delhi Daredevils",
+        "Pune Warriors India"
+      ]
+    },
+    {
+      "id": 320,
+      "name": "Ravi Bopara",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 321,
+      "name": "Eoin Morgan",
+      "nation": "England",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 322,
+      "name": "Ben Stokes",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Rising Pune Supergiant",
+        "Rajasthan Royals",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 323,
+      "name": "Jos Buttler",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Rajasthan Royals",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 324,
+      "name": "Sam Curran",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Punjab Kings",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 325,
+      "name": "Liam Livingstone",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Punjab Kings",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 326,
+      "name": "Jonny Bairstow",
+      "nation": "England",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 327,
+      "name": "Jason Roy",
+      "nation": "England",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Sunrisers Hyderabad",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 328,
+      "name": "Joe Root",
+      "nation": "England",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 329,
+      "name": "Tom Curran",
+      "nation": "England",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kolkata Knight Riders",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 330,
+      "name": "Mark Wood",
+      "nation": "England",
+      "trophies": [
+        "ICC ODI World Cup",
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Lucknow Super Giants",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 331,
+      "name": "Phil Salt",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Kolkata Knight Riders",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 332,
+      "name": "Will Jacks",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 333,
+      "name": "Brydon Carse",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 334,
+      "name": "Jacob Bethell",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 335,
+      "name": "Jamie Overton",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 336,
+      "name": "Jofra Archer",
+      "nation": "England",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 337,
+      "name": "Ben Duckett",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 338,
+      "name": "Jack Edwards",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 339,
+      "name": "Zak Foulkes",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 340,
+      "name": "Brendon McCullum",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Kochi Tuskers Kerala",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 341,
+      "name": "Daniel Vettori",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 342,
+      "name": "Jacob Oram",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 343,
+      "name": "Kyle Mills",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Kings XI Punjab",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 344,
+      "name": "Daryl Mitchell",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 345,
+      "name": "Lockie Ferguson",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Gujarat Titans",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 346,
+      "name": "Trent Boult",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Rajasthan Royals",
+        "Delhi Capitals",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 347,
+      "name": "Kane Williamson",
+      "nation": "New Zealand",
+      "trophies": [
+        "WTC"
+      ],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 348,
+      "name": "Tim Southee",
+      "nation": "New Zealand",
+      "trophies": [
+        "WTC"
+      ],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Mumbai Indians",
+        "Kings XI Punjab",
+        "Kolkata Knight Riders",
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 349,
+      "name": "Martin Guptill",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Gujarat Lions",
+        "Sunrisers Hyderabad",
+        "Kolkata Knight Riders",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 350,
+      "name": "Ross Taylor",
+      "nation": "New Zealand",
+      "trophies": [
+        "WTC"
+      ],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 351,
+      "name": "Mitchell Santner",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 352,
+      "name": "Kyle Jamieson",
+      "nation": "New Zealand",
+      "trophies": [
+        "WTC"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Punjab Kings",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 353,
+      "name": "Glenn Phillips",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 354,
+      "name": "Devon Conway",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 355,
+      "name": "Rachin Ravindra",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 356,
+      "name": "Adam Milne",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Mumbai Indians",
+        "Delhi Capitals",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 357,
+      "name": "Finn Allen",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 358,
+      "name": "Matt Henry",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Rajasthan Royals",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 359,
+      "name": "Jacob Duffy",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 360,
+      "name": "Tim Seifert",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 361,
+      "name": "Tim David",
+      "nation": "Singapore",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 362,
+      "name": "Shakib Al Hasan",
+      "nation": "Bangladesh",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 363,
+      "name": "Tamim Iqbal",
+      "nation": "Bangladesh",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 364,
+      "name": "Mustafizur Rahman",
+      "nation": "Bangladesh",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Mumbai Indians",
+        "Delhi Capitals",
+        "Rajasthan Royals",
+        "Lucknow Super Giants",
+        "Chennai Super Kings",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 365,
+      "name": "Taskin Ahmed",
+      "nation": "Bangladesh",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 366,
+      "name": "Soumya Sarkar",
+      "nation": "Bangladesh",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 367,
+      "name": "Sikandar Raza",
+      "nation": "Zimbabwe",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 368,
+      "name": "Sean Williams",
+      "nation": "Zimbabwe",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 369,
+      "name": "Graeme Cremer",
+      "nation": "Zimbabwe",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 370,
+      "name": "Elton Chigumbura",
+      "nation": "Zimbabwe",
+      "trophies": [],
+      "iplTeams": [
+        "Pune Warriors India"
+      ]
+    },
+    {
+      "id": 371,
+      "name": "Shane Warne",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 372,
+      "name": "Ricky Ponting",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 373,
+      "name": "Michael Clarke",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Pune Warriors India"
+      ]
+    },
+    {
+      "id": 374,
+      "name": "Simon Katich",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 375,
+      "name": "Shaun Marsh",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 376,
+      "name": "Mitchell Marsh",
+      "nation": "Australia",
+      "trophies": [
+        "ICC T20 World Cup",
+        "WTC"
+      ],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Delhi Capitals",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 377,
+      "name": "Aaron Finch",
+      "nation": "Australia",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kings XI Punjab",
+        "Mumbai Indians",
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 378,
+      "name": "Adam Zampa",
+      "nation": "Australia",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Gujarat Lions",
+        "Rising Pune Supergiant",
+        "Royal Challengers Bengaluru",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 379,
+      "name": "Jason Behrendorff",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 380,
+      "name": "Peter Siddle",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 381,
+      "name": "Moises Henriques",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Pune Warriors India"
+      ]
+    },
+    {
+      "id": 382,
+      "name": "Cameron Green",
+      "nation": "Australia",
+      "trophies": [
+        "WTC",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 383,
+      "name": "Usman Khawaja",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup",
+        "WTC"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 384,
+      "name": "Matthew Short",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 385,
+      "name": "Xavier Bartlett",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 386,
+      "name": "Mitch Owen",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 387,
+      "name": "Ben Dwarshuis",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 388,
+      "name": "Cooper Connolly",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 389,
+      "name": "Tom Banton",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Punjab Kings",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 390,
+      "name": "Dawid Malan",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 391,
+      "name": "Tymal Mills",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 392,
+      "name": "Chris Jordan",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Royal Challengers Bengaluru",
+        "Sunrisers Hyderabad",
+        "Punjab Kings",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 393,
+      "name": "Reece Topley",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 394,
+      "name": "Adil Rashid",
+      "nation": "England",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 395,
+      "name": "Moeen Ali",
+      "nation": "England",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 396,
+      "name": "Chris Woakes",
+      "nation": "England",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Royal Challengers Bengaluru",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 397,
+      "name": "Liam Plunkett",
+      "nation": "England",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 398,
+      "name": "Jordan Cox",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 399,
+      "name": "Dasun Shanaka",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 400,
+      "name": "Maheesh Theekshana",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 401,
+      "name": "Dilshan Madushanka",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 402,
+      "name": "Kasun Rajitha",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 403,
+      "name": "Jeffrey Vandersay",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 404,
+      "name": "Farhan Behardien",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 405,
+      "name": "Mangaliso Mosehle",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 406,
+      "name": "Chris Morris",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Chennai Super Kings",
+        "Royal Challengers Bengaluru",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 407,
+      "name": "Wihan Lubbe",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 408,
+      "name": "Shivnarine Chanderpaul",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 409,
+      "name": "Brian Lara",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 410,
+      "name": "Jerome Taylor",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Deccan Chargers",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 411,
+      "name": "Ramnaresh Sarwan",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 412,
+      "name": "Denesh Ramdin",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 413,
+      "name": "Fidel Edwards",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 414,
+      "name": "Kemar Roach",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 415,
+      "name": "Dwayne Smith",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 416,
+      "name": "Ronsford Beaton",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Lions"
+      ]
+    },
+    {
+      "id": 417,
+      "name": "Chadwick Walton",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 418,
+      "name": "Kesrick Williams",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 419,
+      "name": "Sohail Khan",
+      "nation": "Pakistan",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 420,
+      "name": "Imran Khan",
+      "nation": "Pakistan",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 421,
+      "name": "Mohammad Hafeez",
+      "nation": "Pakistan",
+      "trophies": [
+        "ICC T20 World Cup"
+      ],
+      "iplTeams": [
+        "Lahore Lions"
+      ]
+    },
+    {
+      "id": 422,
+      "name": "Khusdil Shah",
+      "nation": "Pakistan",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 423,
+      "name": "Harvinder Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 424,
+      "name": "Tushar Deshpande",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals",
+        "Chennai Super Kings",
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 425,
+      "name": "Mohit Rathee",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 426,
+      "name": "Sandeep Warrier",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Punjab Kings",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 427,
+      "name": "Monu Kumar Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 428,
+      "name": "Sai Kishore",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 429,
+      "name": "Darshan Nalkande",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 430,
+      "name": "Sundar Ramu",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 431,
+      "name": "Deepak Hooda",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Kings XI Punjab",
+        "Punjab Kings",
+        "Rajasthan Royals",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 432,
+      "name": "Gurkeerat Singh Mann",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Kolkata Knight Riders",
+        "Royal Challengers Bengaluru",
+        "Punjab Kings",
+        "Gujarat Lions"
+      ]
+    },
+    {
+      "id": 433,
+      "name": "Rahul Tripathi",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rising Pune Supergiant",
+        "Rajasthan Royals",
+        "Kolkata Knight Riders",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 434,
+      "name": "Prabhsimran Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 435,
+      "name": "Avishka Fernando",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 436,
+      "name": "Bhanuka Rajapaksa",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 437,
+      "name": "Suranga Lakmal",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 438,
+      "name": "Lakshan Sandakan",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 439,
+      "name": "Akila Dananjaya",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 440,
+      "name": "Chamika Karunaratne",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 441,
+      "name": "Dushmantha Chameera",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Punjab Kings",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 442,
+      "name": "Ishan Porel",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 443,
+      "name": "Sanvir Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 444,
+      "name": "Sudharsan Sai",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 445,
+      "name": "Rahul Deshpande",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 446,
+      "name": "Saurabh Netravalkar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 447,
+      "name": "Akash Madhwal",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 448,
+      "name": "Heinrich Klaasen",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 449,
+      "name": "Danie van Zyl",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 450,
+      "name": "Rilee Rossouw",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 451,
+      "name": "Reeza Hendricks",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 452,
+      "name": "Josh Inglis",
+      "nation": "Australia",
+      "trophies": [
+        "ICC T20 World Cup",
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 453,
+      "name": "Peter Handscomb",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Rising Pune Supergiant",
+        "Kolkata Knight Riders",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 454,
+      "name": "David Hussey",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Kings XI Punjab",
+        "Chennai Super Kings"
+      ]
+    },
+    {
+      "id": 455,
+      "name": "Brad Haddin",
+      "nation": "Australia",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 456,
+      "name": "Luke Ronchi",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 457,
+      "name": "Grant Elliott",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 458,
+      "name": "Iain O'Brien",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 459,
+      "name": "Nathan McCullum",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers",
+        "Rajasthan Royals",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 460,
+      "name": "Mitchell McClenaghan",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 461,
+      "name": "Corey Anderson",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 462,
+      "name": "Colin de Grandhomme",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Royal Challengers Bengaluru",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 463,
+      "name": "Colin Munro",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders",
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 464,
+      "name": "Ish Sodhi",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Delhi Capitals",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 465,
+      "name": "Hamish Bennett",
+      "nation": "New Zealand",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 466,
+      "name": "Samiullah Shenwari",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 467,
+      "name": "Dawlat Zadran",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 468,
+      "name": "Gulbadin Naib",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 469,
+      "name": "Karim Janat",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 470,
+      "name": "Hazratullah Zazai",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 471,
+      "name": "Fareed Ahmad",
+      "nation": "Afghanistan",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 472,
+      "name": "Vijay Shankar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Kings XI Punjab",
+        "Delhi Daredevils",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 473,
+      "name": "Temba Bavuma",
+      "nation": "South Africa",
+      "trophies": [
+        "WTC"
+      ],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 474,
+      "name": "Rassie van der Dussen",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 475,
+      "name": "Mayank Markande",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Delhi Capitals",
+        "Rajasthan Royals",
+        "Kolkata Knight Riders",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 476,
+      "name": "M Siddharth",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Delhi Capitals",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 477,
+      "name": "Ricky Bhui",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 478,
+      "name": "Prince Badree",
+      "nation": "West Indies",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 479,
+      "name": "Anya Shrubsole",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": []
+    },
+    {
+      "id": 480,
+      "name": "Michael Bevan",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 481,
+      "name": "Tyagi Umesh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 482,
+      "name": "Parvez Rasool",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Pune Warriors India",
+        "Royal Challengers Bengaluru",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 483,
+      "name": "Johan van der Wath",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals",
+        "Deccan Chargers"
+      ]
+    },
+    {
+      "id": 484,
+      "name": "Prasanna Jayawardene",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 485,
+      "name": "Roelof van der Merwe",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 486,
+      "name": "Dirk Nannes",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 487,
+      "name": "Robert Quiney",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 488,
+      "name": "Dominic Cork",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 489,
+      "name": "Dambulla Vipula",
+      "nation": "Sri Lanka",
+      "trophies": [],
+      "iplTeams": [
+        "Deccan Chargers"
+      ]
+    },
+    {
+      "id": 490,
+      "name": "Mitch Marsh",
+      "nation": "Australia",
+      "trophies": [
+        "ICC T20 World Cup",
+        "WTC"
+      ],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Delhi Capitals",
+        "Lucknow Super Giants"
+      ]
+    },
+    {
+      "id": 491,
+      "name": "Chris Green",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 492,
+      "name": "Jhye Richardson",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Kings XI Punjab",
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 493,
+      "name": "Riley Meredith",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Punjab Kings"
+      ]
+    },
+    {
+      "id": 494,
+      "name": "D Arcy Short",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 495,
+      "name": "Lynn Chris",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 496,
+      "name": "Sam Harper",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Capitals"
+      ]
+    },
+    {
+      "id": 497,
+      "name": "Liam Dawson",
+      "nation": "England",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 498,
+      "name": "Marchant de Lange",
+      "nation": "South Africa",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 499,
+      "name": "Ben Cutting",
+      "nation": "Australia",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Kolkata Knight Riders"
+      ]
+    },
+    {
+      "id": 500,
+      "name": "Wriddhiman Saha",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup",
+        "IPL"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Kings XI Punjab",
+        "Sunrisers Hyderabad",
+        "Gujarat Titans"
+      ]
+    },
+    {
+      "id": 501,
+      "name": "Karn Sharma",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Sunrisers Hyderabad",
+        "Royal Challengers Bengaluru",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 502,
+      "name": "Jaydev Shah",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 503,
+      "name": "Unmukt Chand",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Delhi Daredevils",
+        "Rajasthan Royals",
+        "Mumbai Indians",
+        "Rising Pune Supergiant"
+      ]
+    },
+    {
+      "id": 504,
+      "name": "Saurabh Tiwary",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Rising Pune Supergiant",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 505,
+      "name": "Swapnil Asnodkar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 506,
+      "name": "S Badrinath",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Chennai Super Kings",
+        "Delhi Daredevils",
+        "Sunrisers Hyderabad"
+      ]
+    },
+    {
+      "id": 507,
+      "name": "VRV Singh",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Kolkata Knight Riders",
+        "Kings XI Punjab"
+      ]
+    },
+    {
+      "id": 508,
+      "name": "Munaf Patel",
+      "nation": "India",
+      "trophies": [
+        "ICC ODI World Cup"
+      ],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Rajasthan Royals",
+        "Royal Challengers Bengaluru"
+      ]
+    },
+    {
+      "id": 509,
+      "name": "R Vinay Kumar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Royal Challengers Bengaluru",
+        "Kolkata Knight Riders",
+        "Mumbai Indians"
+      ]
+    },
+    {
+      "id": 510,
+      "name": "Dhawal Kulkarni",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Mumbai Indians",
+        "Rajasthan Royals",
+        "Gujarat Lions",
+        "Delhi Daredevils"
+      ]
+    },
+    {
+      "id": 511,
+      "name": "KP Appanna",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    },
+    {
+      "id": 512,
+      "name": "Hrishikesh Kanitkar",
+      "nation": "India",
+      "trophies": [],
+      "iplTeams": [
+        "Rajasthan Royals"
+      ]
+    }
+  ]

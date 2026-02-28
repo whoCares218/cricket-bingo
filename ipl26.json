@@ -1,0 +1,1502 @@
+[
+    {
+      "id": 1,
+      "name": "MS Dhoni",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 2,
+      "name": "Ruturaj Gaikwad",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 3,
+      "name": "Sanju Samson",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 4,
+      "name": "Ayush Mhatre",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 5,
+      "name": "Dewald Brevis",
+      "nation": "South Africa",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 6,
+      "name": "Shivam Dube",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 7,
+      "name": "Urvil Patel",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 8,
+      "name": "Noor Ahmad",
+      "nation": "Afghanistan",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 9,
+      "name": "Nathan Ellis",
+      "nation": "Australia",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 10,
+      "name": "Shreyas Gopal",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 11,
+      "name": "Khaleel Ahmed",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 12,
+      "name": "Ramakrishna Ghosh",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 13,
+      "name": "Mukesh Choudhary",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 14,
+      "name": "Jamie Overton",
+      "nation": "England",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 15,
+      "name": "Gurjapneet Singh",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 16,
+      "name": "Anshul Kamboj",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 17,
+      "name": "Prashant Veer",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 18,
+      "name": "Kartik Sharma",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 19,
+      "name": "Rahul Chahar",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 20,
+      "name": "Akeal Hosein",
+      "nation": "West Indies",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 21,
+      "name": "Matt Henry",
+      "nation": "New Zealand",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 22,
+      "name": "Matthew Short",
+      "nation": "Australia",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 23,
+      "name": "Sarfaraz Khan",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 24,
+      "name": "Zak Foulkes",
+      "nation": "England",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 25,
+      "name": "Aman Khan",
+      "nation": "India",
+      "team": "Chennai Super Kings"
+    },
+    {
+      "id": 26,
+      "name": "Nitish Rana",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 27,
+      "name": "Abishek Porel",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 28,
+      "name": "Ajay Mandal",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 29,
+      "name": "Ashutosh Sharma",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 30,
+      "name": "Axar Patel",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 31,
+      "name": "Dushmantha Chameera",
+      "nation": "Sri Lanka",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 32,
+      "name": "Karun Nair",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 33,
+      "name": "KL Rahul",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 34,
+      "name": "Kuldeep Yadav",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 35,
+      "name": "Madhav Tiwari",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 36,
+      "name": "Mitchell Starc",
+      "nation": "Australia",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 37,
+      "name": "Sameer Rizvi",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 38,
+      "name": "T Natarajan",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 39,
+      "name": "Tripurana Vijay",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 40,
+      "name": "Tristan Stubbs",
+      "nation": "South Africa",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 41,
+      "name": "Vipraj Nigam",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 42,
+      "name": "Mukesh Kumar",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 43,
+      "name": "Auqib Nabi",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 44,
+      "name": "Pathum Nissanka",
+      "nation": "Sri Lanka",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 45,
+      "name": "David Miller",
+      "nation": "South Africa",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 46,
+      "name": "Ben Duckett",
+      "nation": "England",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 47,
+      "name": "Lungi Ngidi",
+      "nation": "South Africa",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 48,
+      "name": "Kyle Jamieson",
+      "nation": "New Zealand",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 49,
+      "name": "Prithvi Shaw",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 50,
+      "name": "Sahil Parikh",
+      "nation": "India",
+      "team": "Delhi Capitals"
+    },
+    {
+      "id": 51,
+      "name": "Anuj Rawat",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 52,
+      "name": "Glenn Phillips",
+      "nation": "New Zealand",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 53,
+      "name": "Gurnoor Brar",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 54,
+      "name": "Ishant Sharma",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 55,
+      "name": "Jayant Yadav",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 56,
+      "name": "Jos Buttler",
+      "nation": "England",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 57,
+      "name": "Kagiso Rabada",
+      "nation": "South Africa",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 58,
+      "name": "Kumar Kushagra",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 59,
+      "name": "Manav Suthar",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 60,
+      "name": "Mohammed Siraj",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 61,
+      "name": "Arshad Khan",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 62,
+      "name": "Nishant Sindhu",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 63,
+      "name": "Prasidh Krishna",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 64,
+      "name": "R Sai Kishore",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 65,
+      "name": "Rahul Tewatia",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 66,
+      "name": "Rashid Khan",
+      "nation": "Afghanistan",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 67,
+      "name": "B Sai Sudharsan",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 68,
+      "name": "M Shahrukh Khan",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 69,
+      "name": "Shubman Gill",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 70,
+      "name": "Washington Sundar",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 71,
+      "name": "Jason Holder",
+      "nation": "West Indies",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 72,
+      "name": "Tom Banton",
+      "nation": "England",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 73,
+      "name": "Ashok Sharma",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 74,
+      "name": "Luke Wood",
+      "nation": "England",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 75,
+      "name": "Prithvi Raj",
+      "nation": "India",
+      "team": "Gujarat Titans"
+    },
+    {
+      "id": 76,
+      "name": "Ajinkya Rahane",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 77,
+      "name": "Angkrish Raghuvanshi",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 78,
+      "name": "Anukul Roy",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 79,
+      "name": "Harshit Rana",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 80,
+      "name": "Manish Pandey",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 81,
+      "name": "Ramandeep Singh",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 82,
+      "name": "Rinku Singh",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 83,
+      "name": "Rovman Powell",
+      "nation": "West Indies",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 84,
+      "name": "Sunil Narine",
+      "nation": "West Indies",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 85,
+      "name": "Umran Malik",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 86,
+      "name": "Vaibhav Arora",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 87,
+      "name": "Varun Chakravarthy",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 88,
+      "name": "Cameron Green",
+      "nation": "Australia",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 89,
+      "name": "Mustafizur Rahman",
+      "nation": "Bangladesh",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 90,
+      "name": "Matheesha Pathirana",
+      "nation": "Sri Lanka",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 91,
+      "name": "Tejasvi Singh",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 92,
+      "name": "Finn Allen",
+      "nation": "New Zealand",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 93,
+      "name": "Rachin Ravindra",
+      "nation": "New Zealand",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 94,
+      "name": "Tim Seifert",
+      "nation": "New Zealand",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 95,
+      "name": "Akash Deep",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 96,
+      "name": "Rahul Tripathi",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 97,
+      "name": "Prashant Solanki",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 98,
+      "name": "Kartik Tyagi",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 99,
+      "name": "Sarthak Ranjan",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 100,
+      "name": "Daksh Kamra",
+      "nation": "India",
+      "team": "Kolkata Knight Riders"
+    },
+    {
+      "id": 101,
+      "name": "Abdul Samad",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 102,
+      "name": "Aiden Markram",
+      "nation": "South Africa",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 103,
+      "name": "Akash Singh",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 104,
+      "name": "Arjun Tendulkar",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 105,
+      "name": "Arshin Kulkarni",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 106,
+      "name": "Avesh Khan",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 107,
+      "name": "Ayush Badoni",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 108,
+      "name": "Digvesh Rathi",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 109,
+      "name": "Himmat Singh",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 110,
+      "name": "Manimaran Siddharth",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 111,
+      "name": "Matthew Breetzke",
+      "nation": "South Africa",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 112,
+      "name": "Mayank Yadav",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 113,
+      "name": "Mohammed Shami",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 114,
+      "name": "Mitchell Marsh",
+      "nation": "Australia",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 115,
+      "name": "Mohsin Khan",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 116,
+      "name": "Nicholas Pooran",
+      "nation": "West Indies",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 117,
+      "name": "Prince Yadav",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 118,
+      "name": "Rishabh Pant",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 119,
+      "name": "Shahbaz Ahmed",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 120,
+      "name": "Josh Inglis",
+      "nation": "Australia",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 121,
+      "name": "Mukul Choudhary",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 122,
+      "name": "Akshat Raghuwanshi",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 123,
+      "name": "Wanindu Hasaranga",
+      "nation": "Sri Lanka",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 124,
+      "name": "Anrich Nortje",
+      "nation": "South Africa",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 125,
+      "name": "Naman Tiwari",
+      "nation": "India",
+      "team": "Lucknow Super Giants"
+    },
+    {
+      "id": 126,
+      "name": "Shardul Thakur",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 127,
+      "name": "Sherfane Rutherford",
+      "nation": "West Indies",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 128,
+      "name": "Mayank Markande",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 129,
+      "name": "AM Ghazanfar",
+      "nation": "Afghanistan",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 130,
+      "name": "Ashwani Kumar",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 131,
+      "name": "Corbin Bosch",
+      "nation": "South Africa",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 132,
+      "name": "Deepak Chahar",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 133,
+      "name": "Hardik Pandya",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 134,
+      "name": "Jasprit Bumrah",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 135,
+      "name": "Mitchell Santner",
+      "nation": "New Zealand",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 136,
+      "name": "Naman Dhir",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 137,
+      "name": "Raghu Sharma",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 138,
+      "name": "Raj Bawa",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 139,
+      "name": "Robin Minz",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 140,
+      "name": "Rohit Sharma",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 141,
+      "name": "Ryan Rickelton",
+      "nation": "South Africa",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 142,
+      "name": "Suryakumar Yadav",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 143,
+      "name": "Tilak Varma",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 144,
+      "name": "Trent Boult",
+      "nation": "New Zealand",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 145,
+      "name": "Will Jacks",
+      "nation": "England",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 146,
+      "name": "Quinton de Kock",
+      "nation": "South Africa",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 147,
+      "name": "Atharva Ankolekar",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 148,
+      "name": "Mohammad Izhar",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 149,
+      "name": "Danish Malewar",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 150,
+      "name": "Mayank Rawat",
+      "nation": "India",
+      "team": "Mumbai Indians"
+    },
+    {
+      "id": 151,
+      "name": "Arshdeep Singh",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 152,
+      "name": "Azmatullah Omarzai",
+      "nation": "Afghanistan",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 153,
+      "name": "Harnoor Singh",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 154,
+      "name": "Harpreet Brar",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 155,
+      "name": "Lockie Ferguson",
+      "nation": "New Zealand",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 156,
+      "name": "Marco Jansen",
+      "nation": "South Africa",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 157,
+      "name": "Marcus Stoinis",
+      "nation": "Australia",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 158,
+      "name": "Mitch Owen",
+      "nation": "Australia",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 159,
+      "name": "Musheer Khan",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 160,
+      "name": "Nehal Wadhera",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 161,
+      "name": "Prabhsimran Singh",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 162,
+      "name": "Priyansh Arya",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 163,
+      "name": "Pyla Avinash",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 164,
+      "name": "Shashank Singh",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 165,
+      "name": "Shreyas Iyer",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 166,
+      "name": "Suryansh Shedge",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 167,
+      "name": "Vishnu Vinod",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 168,
+      "name": "Vyshak Vijaykumar",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 169,
+      "name": "Xavier Bartlett",
+      "nation": "Australia",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 170,
+      "name": "Yash Thakur",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 171,
+      "name": "Yuzvendra Chahal",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 172,
+      "name": "Ben Dwarshuis",
+      "nation": "Australia",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 173,
+      "name": "Cooper Connolly",
+      "nation": "Australia",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 174,
+      "name": "Vishal Nishad",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 175,
+      "name": "Pravin Dubey",
+      "nation": "India",
+      "team": "Punjab Kings"
+    },
+    {
+      "id": 176,
+      "name": "Donovan Ferreira",
+      "nation": "South Africa",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 177,
+      "name": "Ravindra Jadeja",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 178,
+      "name": "Sam Curran",
+      "nation": "England",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 179,
+      "name": "Dhruv Jurel",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 180,
+      "name": "Jofra Archer",
+      "nation": "England",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 181,
+      "name": "Kwena Maphaka",
+      "nation": "South Africa",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 182,
+      "name": "Lhuan-dre Pretorius",
+      "nation": "South Africa",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 183,
+      "name": "Nandre Burger",
+      "nation": "South Africa",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 184,
+      "name": "Riyan Parag",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 185,
+      "name": "Sandeep Sharma",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 186,
+      "name": "Shimron Hetmyer",
+      "nation": "West Indies",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 187,
+      "name": "Shubham Dubey",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 188,
+      "name": "Tushar Deshpande",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 189,
+      "name": "Vaibhav Suryavanshi",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 190,
+      "name": "Yashasvi Jaiswal",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 191,
+      "name": "Yudhvir Singh",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 192,
+      "name": "Ravi Bishnoi",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 193,
+      "name": "Adam Milne",
+      "nation": "New Zealand",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 194,
+      "name": "Ravi Singh",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 195,
+      "name": "Sushant Mishra",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 196,
+      "name": "Kuldeep Sen",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 197,
+      "name": "Vignesh Puthur",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 198,
+      "name": "Yash Punja",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 199,
+      "name": "Aman Rao",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 200,
+      "name": "Brijesh Sharma",
+      "nation": "India",
+      "team": "Rajasthan Royals"
+    },
+    {
+      "id": 201,
+      "name": "Virat Kohli",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 202,
+      "name": "Phil Salt",
+      "nation": "England",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 203,
+      "name": "Devdutt Padikkal",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 204,
+      "name": "Rajat Patidar",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 205,
+      "name": "Tim David",
+      "nation": "Singapore",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 206,
+      "name": "Krunal Pandya",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 207,
+      "name": "Romario Shepherd",
+      "nation": "West Indies",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 208,
+      "name": "Jitesh Sharma",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 209,
+      "name": "Bhuvneshwar Kumar",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 210,
+      "name": "Yash Dayal",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 211,
+      "name": "Josh Hazlewood",
+      "nation": "Australia",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 212,
+      "name": "Suyash Sharma",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 213,
+      "name": "Abhinandan Singh",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 214,
+      "name": "Jacob Bethell",
+      "nation": "England",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 215,
+      "name": "Nuwan Thushara",
+      "nation": "Sri Lanka",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 216,
+      "name": "Rasikh Dar",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 217,
+      "name": "Swapnil Singh",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 218,
+      "name": "Venkatesh Iyer",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 219,
+      "name": "Mangesh Yadav",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 220,
+      "name": "Jacob Duffy",
+      "nation": "New Zealand",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 221,
+      "name": "Jordan Cox",
+      "nation": "England",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 222,
+      "name": "Satvik Deswal",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 223,
+      "name": "Vicky Ostwal",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 224,
+      "name": "Vihaan Malhotra",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 225,
+      "name": "Kanishk Chouhan",
+      "nation": "India",
+      "team": "Royal Challengers Bengaluru"
+    },
+    {
+      "id": 226,
+      "name": "Abhishek Sharma",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 227,
+      "name": "Aniket Verma",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 228,
+      "name": "Brydon Carse",
+      "nation": "England",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 229,
+      "name": "Eshan Malinga",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 230,
+      "name": "Harsh Dubey",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 231,
+      "name": "Harshal Patel",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 232,
+      "name": "Heinrich Klaasen",
+      "nation": "South Africa",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 233,
+      "name": "Ishan Kishan",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 234,
+      "name": "Jaydev Unadkat",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 235,
+      "name": "Kamindu Mendis",
+      "nation": "Sri Lanka",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 236,
+      "name": "Nitish Kumar Reddy",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 237,
+      "name": "Pat Cummins",
+      "nation": "Australia",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 238,
+      "name": "R Smaran",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 239,
+      "name": "Travis Head",
+      "nation": "Australia",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 240,
+      "name": "Zeeshan Ansari",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 241,
+      "name": "Liam Livingstone",
+      "nation": "England",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 242,
+      "name": "Jack Edwards",
+      "nation": "England",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 243,
+      "name": "Salil Arora",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 244,
+      "name": "Shivam Mavi",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 245,
+      "name": "Shivang Kumar",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 246,
+      "name": "Praful Hinge",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 247,
+      "name": "Amit Kumar",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 248,
+      "name": "Onkar Tarmale",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 249,
+      "name": "Sakib Hussain",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    },
+    {
+      "id": 250,
+      "name": "Karains Fuletra",
+      "nation": "India",
+      "team": "Sunrisers Hyderabad"
+    }
+  ]
