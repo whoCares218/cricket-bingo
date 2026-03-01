@@ -1,3 +1,6 @@
+# MUST BE ABSOLUTELY FIRST — patch before any import touches ssl/socket
+from gevent import monkey; monkey.patch_all()
+
 """
 Cricket Bingo — Complete v3 (Refactored)
 Fixes:
@@ -1447,7 +1450,7 @@ function tickTimer() {
 }
 function timeUp() {
   G.wrong++; G.idx++;
-  toast('⏰ Time\\'s up!', 'warn');
+  toast('⏰ Time\'s up!', 'warn');
   setTimeout(showP, 300);
 }
 
@@ -1964,7 +1967,7 @@ function submitContact(){
     }
   })
   .catch(() => {
-    const body = encodeURIComponent(`Name: ${name}\\nEmail: ${email}\\n\\n${msg}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`);
     window.location.href = `mailto:tehm8111@gmail.com?subject=${encodeURIComponent('[Cricket Bingo] ' + subject)}&body=${body}`;
     document.getElementById('contact-form').style.display = 'none';
     document.getElementById('form-success').style.display = 'block';
@@ -2297,7 +2300,11 @@ def api_contact():
       <p style="color:#666;font-size:12px;">Sent via Cricket Bingo contact form</p>
     </body></html>
     """
-    text_body = f"From: {name} <{email}>\nSubject: {subject}\n\nMessage:\n{message}"
+    text_body = f"From: {name} <{email}>
+Subject: {subject}
+
+Message:
+{message}"
 
     success, err = send_email(
         CONTACT_EMAIL,
