@@ -3,5 +3,5 @@ flask-login
 flask-dance
 flask-socketio
 python-dotenv
-gunicorn==21.2.0
-
+gevent
+gevent-websocket
