@@ -1,3 +1,14 @@
+"""
+Cricket Bingo — Complete v3 (Refactored)
+Fixes:
+  - Player loading bug: proper JSON normalization + ID injection
+  - Contact form: real SMTP email sending via env vars
+  - Full UI/UX redesign: premium dark theme, Outfit font, card-based layout
+  - Mobile-first responsive design
+  - Security improvements: input validation, rate limiting via session
+  - Performance improvements: cleaner CSS, no unused rules
+"""
+
 import os, json, random, string, hashlib, time, smtplib, logging
 from datetime import datetime, date, timedelta
 from email.mime.text import MIMEText
@@ -337,6 +348,15 @@ def gen_room_code():
 
 ADSENSE = """<!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9904803540658016" crossorigin="anonymous"></script>"""
+
+GOOGLE_ANALYTICS = """<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JGCTR9L8JJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JGCTR9L8JJ');
+</script>"""
 
 SEO_META = """
 <meta name="description" content="Cricket Bingo – Match IPL cricket legends to their teams, nations and trophies. Play solo, compete in rated matches, or challenge friends.">
@@ -1015,6 +1035,7 @@ def page(body, title="Cricket Bingo", extra_head=""):
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>{title} — Cricket Bingo</title>
 {SEO_META}
+{GOOGLE_ANALYTICS}
 {ADSENSE}
 {CSS}
 {extra_head}
@@ -1343,13 +1364,12 @@ GAME_BODY = """
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
 <script>
 // ── GAME STATE ──
-// FIX: Players are injected server-side and available immediately on page load
 const G = {
   room:    {{ room_code | tojson }},
   mode:    {{ game_mode | tojson }},
   ds:      {{ data_source | tojson }},
   gs:      {{ grid_size }},
-  players: {{ players_json }},    // pre-serialized safe JSON
+  players: {{ players_json }},
   idx:     0,
   gstate:  new Array({{ grid_size * grid_size }}).fill(null),
   correct: 0, wrong: 0, skips: 3, wcUsed: false,
@@ -1357,7 +1377,6 @@ const G = {
   ended:   false, clickable: false
 };
 
-// Validate player data loaded
 console.log('[CricketBingo] Players loaded:', G.players ? G.players.length : 'NONE', 'for ds:', G.ds);
 
 if (!G.players || G.players.length === 0) {
@@ -1388,7 +1407,7 @@ function refresh() {
   document.getElementById('ac').textContent = a > 0 ? Math.round(G.correct / a * 100) + '%' : '—';
 }
 
-// ── SHOW PLAYER (FIX: proper null checks + spinner removal) ──
+// ── SHOW PLAYER ──
 function showP() {
   if (!G.players || G.players.length === 0) {
     document.getElementById('pn').innerHTML = '<span style="color:var(--red);">No players available</span>';
@@ -1428,7 +1447,7 @@ function tickTimer() {
 }
 function timeUp() {
   G.wrong++; G.idx++;
-  toast('⏰ Time\'s up!', 'warn');
+  toast('⏰ Time\\'s up!', 'warn');
   setTimeout(showP, 300);
 }
 
@@ -1546,7 +1565,7 @@ function end(reason) {
   });
 }
 
-// ── INIT (after DOM is ready) ──
+// ── INIT ──
 document.addEventListener('DOMContentLoaded', function() {
   console.log('[CricketBingo] DOM ready, starting game with', G.players.length, 'players');
   if (G.players && G.players.length > 0) {
@@ -1570,7 +1589,7 @@ MATCHMAKING_BODY = """
     <div class="progress-wrap mb-4" style="height:6px;">
       <div id="sbar" class="progress-bar" style="width:0%;transition:width 30s linear;background:var(--grd-acc);"></div>
     </div>
-    <p class="text-subtle mb-6" id="etxt" style="font-size:.8rem;" >0s elapsed</p>
+    <p class="text-subtle mb-6" id="etxt" style="font-size:.8rem;">0s elapsed</p>
     <button class="btn btn-outline" onclick="cancel()">Cancel</button>
   </div>
 </div>
@@ -1898,7 +1917,6 @@ CONTACT_BODY = """
 </div>
 
 <script>
-// Live character count
 document.getElementById('fmsg')?.addEventListener('input', function(){
   document.getElementById('char-count').textContent = this.value.length + ' / 2000';
 });
@@ -1910,7 +1928,6 @@ function showErr(id, msg){
 function hideErr(id){ document.getElementById(id).style.display = 'none'; }
 
 function submitContact(){
-  // Client-side validation
   const name    = document.getElementById('fname').value.trim();
   const email   = document.getElementById('femail').value.trim();
   const subject = document.getElementById('fsubject').value;
@@ -1947,7 +1964,6 @@ function submitContact(){
     }
   })
   .catch(() => {
-    // Fallback: open mailto
     const body = encodeURIComponent(`Name: ${name}\\nEmail: ${email}\\n\\n${msg}`);
     window.location.href = `mailto:tehm8111@gmail.com?subject=${encodeURIComponent('[Cricket Bingo] ' + subject)}&body=${body}`;
     document.getElementById('contact-form').style.display = 'none';
@@ -2019,17 +2035,21 @@ def privacy():
          "Cricket Bingo uses <strong style='color:var(--txt)'>Google AdSense</strong> to display advertisements. "
          "Google may use cookies to serve personalised ads. "
          "You may opt out at <a href='https://www.google.com/settings/ads' target='_blank' style='color:var(--acc);'>Google Ad Settings</a>."),
-        ("4. Cookies",
-         "We use session cookies to keep you logged in. Google AdSense uses cookies for ad personalisation. "
-         "You can control cookie settings through your browser preferences."),
-        ("5. Data Sharing",
+        ("4. Google Analytics",
+         "Cricket Bingo uses <strong style='color:var(--txt)'>Google Analytics</strong> (GA4) to understand how visitors "
+         "use the site. This collects anonymised usage data such as page views, session duration, and general location. "
+         "You may opt out via <a href='https://tools.google.com/dlpage/gaoptout' target='_blank' style='color:var(--acc);'>Google Analytics Opt-out</a>."),
+        ("5. Cookies",
+         "We use session cookies to keep you logged in. Google AdSense and Google Analytics use cookies for ad "
+         "personalisation and usage tracking. You can control cookie settings through your browser preferences."),
+        ("6. Data Sharing",
          "We do <strong style='color:var(--txt)'>not sell</strong> your personal data. "
-         "Data is only shared with Google for authentication (OAuth) and advertising (AdSense)."),
-        ("6. Data Deletion",
+         "Data is only shared with Google for authentication (OAuth), advertising (AdSense), and analytics (GA4)."),
+        ("7. Data Deletion",
          "To request deletion of your account and data, email <a href='mailto:tehm8111@gmail.com' style='color:var(--acc);'>tehm8111@gmail.com</a>."),
-        ("7. Children's Privacy",
+        ("8. Children's Privacy",
          "Cricket Bingo is not directed at children under 13. We do not knowingly collect data from children under 13."),
-        ("8. Contact",
+        ("9. Contact",
          "For privacy questions: <a href='mailto:tehm8111@gmail.com' style='color:var(--acc);'>tehm8111@gmail.com</a>"),
     ]
     return render_template_string(page(PRIVACY_BODY, "Privacy Policy"), sections=sections)
@@ -2054,7 +2074,9 @@ def terms():
          "Cricket Bingo is provided \"as is\" without any warranties. We do not guarantee uninterrupted or error-free service."),
         ("6. Advertising",
          "The site displays advertisements through Google AdSense. We are not responsible for third-party ad content."),
-        ("7. Contact",
+        ("7. Analytics",
+         "The site uses Google Analytics to collect anonymised usage data to help improve the service."),
+        ("8. Contact",
          "Questions? Email <a href='mailto:tehm8111@gmail.com' style='color:var(--acc);'>tehm8111@gmail.com</a>"),
     ]
     return render_template_string(page(TERMS_BODY, "Terms & Conditions"), sections=sections)
@@ -2117,12 +2139,10 @@ def play():
     session["game_state"] = {"state": state, "room_code": room_code, "mode": game_mode, "data_source": ds}
     mode_labels = {"solo": "Solo Practice", "rated": "⚡ Rated", "friends": "👥 Friends", "daily": "📅 Daily"}
 
-    # Enrich grid cells with logo filenames
     grid = state["grid"]
     for cell in grid:
         cell["logo"] = TEAM_LOGOS.get(cell["value"], "") if cell["type"] == "team" else ""
 
-    # FIX: pre-serialize players to JSON string safely (avoids Jinja tojson issues)
     players_json = json.dumps(state["players"], default=str)
 
     opponent = None
@@ -2137,7 +2157,7 @@ def play():
     return render_template_string(
         page(GAME_BODY, "Play"),
         grid          = grid,
-        players_json  = players_json,   # FIX: pass pre-serialized JSON
+        players_json  = players_json,
         grid_size     = grid_size,
         total_players = len(state["players"]),
         game_mode     = game_mode,
@@ -2244,14 +2264,12 @@ def daily():
 
 @app.route("/api/contact", methods=["POST"])
 def api_contact():
-    """Handle contact form submission — sends email via SMTP."""
     data = request.get_json(force=True)
     name    = str(data.get("name", "")).strip()[:100]
     email   = str(data.get("email", "")).strip()[:200]
     subject = str(data.get("subject", "")).strip()[:200]
     message = str(data.get("message", "")).strip()[:2000]
 
-    # Server-side validation
     if len(name) < 2:
         return jsonify({"success": False, "error": "Name must be at least 2 characters"})
     if "@" not in email or "." not in email:
@@ -2261,13 +2279,11 @@ def api_contact():
     if len(message) < 10:
         return jsonify({"success": False, "error": "Message must be at least 10 characters"})
 
-    # Rate limiting via session (max 3 contact submissions per session)
     contact_count = session.get("contact_count", 0)
     if contact_count >= 3:
         return jsonify({"success": False, "error": "Too many submissions. Please email us directly."})
     session["contact_count"] = contact_count + 1
 
-    # Build email
     html_body = f"""
     <html><body style="font-family:sans-serif;color:#333;max-width:600px;margin:0 auto;">
       <h2 style="color:#22C55E;">New Cricket Bingo Contact Form Submission</h2>
@@ -2294,7 +2310,6 @@ def api_contact():
         log.info(f"Contact form email sent from {email}")
         return jsonify({"success": True})
     else:
-        # Log and return error — client will fall back to mailto
         log.warning(f"Contact email failed: {err}")
         return jsonify({"success": False, "error": "Email service unavailable. Please use the mailto link below."})
 
@@ -2333,7 +2348,6 @@ def api_validate_move():
     pool   = get_pool(ds)
     player = next((p for p in pool if str(p.get("id")) == str(pid)), None)
     if not player:
-        # Fallback: match by index if id is "player_N"
         if isinstance(pid, str) and pid.startswith("player_"):
             try:
                 idx    = int(pid.split("_")[1])
