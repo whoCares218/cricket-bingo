@@ -2,6 +2,6 @@ flask
 flask-login
 flask-dance
 flask-socketio
-eventlet
 python-dotenv
 gunicorn==21.2.0
+
