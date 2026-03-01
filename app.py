@@ -29,7 +29,7 @@ _secret = os.getenv("SECRET_KEY")
 app.secret_key = _secret or "dev-secret-key-change-me"
 app.config["OAUTHLIB_INSECURE_TRANSPORT"] = os.getenv("OAUTHLIB_INSECURE_TRANSPORT", "0") == "1"
 
-socketio = SocketIO(app, async_mode="eventlet", cors_allowed_origins="*")
+socketio = SocketIO(app, async_mode="gevent", cors_allowed_origins="*")
 login_manager = LoginManager(app)
 login_manager.login_view = "home"
 
