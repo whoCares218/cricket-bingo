@@ -1361,10 +1361,13 @@ GAME_BODY = """
     <span id="tprog">Player <span id="pidx">1</span> of {{ total_players }}</span>
   </div>
 
+  <!-- Hidden player data - safe JSON storage to avoid JS injection -->
+  <script type="application/json" id="_pd">{{ players_json | safe }}</script>
+
   <!-- PLAYER CARD -->
   <div class="player-card mb-4" id="pcard">
-    <div id="ps" class="player-hint mb-1">Get ready…</div>
-    <div id="pn" class="player-name" style="min-height:2rem;">—</div>
+    <div id="ps" class="player-hint mb-1" style="min-height:1.2em;"> </div>
+    <div id="pn" class="player-name" style="min-height:2.2rem;"> </div>
   </div>
 
   <!-- BINGO GRID -->
@@ -1436,12 +1439,14 @@ GAME_BODY = """
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
 <script>
 // ── GAME STATE ──
+// Players data stored safely in DOM to avoid JS injection issues
+const _pdata = document.getElementById('_pd');
 const G = {
   room:    {{ room_code | tojson }},
   mode:    {{ game_mode | tojson }},
   ds:      {{ data_source | tojson }},
   gs:      {{ grid_size }},
-  players: {{ players_json }},
+  players: _pdata ? JSON.parse(_pdata.textContent) : [],
   idx:     0,
   gstate:  new Array({{ grid_size * grid_size }}).fill(null),
   correct: 0, wrong: 0, skips: 3, wcUsed: false,
@@ -1477,30 +1482,44 @@ function refresh() {
   if (pidxEl) pidxEl.textContent = G.idx + 1;
 }
 
-// ── SHOW PLAYER — the main fix: run synchronously, no async wait ──
+// ── SHOW PLAYER ──
 function showP() {
   if (G.ended) return;
 
-  // No players: show error state
+  const pn = document.getElementById('pn');
+  const ps = document.getElementById('ps');
+  if (!pn || !ps) return;  // DOM not ready
+
+  // No players loaded at all
   if (!G.players || G.players.length === 0) {
-    document.getElementById('pn').textContent = '⚠ No players loaded';
-    document.getElementById('ps').textContent = 'Check ' + G.ds + '.json exists in project root';
+    pn.textContent = '⚠ No players loaded';
+    ps.textContent = 'Check ' + G.ds + '.json exists in project root';
     return;
   }
 
-  // All done
+  // All players exhausted → end game
   if (G.idx >= G.players.length) {
     end('no_more_players');
     return;
   }
 
   const p = G.players[G.idx];
-  // Get name from multiple possible field names
-  const name = p.name || p.player_name || p.full_name || ('Player ' + (G.idx + 1));
 
-  // Update UI immediately - no spinner, no delay
-  document.getElementById('pn').textContent = name;
-  document.getElementById('ps').textContent = 'Player ' + (G.idx + 1) + ' of ' + G.players.length;
+  // Support multiple possible name field names (React JS uses p.name)
+  const name = (p.name && p.name.trim()) 
+             || p.player_name 
+             || p.full_name 
+             || ('Player ' + (G.idx + 1));
+
+  // Show the player name immediately
+  pn.textContent = name;
+  ps.textContent = 'Player ' + (G.idx + 1) + ' of ' + G.players.length;
+
+  // Highlight cells that match this player (dim non-matching cells)
+  const grid = G.players.slice(0, G.gs * G.gs);  // just for reference
+  document.querySelectorAll('.cell').forEach(el => {
+    el.classList.remove('hint');
+  });
 
   refresh();
   startTimer();
@@ -1635,18 +1654,42 @@ function end(reason) {
   .catch(() => { document.getElementById('emod').style.display = 'flex'; });
 }
 
-// ── INIT: Run showP immediately when DOM ready ──
-// Key fix: don't wait, players are already embedded in the page
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('[Init] Players available:', G.players.length);
-  if (G.players && G.players.length > 0) {
-    // Small delay only to let browser paint the initial DOM
-    setTimeout(showP, 50);
-  } else {
-    document.getElementById('pn').textContent = '⚠ No players loaded';
-    document.getElementById('ps').textContent = G.ds + '.json not found or empty';
+// ── INIT: Run showP as soon as script executes ──
+// DOMContentLoaded is NOT used because by the time an inline script at 
+// bottom-of-body runs, the DOM is already parsed and DOMContentLoaded
+// may have already fired. We call showP directly.
+(function initGame() {
+  // Defensive: ensure elements exist before writing to them
+  function waitForEl(id, cb, tries) {
+    const el = document.getElementById(id);
+    if (el) { cb(); return; }
+    if ((tries||0) < 20) setTimeout(() => waitForEl(id, cb, (tries||0)+1), 30);
   }
-});
+  
+  function boot() {
+    console.log('[CricketBingo] Boot — players:', G.players ? G.players.length : 0);
+    if (!G.players || G.players.length === 0) {
+      const pn = document.getElementById('pn');
+      const ps = document.getElementById('ps');
+      if (pn) pn.textContent = '⚠ No players — check ' + G.ds + '.json';
+      if (ps) ps.textContent = 'Place overall.json in project root';
+      return;
+    }
+    showP();
+  }
+  
+  // Try immediately, then wait for DOM if elements not ready yet
+  if (document.getElementById('pn')) {
+    boot();
+  } else {
+    // Fallback: wait for DOMContentLoaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', boot);
+    } else {
+      boot();
+    }
+  }
+})();
 </script>
 """
 
@@ -2165,7 +2208,9 @@ def play():
     for cell in grid:
         cell["logo"] = TEAM_LOGOS.get(cell["value"], "") if cell["type"] == "team" else ""
 
-    players_json = json.dumps(state["players"], default=str)
+    players_json = json.dumps(state["players"], default=str, ensure_ascii=False)
+    # Escape </script> to prevent breaking the embedded JSON script tag
+    players_json = players_json.replace("</", r"<\/")
 
     opponent = None
     if room_code:
