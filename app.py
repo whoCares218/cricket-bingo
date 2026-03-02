@@ -15,6 +15,10 @@ Changes:
   - New: micro-interactions on cells, buttons, nav
   - New: better mobile nav with slide animation
   - New: accessible focus states and ARIA labels
+  - New: slower cell‑fill animation (0.8s)
+  - New: unlimited skips
+  - New: bigger team logos (70px)
+  - New: smart nation flags — only show if all nations in grid have a flag
 """
 
 import os, json, random, string, hashlib, time, smtplib, logging
@@ -98,6 +102,14 @@ TEAM_LOGOS = {
     "Pune Warriors India":          "pune.jpeg",
     "Rising Pune Supergiant":       "pune.jpeg",
     "Rising Pune Supergiants":      "pune.jpeg",
+}
+
+# ── Nation flag map (used for fallback logic) ─────────────────────────────────
+FLAG_MAP = {
+    'India': '🇮🇳', 'Australia': '🇦🇺', 'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+    'South Africa': '🇿🇦', 'New Zealand': '🇳🇿', 'Pakistan': '🇵🇰',
+    'Sri Lanka': '🇱🇰', 'Bangladesh': '🇧🇩', 'Afghanistan': '🇦🇫',
+    'Zimbabwe': '🇿🇼', 'West Indies': '🏝️'
 }
 
 # ── DB ─────────────────────────────────────────────────────────────────────────
@@ -714,12 +726,19 @@ tr:hover td { background: var(--sur2); }
   padding: 12px 8px;
   text-align: center; cursor: pointer;
   transition: all .18s;
-  min-height: 88px;
+  min-height: 110px;          /* increased to accommodate bigger logos */
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   gap: 6px; user-select: none; overflow: hidden;
+  position: relative;          /* ← FIX: keeps overlay inside cell */
 }
-.cell-logo { width: 44px; height: 44px; object-fit: contain; border-radius: 6px; transition: transform .15s; }
+.cell-logo {
+  width: 70px;                 /* bigger team logos */
+  height: 70px;
+  object-fit: contain;
+  border-radius: 6px;
+  transition: transform .15s;
+}
 .cell-label { font-size: .65rem; font-weight: 600; color: var(--txt2); line-height: 1.2; }
 .cell.nation-cell { font-size: .8rem; font-weight: 700; color: var(--txt); }
 .cell.trophy-cell { font-size: .7rem; font-weight: 600; color: var(--acc); }
@@ -731,7 +750,7 @@ tr:hover td { background: var(--sur2); }
 .cell:hover .cell-logo { transform: scale(1.08); }
 .cell.filled {
   background: rgba(34,197,94,.08); border-color: var(--green);
-  cursor: default; animation: cell-pop .3s ease;
+  cursor: default; animation: cell-pop .8s ease;  /* slower animation (0.8s) */
 }
 .cell.wrong  { animation: cell-shake .4s ease; border-color: var(--red); background: rgba(239,68,68,.08); }
 .cell.hint   { border-color: var(--acc); background: var(--acc-dim); }
@@ -1381,9 +1400,12 @@ GAME_BODY = """
           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
         <span class="cell-label" style="display:none;">{{ cell.value }}</span>
       {% elif cell.type == 'nation' %}
-        {% set flag_map = {'India': '🇮🇳', 'Australia': '🇦🇺', 'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'South Africa': '🇿🇦', 'New Zealand': '🇳🇿', 'Pakistan': '🇵🇰', 'Sri Lanka': '🇱🇰', 'Bangladesh': '🇧🇩', 'Afghanistan': '🇦🇫', 'Zimbabwe': '🇿🇼', 'West Indies': '🏝️'} %}
-        <span style="font-size:1.3rem;">{{ flag_map.get(cell.value, '🌍') }}</span>
-        <span class="cell-label" style="font-size:.75rem;color:var(--txt);font-weight:700;">{{ cell.value }}</span>
+        {% if use_nation_flags %}
+          <span style="font-size:1.3rem;">{{ FLAG_MAP.get(cell.value, '🌍') }}</span>
+          <span class="cell-label" style="font-size:.75rem;color:var(--txt);font-weight:700;">{{ cell.value }}</span>
+        {% else %}
+          <span class="cell-label" style="font-size:.9rem;color:var(--txt);font-weight:700;">{{ cell.value }}</span>
+        {% endif %}
       {% elif cell.type == 'trophy' %}
         <span style="font-size:1.2rem;">🏆</span>
         <span class="cell-label" style="font-size:.68rem;color:var(--acc);font-weight:600;">{{ cell.value }}</span>
@@ -1399,7 +1421,7 @@ GAME_BODY = """
   <div class="flex gap-3 mt-5 justify-center flex-wrap">
     <button id="skip-btn" class="btn btn-secondary" onclick="doSkip()">
       ⏭ Skip
-      <span id="skip-count" style="background:var(--sur3);padding:1px 7px;border-radius:99px;font-size:.73rem;margin-left:2px;">3</span>
+      <!-- removed skip count (unlimited) -->
     </button>
     <button id="wc-btn" class="btn btn-secondary" style="color:var(--acc);" onclick="doWildcard()">
       🃏 Wildcard
@@ -1449,7 +1471,8 @@ const G = {
   players: _pdata ? JSON.parse(_pdata.textContent) : [],
   idx:     0,
   gstate:  new Array({{ grid_size * grid_size }}).fill(null),
-  correct: 0, wrong: 0, skips: 3, wcUsed: false,
+  correct: 0, wrong: 0,
+  wcUsed: false,
   t0: Date.now(), tsec: 30, tleft: 30, tint: null,
   ended: false, clickable: false
 };
@@ -1592,12 +1615,11 @@ function clickCell(i) {
 }
 
 function doSkip() {
-  if (G.skips <= 0 || G.ended) return;
-  G.skips--; G.wrong++; G.idx++;
+  // Unlimited skips – just advance to next player
+  if (G.ended) return;
+  G.wrong++; G.idx++;
   clearInterval(G.tint);
-  document.getElementById('skip-count').textContent = G.skips;
-  if (G.skips === 0) document.getElementById('skip-btn').disabled = true;
-  toast('⏭ Skipped (' + G.skips + ' left)', 'info');
+  toast('⏭ Skipped', 'info');
   setTimeout(showP, 150);
 }
 
@@ -1655,17 +1677,7 @@ function end(reason) {
 }
 
 // ── INIT: Run showP as soon as script executes ──
-// DOMContentLoaded is NOT used because by the time an inline script at 
-// bottom-of-body runs, the DOM is already parsed and DOMContentLoaded
-// may have already fired. We call showP directly.
 (function initGame() {
-  // Defensive: ensure elements exist before writing to them
-  function waitForEl(id, cb, tries) {
-    const el = document.getElementById(id);
-    if (el) { cb(); return; }
-    if ((tries||0) < 20) setTimeout(() => waitForEl(id, cb, (tries||0)+1), 30);
-  }
-  
   function boot() {
     console.log('[CricketBingo] Boot — players:', G.players ? G.players.length : 0);
     if (!G.players || G.players.length === 0) {
@@ -1678,11 +1690,9 @@ function end(reason) {
     showP();
   }
   
-  // Try immediately, then wait for DOM if elements not ready yet
   if (document.getElementById('pn')) {
     boot();
   } else {
-    // Fallback: wait for DOMContentLoaded
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', boot);
     } else {
@@ -2208,6 +2218,10 @@ def play():
     for cell in grid:
         cell["logo"] = TEAM_LOGOS.get(cell["value"], "") if cell["type"] == "team" else ""
 
+    # Determine whether to show nation flags
+    nation_cells = [c for c in grid if c["type"] == "nation"]
+    use_nation_flags = all(c["value"] in FLAG_MAP for c in nation_cells)
+
     players_json = json.dumps(state["players"], default=str, ensure_ascii=False)
     # Escape </script> to prevent breaking the embedded JSON script tag
     players_json = players_json.replace("</", r"<\/")
@@ -2223,15 +2237,17 @@ def play():
 
     return render_template_string(
         page(GAME_BODY, "Play"),
-        grid          = grid,
-        players_json  = players_json,
-        grid_size     = grid_size,
-        total_players = len(state["players"]),
-        game_mode     = game_mode,
-        mode_label    = mode_labels.get(game_mode, game_mode),
-        data_source   = ds,
-        room_code     = room_code,
-        opponent      = opponent,
+        grid             = grid,
+        players_json     = players_json,
+        grid_size        = grid_size,
+        total_players    = len(state["players"]),
+        game_mode        = game_mode,
+        mode_label       = mode_labels.get(game_mode, game_mode),
+        data_source      = ds,
+        room_code        = room_code,
+        opponent         = opponent,
+        use_nation_flags = use_nation_flags,
+        FLAG_MAP         = FLAG_MAP,
     )
 
 @app.route("/matchmaking")
