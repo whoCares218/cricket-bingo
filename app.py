@@ -14,6 +14,11 @@ Changes from v4:
   - Post-game (multiplayer): animated rating change, view all solutions, live opponent score
   - Improved dark/light mode UI with polished animations
   - Fully responsive layout
+
+BUG FIX (v5.1):
+  - Fixed "everything marked wrong" bug caused by Flask cookie session overflow.
+    Session now stores only grid + grid_state (not the full players list).
+    Players are looked up from in-memory pool by ID on every validation request.
 """
 
 import os, json, random, string, hashlib, time, smtplib, logging
@@ -708,7 +713,7 @@ tr:hover td { background: var(--sur2); }
 .cell.nation-cell { font-size: .8rem; font-weight: 700; color: var(--txt); }
 .cell.trophy-cell { font-size: .7rem; font-weight: 600; color: var(--acc); }
 .cell.combo-cell  { font-size: .6rem; font-weight: 600; color: var(--pur); line-height: 1.4; }
-.cell:hover:not(.filled):not(.cell-disabled) {
+.cell:hover:not(.filled):not(.cell-disabled):not(.wc-filled) {
   border-color: var(--acc); background: var(--acc-dim);
   transform: translateY(-2px); box-shadow: 0 6px 20px var(--acc-glow);
 }
@@ -2182,7 +2187,27 @@ def play():
     if len(state.get("grid_state", [])) != n:
         state["grid_state"] = [None] * n
 
-    session["game_state"] = {"state": state, "room_code": room_code, "mode": game_mode, "data_source": ds}
+    # ─────────────────────────────────────────────────────────────────────────
+    # BUG FIX: Store ONLY the grid cells + grid_state in the Flask session.
+    #
+    # The old code stored the entire state dict — including state["players"]
+    # (up to 45 player objects with iplTeams, trophies, stats, etc.) — which
+    # easily exceeds Flask's ~4 KB cookie-session limit.  When the cookie is
+    # too large Flask silently drops the write, so every subsequent call to
+    # api_validate_move finds no session → returns correct=False → every
+    # answer is marked wrong.
+    #
+    # Players are looked up by ID from the in-memory OVERALL_DATA / IPL26_DATA
+    # pools on every validation request, so we don't need them in the session.
+    # ─────────────────────────────────────────────────────────────────────────
+    session["game_state"] = {
+        "grid":        state["grid"],
+        "grid_state":  [None] * n,
+        "room_code":   room_code,
+        "mode":        game_mode,
+        "data_source": ds,
+    }
+
     mode_labels = {"solo": "Solo Practice", "rated": "⚡ Rated", "friends": "👥 Friends", "daily": "📅 Daily"}
 
     grid = state["grid"]
@@ -2377,34 +2402,43 @@ def api_validate_move():
     cidx = data.get("cell_idx")
     ds   = data.get("data_source", "overall")
 
+    # ── Read from the lean session (grid + grid_state only) ──────────────────
     gi = session.get("game_state")
-    if not gi: return jsonify({"correct": False, "error": "no_session"})
+    if not gi:
+        log.warning("validate_move: no session found")
+        return jsonify({"correct": False, "error": "no_session"})
 
-    state = gi.get("state", {}); grid = state.get("grid", [])
-    gst   = state.get("grid_state") or [None] * len(grid)
+    # Flat structure: grid and grid_state stored directly on gi (not nested)
+    grid   = gi.get("grid", [])
+    gstate = gi.get("grid_state") or [None] * len(grid)
+    ds     = gi.get("data_source", ds)   # prefer session ds over POST body
 
-    if cidx is None or cidx >= len(grid): return jsonify({"correct": False})
-    if gst[cidx] is not None: return jsonify({"correct": False, "reason": "already_filled"})
+    if cidx is None or cidx >= len(grid):
+        return jsonify({"correct": False})
+    if gstate[cidx] is not None:
+        return jsonify({"correct": False, "reason": "already_filled"})
 
+    # Look the player up from the in-memory pool (never stored in session)
     pool   = get_pool(ds)
     player = next((p for p in pool if str(p.get("id")) == str(pid)), None)
     if not player and isinstance(pid, str) and pid.startswith("player_"):
         try:
             idx    = int(pid.split("_", 1)[1])
             player = pool[idx] if 0 <= idx < len(pool) else None
-        except (ValueError, IndexError): pass
+        except (ValueError, IndexError):
+            pass
 
     if not player:
-        log.warning(f"Player not found: id={pid}, ds={ds}")
+        log.warning(f"validate_move: player not found id={pid} ds={ds}")
         return jsonify({"correct": False, "reason": "player_not_found"})
 
     correct = player_matches_cell(player, grid[cidx], ds)
     if correct:
-        if "grid_state" not in state or len(state["grid_state"]) != len(grid):
-            state["grid_state"] = [None] * len(grid)
-        state["grid_state"][cidx] = str(pid)
-        gi["state"] = state
-        session["game_state"] = gi
+        if len(gstate) != len(grid):
+            gstate = [None] * len(grid)
+        gstate[cidx] = str(pid)
+        gi["grid_state"] = gstate
+        session["game_state"] = gi   # save the updated lean session
 
     return jsonify({"correct": correct})
 
@@ -2412,29 +2446,43 @@ def api_validate_move():
 @login_required
 def api_wildcard_hint():
     data = request.get_json(force=True)
-    pid  = data.get("player_id"); ds = data.get("data_source", "overall")
-    gi   = session.get("game_state")
-    if not gi: return jsonify({"matching_cells": []})
-    state  = gi.get("state", {}); grid = state.get("grid", [])
-    gstate = state.get("grid_state") or [None] * len(grid)
+    pid  = data.get("player_id")
+    ds   = data.get("data_source", "overall")
+
+    # ── Read from lean session ───────────────────────────────────────────────
+    gi = session.get("game_state")
+    if not gi:
+        return jsonify({"matching_cells": []})
+
+    grid   = gi.get("grid", [])
+    gstate = gi.get("grid_state") or [None] * len(grid)
+    ds     = gi.get("data_source", ds)
+
+    # Look player up from in-memory pool
     pool   = get_pool(ds)
     player = next((p for p in pool if str(p.get("id")) == str(pid)), None)
     if not player and isinstance(pid, str) and pid.startswith("player_"):
         try:
             idx    = int(pid.split("_", 1)[1])
             player = pool[idx] if 0 <= idx < len(pool) else None
-        except (ValueError, IndexError): pass
-    if not player: return jsonify({"matching_cells": []})
-    # Return ALL matching cells (not just unfilled) so JS can auto-fill them all
+        except (ValueError, IndexError):
+            pass
+
+    if not player:
+        return jsonify({"matching_cells": []})
+
+    # Find all unfilled matching cells
     cells = [i for i, c in enumerate(grid) if gstate[i] is None and player_matches_cell(player, c, ds)]
-    # Mark them in grid_state server-side too
+
+    # Mark them in the lean session grid_state
     player_name = player.get("name", str(pid))
+    if len(gstate) != len(grid):
+        gstate = [None] * len(grid)
     for i in cells:
-        if "grid_state" not in state or len(state["grid_state"]) != len(grid):
-            state["grid_state"] = [None] * len(grid)
-        state["grid_state"][i] = player_name + "_wc"
-    gi["state"] = state
+        gstate[i] = player_name + "_wc"
+    gi["grid_state"] = gstate
     session["game_state"] = gi
+
     return jsonify({"matching_cells": cells})
 
 @app.route("/api/end_game", methods=["POST"])
@@ -2588,7 +2636,7 @@ if __name__ == "__main__":
     email_status = "✓ Configured" if SMTP_USER and SMTP_PASSWORD else "✗ Not configured"
     print(f"""
 ╔══════════════════════════════════════════════════════════╗
-║       🏏  Cricket Bingo v5  — Full Feature Upgrade       ║
+║     🏏  Cricket Bingo v5.1  — Session Bug Fixed          ║
 ╠══════════════════════════════════════════════════════════╣
 ║  URL     → http://localhost:{port:<6}                     ║
 ║  DB      → {DATABASE:<20}                    ║
@@ -2597,6 +2645,7 @@ if __name__ == "__main__":
 ║  Font    → Outfit (display) + DM Sans (body)             ║
 ║  Timer   → 10s across all modes                          ║
 ║  Ratings → MP ELO + Solo ELO (separate)                  ║
+║  Fix     → Session stores grid only (not players list)   ║
 ╚══════════════════════════════════════════════════════════╝
 """)
     socketio.run(app, host="0.0.0.0", port=port, debug=debug)
