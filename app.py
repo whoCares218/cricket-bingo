@@ -251,36 +251,30 @@ def player_matches_cell(player, cell, ds):
 # ══════════════════════════════════════════════════════════════════════════════
 
 FAME_DISTRIBUTION = {
-    # difficulty: {high%, medium%, low%}
-    "easy":   {"high": 0.75, "medium": 0.25, "low": 0.00},
-    "normal": {"high": 0.50, "medium": 0.50, "low": 0.00},
-    "hard":   {"high": 0.30, "medium": 0.60, "low": 0.10},
+    # player_type: {high%, medium%, low%}
+    # These are now driven by the Player Type dropdown, independent of grid difficulty.
+    "famous":     {"high": 0.75, "medium": 0.25, "low": 0.00},
+    "medium":     {"high": 0.50, "medium": 0.50, "low": 0.00},
+    "not_famous": {"high": 0.30, "medium": 0.60, "low": 0.10},
 }
 
-def select_players_by_fame(pool, difficulty, n=25, player_type="all"):
+def select_players_by_fame(pool, difficulty, n=25, player_type="famous"):
     """
-    Returns exactly `n` players from `pool`, respecting the fame distribution
-    for the given difficulty.  Falls back gracefully if a fame tier is
-    under-populated.
+    Returns exactly `n` players from `pool`.
+    Fame distribution is controlled by `player_type`:
+      famous     → 75% high + 25% medium
+      medium     → 50% high + 50% medium
+      not_famous → 30% high + 60% medium + 10% low
+    `difficulty` is kept for API compatibility but no longer drives fame ratios.
     """
-    # 1. Apply player-type filter
-    if player_type == "indian":
-        filtered = [p for p in pool if p.get("nation") == "India"]
-    elif player_type == "international":
-        filtered = [p for p in pool if p.get("nation") != "India"]
-    else:
-        filtered = list(pool)
+    filtered = list(pool)
 
-    if not filtered:
-        log.warning(f"select_players_by_fame: player_type={player_type} produced empty pool, falling back to full pool")
-        filtered = list(pool)
-
-    # 2. Bucket by fame
+    # Bucket by fame
     high_f   = [p for p in filtered if p.get("famous") == "high"]
     medium_f = [p for p in filtered if p.get("famous") == "medium"]
     low_f    = [p for p in filtered if p.get("famous") == "low"]
 
-    dist = FAME_DISTRIBUTION.get(difficulty, FAME_DISTRIBUTION["normal"])
+    dist = FAME_DISTRIBUTION.get(player_type, FAME_DISTRIBUTION["famous"])
     n_high   = round(n * dist["high"])
     n_medium = round(n * dist["medium"])
     n_low    = n - n_high - n_medium   # absorbs rounding remainder
@@ -305,7 +299,7 @@ def select_players_by_fame(pool, difficulty, n=25, player_type="all"):
     # 4. Final shuffle so order isn't predictable
     random.shuffle(selected)
     log.info(
-        f"select_players_by_fame: difficulty={difficulty} type={player_type} "
+        f"select_players_by_fame: player_type={player_type} "
         f"→ {len(selected)} players "
         f"(high={sum(1 for p in selected if p.get('famous')=='high')}, "
         f"medium={sum(1 for p in selected if p.get('famous')=='medium')}, "
@@ -395,7 +389,7 @@ def build_grid_validated(size, ds, difficulty, pool):
     return cells[:n]
 
 
-def create_game_state(ds, grid_size, difficulty, seed=None, player_type="all"):
+def create_game_state(ds, grid_size, difficulty, seed=None, player_type="famous"):
     """
     Build a complete game state.
     Step 1 — select 25 players via fame distribution.
@@ -473,7 +467,7 @@ def get_or_create_daily():
     row = query_db("SELECT * FROM daily_challenge WHERE challenge_date=?", (today,), one=True)
     if row: return json.loads(row["game_state"])
     seed  = int(hashlib.sha256(today.encode()).hexdigest(), 16) % 9999999
-    state = create_game_state("overall", 3, "normal", seed, player_type="all")
+    state = create_game_state("overall", 3, "normal", seed, player_type="famous")
     if state:
         query_db("INSERT INTO daily_challenge(challenge_date,game_state) VALUES(?,?)",
                  (today, json.dumps(state, default=str)), commit=True)
@@ -695,20 +689,7 @@ select.input option { background: var(--sur); color: var(--txt); }
 .input-group { display: flex; flex-direction: column; }
 
 /* ── PLAYER TYPE SELECTOR ── */
-.player-type-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 4px;
-}
-.player-type-btn {
-  background: var(--sur2); border: 1.5px solid var(--bdr2);
-  border-radius: var(--r-lg); padding: 12px 10px; text-align: center;
-  cursor: pointer; transition: all .18s; font-family: var(--font-body);
-  display: flex; flex-direction: column; align-items: center; gap: 5px;
-}
-.player-type-btn:hover { border-color: var(--acc); background: var(--acc-dim); }
-.player-type-btn.selected { border-color: var(--acc); background: var(--acc-dim); }
-.player-type-btn .pt-icon  { font-size: 1.3rem; }
-.player-type-btn .pt-title { font-size: .78rem; font-weight: 700; color: var(--txt); font-family: var(--font-head); }
-.player-type-btn .pt-sub   { font-size: .66rem; color: var(--txt3); }
+/* Using a standard <select> dropdown — no custom button grid needed */
 /* fame hint pills */
 .fame-hint {
   display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
@@ -1044,7 +1025,7 @@ hr { border:none; border-top: 1px solid var(--bdr); margin: 22px 0; }
   .step-item + .step-item::before { width: 20px; margin: 0 4px; }
   .bingo-grid.size-3 { max-width: 100%; }
   .bingo-grid.size-4 { max-width: 100%; }
-  .player-type-grid { grid-template-columns: 1fr 1fr 1fr; }
+
 }
 @media (max-width: 520px) {
   .grid-2 { grid-template-columns: 1fr; }
@@ -1054,7 +1035,7 @@ hr { border:none; border-top: 1px solid var(--bdr); margin: 22px 0; }
   .tab-bar { width: 100%; }
   .tab-btn { flex: 1; justify-content: center; font-size: .78rem; padding: 7px 10px; }
   .modal { padding: 24px 18px; }
-  .player-type-grid { grid-template-columns: 1fr; }
+
 }
 </style>
 """
@@ -1314,34 +1295,25 @@ HOME_BODY = """
           </div>
         </div>
 
-        <!-- Row 2: Player Type -->
+        <!-- Row 2: Player Type (fame-based) -->
         <div class="input-group mb-4">
-          <label class="label">Player Type</label>
-          <div class="player-type-grid" id="pt-grid">
-            <div class="player-type-btn selected" id="pt-all" onclick="selectPlayerType('all',this)">
-              <span class="pt-icon">🌍</span>
-              <span class="pt-title">All Players</span>
-              <span class="pt-sub">Everyone</span>
-            </div>
-            <div class="player-type-btn" id="pt-indian" onclick="selectPlayerType('indian',this)">
-              <span class="pt-icon">🇮🇳</span>
-              <span class="pt-title">Indian Only</span>
-              <span class="pt-sub">India nationals</span>
-            </div>
-            <div class="player-type-btn" id="pt-international" onclick="selectPlayerType('international',this)">
-              <span class="pt-icon">✈️</span>
-              <span class="pt-title">International</span>
-              <span class="pt-sub">Non-Indian players</span>
-            </div>
+          <label class="label" for="cfg-pt">Player Type</label>
+          <select id="cfg-pt" class="input" onchange="onPlayerTypeChange()">
+            <option value="famous">⭐ Famous Mode — Well-known stars only</option>
+            <option value="medium">🔵 Medium Mode — Mix of stars &amp; regulars</option>
+            <option value="not_famous">🎯 Not Famous Mode — Includes lesser-known players</option>
+          </select>
+          <div style="margin-top:8px;font-size:.75rem;color:var(--txt3);line-height:1.7;" id="pt-desc">
+            75% high-fame · 25% medium-fame players
           </div>
         </div>
 
-        <!-- Fame distribution hint (updates with difficulty) -->
+        <!-- Fame distribution hint -->
         <div class="fame-hint" id="fame-hint">
           <span style="color:var(--txt3);font-weight:600;margin-right:4px;">25 players selected:</span>
-          <span class="fame-pill" style="background:rgba(245,166,35,.15);color:var(--acc);" id="fh-high">🌟 13 High</span>
-          <span class="fame-pill" style="background:rgba(79,142,247,.12);color:var(--blue);" id="fh-med">🔵 12 Medium</span>
-          <span class="fame-pill" style="background:rgba(66,76,97,.3);color:var(--txt3);" id="fh-low" style="display:none;">⚪ 0 Low</span>
+          <span class="fame-pill" style="background:rgba(245,166,35,.15);color:var(--acc);" id="fh-high">🌟 19 High</span>
+          <span class="fame-pill" style="background:rgba(79,142,247,.12);color:var(--blue);" id="fh-med">🔵 6 Medium</span>
+          <span class="fame-pill" style="background:rgba(66,76,97,.3);color:var(--txt3);display:none;" id="fh-low">⚪ 0 Low</span>
           <span style="color:var(--txt3);font-size:.68rem;margin-left:auto;align-self:center;">Grid categories derived from these 25 only</span>
         </div>
 
@@ -1389,30 +1361,31 @@ HOME_BODY = """
 </div>
 
 <script>
-let selSrc = 'overall', selMode = null, selPlayerType = 'all';
+let selSrc = 'overall', selMode = null, selPlayerType = 'famous';
 
-/* ── Fame hint updater ── */
+/* ── Fame distribution per player_type ── */
 const fameDist = {
-  easy:   {high: Math.round(25*.75), medium: 25 - Math.round(25*.75), low: 0},
-  normal: {high: Math.round(25*.50), medium: 25 - Math.round(25*.50), low: 0},
-  hard:   {high: Math.round(25*.30), medium: Math.round(25*.60), low: 25 - Math.round(25*.30) - Math.round(25*.60)},
+  famous:     {high: Math.round(25*.75), medium: 25 - Math.round(25*.75), low: 0,
+               desc: '75% high-fame · 25% medium-fame players'},
+  medium:     {high: Math.round(25*.50), medium: 25 - Math.round(25*.50), low: 0,
+               desc: '50% high-fame · 50% medium-fame players'},
+  not_famous: {high: Math.round(25*.30), medium: Math.round(25*.60),
+               low: 25 - Math.round(25*.30) - Math.round(25*.60),
+               desc: '30% high · 60% medium · 10% low-fame players'},
 };
-function updateFameHint(){
-  const df = (document.getElementById('cfg-df')||{}).value || 'normal';
-  const d  = fameDist[df] || fameDist.normal;
+function onPlayerTypeChange(){
+  const pt  = (document.getElementById('cfg-pt')||{}).value || 'famous';
+  selPlayerType = pt;
+  const d   = fameDist[pt] || fameDist.famous;
   document.getElementById('fh-high').textContent = '🌟 ' + d.high + ' High';
   document.getElementById('fh-med').textContent  = '🔵 ' + d.medium + ' Medium';
   const lowEl = document.getElementById('fh-low');
   lowEl.textContent = '⚪ ' + d.low + ' Low';
   lowEl.style.display = d.low > 0 ? '' : 'none';
+  const descEl = document.getElementById('pt-desc');
+  if(descEl) descEl.textContent = d.desc;
 }
-
-/* ── Player-type selector ── */
-function selectPlayerType(type, btn){
-  selPlayerType = type;
-  document.querySelectorAll('.player-type-btn').forEach(b => b.classList.remove('selected'));
-  if(btn) btn.classList.add('selected');
-}
+function updateFameHint(){ onPlayerTypeChange(); }
 
 function setStep(n){
   [1,2,3,4].forEach(i=>{
@@ -1459,7 +1432,7 @@ function startGame(){
   if(!selMode){toast('Please select a mode first','warn');return;}
   const gs  = (document.getElementById('cfg-gs')||{}).value || '3';
   const df  = (document.getElementById('cfg-df')||{}).value || 'normal';
-  const pt  = selPlayerType || 'all';
+  const pt  = (document.getElementById('cfg-pt')||{}).value || selPlayerType || 'famous';
   setStep(4);
   if(selMode==='rated')
     window.location.href=`/matchmaking?data_source=${selSrc}&grid_size=${gs}&difficulty=${df}&player_type=${pt}`;
@@ -1480,7 +1453,7 @@ function joinRoom(){
   if(c.length===6) window.location.href='/room/'+c;
   else toast('Enter a valid 6-digit code','warn');
 }
-document.addEventListener('DOMContentLoaded',()=>{setStep(1);selectPool('overall');updateFameHint();});
+document.addEventListener('DOMContentLoaded',()=>{setStep(1);selectPool('overall');onPlayerTypeChange();});
 </script>
 """
 
@@ -2336,7 +2309,7 @@ def play():
     ds          = request.args.get("data_source", "overall")
     grid_size   = int(request.args.get("grid_size", 3))
     difficulty  = request.args.get("difficulty", "normal")
-    player_type = request.args.get("player_type", "all")
+    player_type = request.args.get("player_type", "famous")
     room_code   = request.args.get("room_code", None)
 
     if game_mode == "daily":
@@ -2427,7 +2400,7 @@ def matchmaking():
     ds          = request.args.get("data_source", "overall")
     grid_size   = int(request.args.get("grid_size", 3))
     difficulty  = request.args.get("difficulty", "normal")
-    player_type = request.args.get("player_type", "all")
+    player_type = request.args.get("player_type", "famous")
     return render_template_string(
         page(MATCHMAKING_BODY, "Finding Match"),
         data_source=ds, grid_size=grid_size, difficulty=difficulty, player_type=player_type)
@@ -2810,10 +2783,10 @@ if __name__ == "__main__":
 ║  Players    → {len(OVERALL_DATA):<5} overall / {len(IPL26_DATA):<5} ipl26            ║
 ║  Email      → {email_status:<38}║
 ║  Selection  → 25 players first, then grid categories     ║
-║  Easy       → 75% high / 25% medium fame                 ║
-║  Normal     → 50% high / 50% medium fame                 ║
-║  Hard       → 30% high / 60% medium / 10% low fame       ║
-║  Types      → All / Indian Only / International Only     ║
+║  Famous     → 75% high / 25% medium fame                 ║
+║  Medium     → 50% high / 50% medium fame                 ║
+║  Not Famous → 30% high / 60% medium / 10% low fame       ║
+║  Type set independently from grid difficulty             ║
 ╚══════════════════════════════════════════════════════════╝
 """)
     socketio.run(app, host="0.0.0.0", port=port, debug=debug)
