@@ -788,27 +788,27 @@ tr:hover td { background: var(--sur2); }
 .timer-bar  { height: 100%; border-radius: 99px; transition: width 1s linear, background .4s; }
 
 /* ── BINGO GRID ── */
-.bingo-grid { display: grid; gap: 10px; margin: 0 auto; width: 100%; }
-.bingo-grid.size-3 { grid-template-columns: repeat(3,1fr); max-width: 530px; }
-.bingo-grid.size-4 { grid-template-columns: repeat(4,1fr); max-width: 640px; }
+.bingo-grid { display: grid; gap: 14px; margin: 0 auto; width: 100%; }
+.bingo-grid.size-3 { grid-template-columns: repeat(3,1fr); max-width: 680px; }
+.bingo-grid.size-4 { grid-template-columns: repeat(4,1fr); max-width: 820px; }
 
 .cell {
   background: var(--sur2); border: 1.5px solid var(--bdr);
   border-radius: var(--r-xl); padding: 12px 8px;
   text-align: center; cursor: pointer;
   transition: border-color .2s, background .2s, transform .15s, box-shadow .2s;
-  min-height: 108px;
+  min-height: 140px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 6px; user-select: none; overflow: hidden; position: relative;
+  gap: 8px; user-select: none; overflow: hidden; position: relative;
 }
 .cell-logo {
-  width: 68px; height: 68px; object-fit: contain;
-  border-radius: 8px; transition: transform .2s;
+  width: 90px; height: 90px; object-fit: contain;
+  border-radius: 10px; transition: transform .2s;
 }
-.cell-label { font-size: .65rem; font-weight: 600; color: var(--txt2); line-height: 1.2; font-family: var(--font-body); }
-.cell.nation-cell { font-size: .8rem; font-weight: 700; color: var(--txt); }
-.cell.trophy-cell { font-size: .7rem; font-weight: 600; color: var(--acc); }
-.cell.combo-cell  { font-size: .6rem; font-weight: 600; color: var(--pur); line-height: 1.4; }
+.cell-label { font-size: .72rem; font-weight: 600; color: var(--txt2); line-height: 1.3; font-family: var(--font-body); }
+.cell.nation-cell { font-size: .95rem; font-weight: 700; color: var(--txt); }
+.cell.trophy-cell { font-size: .78rem; font-weight: 600; color: var(--acc); }
+.cell.combo-cell  { font-size: .68rem; font-weight: 600; color: var(--pur); line-height: 1.45; }
 .cell:hover:not(.filled):not(.cell-disabled):not(.wc-filled) {
   border-color: var(--acc); background: var(--acc-dim);
   transform: translateY(-2px); box-shadow: 0 6px 20px var(--acc-glow);
@@ -1030,8 +1030,8 @@ hr { border:none; border-top: 1px solid var(--bdr); margin: 22px 0; }
 }
 @media (max-width: 520px) {
   .grid-2 { grid-template-columns: 1fr; }
-  .cell { min-height: 80px; padding: 8px 5px; }
-  .cell-logo { width: 44px; height: 44px; }
+  .cell { min-height: 100px; padding: 10px 6px; }
+  .cell-logo { width: 60px; height: 60px; }
   .container, .container-sm, .container-xs { padding: 0 12px; }
   .tab-bar { width: 100%; }
   .tab-btn { flex: 1; justify-content: center; font-size: .78rem; padding: 7px 10px; }
@@ -1323,9 +1323,6 @@ HOME_BODY = """
         <span class="sel-card-badge" style="background:rgba(79,142,247,.12);color:var(--blue);border-color:rgba(79,142,247,.25);">CURRENT SEASON</span>
       </div>
     </div>
-    <div class="action-row">
-      <button class="btn btn-primary btn-lg" onclick="goToStep2()" style="min-width:200px;">Next: Choose Mode →</button>
-    </div>
   </div>
 
   <!-- ── STEP 2: Mode (click auto-advances) ── -->
@@ -1484,6 +1481,8 @@ function selectPool(src, card) {
   selSrc = src;
   document.querySelectorAll('.pool-grid .sel-card').forEach(c => c.classList.remove('active'));
   if(card) card.classList.add('active');
+  // auto-advance after brief highlight
+  setTimeout(goToStep2, 180);
 }
 
 function goToStep1() { showOnly('s1'); setStep(1); }
@@ -1543,7 +1542,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 GAME_BODY = """
-<div class="container-sm page">
+<div class="container page" style="max-width:820px;">
 
   <!-- TOP ROW -->
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px;">
@@ -1610,16 +1609,16 @@ GAME_BODY = """
         <span class="cell-label" style="display:none;">{{ cell.value }}</span>
       {% elif cell.type == 'nation' %}
         {% if use_nation_flags %}
-          <span style="font-size:1.4rem;line-height:1;">{{ FLAG_MAP.get(cell.value, '🌍') }}</span>
-          <span class="cell-label" style="font-size:.78rem;color:var(--txt);font-weight:600;">{{ cell.value }}</span>
+          <span style="font-size:2rem;line-height:1;">{{ FLAG_MAP.get(cell.value, '🌍') }}</span>
+          <span class="cell-label" style="font-size:.8rem;color:var(--txt);font-weight:600;">{{ cell.value }}</span>
         {% else %}
           <span style="font-size:.95rem;font-weight:700;color:var(--txt);">{{ cell.value }}</span>
         {% endif %}
       {% elif cell.type == 'trophy' %}
-        <span style="font-size:1.25rem;">🏆</span>
+        <span style="font-size:1.7rem;">🏆</span>
         <span class="cell-label" style="font-size:.68rem;color:var(--acc);font-weight:600;">{{ cell.value }}</span>
       {% else %}
-        <span style="font-size:1rem;">🔗</span>
+        <span style="font-size:1.5rem;">🔗</span>
         <span class="cell-label" style="font-size:.58rem;color:var(--pur);font-weight:600;line-height:1.3;">{{ cell.value }}</span>
       {% endif %}
     </div>
@@ -2161,7 +2160,7 @@ DAILY_BODY = """
 """
 
 ABOUT_BODY = """
-<div class="container-sm page">
+<div class="container page" style="max-width:820px;">
   <div class="section-header"><h2>About Cricket Bingo</h2></div>
   <div class="card mb-4">
     <p style="color:var(--txt2);line-height:1.9;margin-bottom:12px;">Cricket Bingo is a free browser-based cricket quiz where you match famous cricketers to their IPL franchises, nationalities, and trophies on a bingo-style grid.</p>
@@ -2196,7 +2195,7 @@ ABOUT_BODY = """
 """
 
 CONTACT_BODY = """
-<div class="container-sm page">
+<div class="container page" style="max-width:820px;">
   <div class="section-header"><h2>Contact Us</h2></div>
   <p style="color:var(--txt2);font-size:.88rem;margin-bottom:26px;">We read every message and respond within 24 hours.</p>
   <div class="card mb-4" id="form-wrap">
@@ -2267,7 +2266,7 @@ function submitContact(){
 """
 
 PRIVACY_BODY = """
-<div class="container-sm page">
+<div class="container page" style="max-width:820px;">
   <div class="section-header"><h2>Privacy Policy</h2></div>
   <p style="color:var(--txt2);font-size:.83rem;margin-bottom:24px;">Last updated: June 2025</p>
   {% for title, content in sections %}
@@ -2280,7 +2279,7 @@ PRIVACY_BODY = """
 """
 
 TERMS_BODY = """
-<div class="container-sm page">
+<div class="container page" style="max-width:820px;">
   <div class="section-header"><h2>Terms &amp; Conditions</h2></div>
   <p style="color:var(--txt2);font-size:.83rem;margin-bottom:24px;">Last updated: June 2025</p>
   {% for title, content in sections %}
