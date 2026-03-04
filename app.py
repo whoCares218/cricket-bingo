@@ -2,23 +2,17 @@
 from gevent import monkey; monkey.patch_all()
 
 """
-Cricket Bingo — v5 (Full Feature Upgrade)
-Changes from v4:
-  - Font: Outfit (display) + DM Sans (body) to match Fantasy Team Generator aesthetic
-  - Wildcard now auto-marks ALL valid cells for the current player
-  - Cell fill: player name hidden, cell slowly fades green (no text overlay)
-  - Timer: 10 seconds across all modes
-  - Dual rating system: Multiplayer ELO + Solo ELO (separate tables/columns)
-  - Grid generation: strict validation — only categories with ≥1 matching player appear; every cell has a solution
-  - Post-game (solo): rating change, updated rank, all possible solutions
-  - Post-game (multiplayer): animated rating change, view all solutions, live opponent score
-  - Improved dark/light mode UI with polished animations
-  - Fully responsive layout
-
-BUG FIX (v5.1):
-  - Fixed "everything marked wrong" bug caused by Flask cookie session overflow.
-    Session now stores only grid + grid_state (not the full players list).
-    Players are looked up from in-memory pool by ID on every validation request.
+Cricket Bingo — v6 (Player Pool & Fame-Based Selection)
+Changes from v5.1:
+  - 25 players are selected FIRST (before grid categories are derived)
+    → This guarantees every cell always has a valid solution
+  - Fame-based difficulty distribution:
+      Easy   → 75% high-famous + 25% medium-famous
+      Normal → 50% high-famous + 50% medium-famous
+      Hard   → 30% high + 60% medium + 10% low-famous
+  - New "Player Type" selector on the Settings step:
+      All Players / Indian Players Only / International Players Only
+  - player_type param flows through: UI → /play route → create_game_state
 """
 
 import os, json, random, string, hashlib, time, smtplib, logging
@@ -249,12 +243,87 @@ def player_matches_cell(player, cell, ds):
         return all(p in teams or p == nation or p in trophies for p in parts)
     return False
 
-# ── IMPROVED GRID BUILDER: validates every cell has ≥1 player solution ──
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  FAME-BASED PLAYER SELECTION
+#  Selects exactly `n` players from pool according to difficulty distribution.
+#  player_type filters the base pool before fame sampling.
+# ══════════════════════════════════════════════════════════════════════════════
+
+FAME_DISTRIBUTION = {
+    # difficulty: {high%, medium%, low%}
+    "easy":   {"high": 0.75, "medium": 0.25, "low": 0.00},
+    "normal": {"high": 0.50, "medium": 0.50, "low": 0.00},
+    "hard":   {"high": 0.30, "medium": 0.60, "low": 0.10},
+}
+
+def select_players_by_fame(pool, difficulty, n=25, player_type="all"):
+    """
+    Returns exactly `n` players from `pool`, respecting the fame distribution
+    for the given difficulty.  Falls back gracefully if a fame tier is
+    under-populated.
+    """
+    # 1. Apply player-type filter
+    if player_type == "indian":
+        filtered = [p for p in pool if p.get("nation") == "India"]
+    elif player_type == "international":
+        filtered = [p for p in pool if p.get("nation") != "India"]
+    else:
+        filtered = list(pool)
+
+    if not filtered:
+        log.warning(f"select_players_by_fame: player_type={player_type} produced empty pool, falling back to full pool")
+        filtered = list(pool)
+
+    # 2. Bucket by fame
+    high_f   = [p for p in filtered if p.get("famous") == "high"]
+    medium_f = [p for p in filtered if p.get("famous") == "medium"]
+    low_f    = [p for p in filtered if p.get("famous") == "low"]
+
+    dist = FAME_DISTRIBUTION.get(difficulty, FAME_DISTRIBUTION["normal"])
+    n_high   = round(n * dist["high"])
+    n_medium = round(n * dist["medium"])
+    n_low    = n - n_high - n_medium   # absorbs rounding remainder
+
+    # Shuffle each bucket
+    random.shuffle(high_f)
+    random.shuffle(medium_f)
+    random.shuffle(low_f)
+
+    selected = []
+    selected += high_f[:n_high]
+    selected += medium_f[:n_medium]
+    selected += low_f[:max(0, n_low)]
+
+    # 3. Fill any shortfall (bucket too small) from remaining pool
+    if len(selected) < n:
+        used_ids = {id(p) for p in selected}
+        rest = [p for p in filtered if id(p) not in used_ids]
+        random.shuffle(rest)
+        selected += rest[: n - len(selected)]
+
+    # 4. Final shuffle so order isn't predictable
+    random.shuffle(selected)
+    log.info(
+        f"select_players_by_fame: difficulty={difficulty} type={player_type} "
+        f"→ {len(selected)} players "
+        f"(high={sum(1 for p in selected if p.get('famous')=='high')}, "
+        f"medium={sum(1 for p in selected if p.get('famous')=='medium')}, "
+        f"low={sum(1 for p in selected if p.get('famous')=='low')})"
+    )
+    return selected[:n]
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  GRID BUILDER — derives categories from the pre-selected player pool
+#  Every cell is guaranteed to have ≥1 matching player in that 25-player pool.
+# ══════════════════════════════════════════════════════════════════════════════
+
 def build_grid_validated(size, ds, difficulty, pool):
-    """Build a grid where EVERY cell has at least one valid player from the pool."""
+    """Build a grid where EVERY cell has at least one valid player from pool."""
     n = size * size
 
-    # Build valid category pools from actual player data
+    # Build category pools exclusively from the given player pool
     valid_teams    = list({t for p in pool for t in p.get("iplTeams", [])} if ds == "overall"
                           else {p["team"] for p in pool if p.get("team")})
     valid_nations  = list({p["nation"] for p in pool if p.get("nation")})
@@ -285,13 +354,13 @@ def build_grid_validated(size, ds, difficulty, pool):
         elif cell_type == "combo":
             for _ in range(max_tries):
                 p = random.choice(pool)
-                teams_p = p.get("iplTeams", []) if ds == "overall" else [p.get("team", "")]
-                nation_p = p.get("nation", "")
+                teams_p    = p.get("iplTeams", []) if ds == "overall" else [p.get("team", "")]
+                nation_p   = p.get("nation", "")
                 trophies_p = p.get("trophies", []) if ds == "overall" else []
                 combos = []
-                if teams_p and nation_p: combos.append(f"{random.choice(teams_p)} + {nation_p}")
+                if teams_p and nation_p:   combos.append(f"{random.choice(teams_p)} + {nation_p}")
                 if teams_p and trophies_p: combos.append(f"{random.choice(teams_p)} + {random.choice(trophies_p)}")
-                if nation_p and trophies_p: combos.append(f"{nation_p} + {random.choice(trophies_p)}")
+                if nation_p and trophies_p:combos.append(f"{nation_p} + {random.choice(trophies_p)}")
                 for combo_v in combos:
                     if combo_v not in seen:
                         cell = {"type": "combo", "value": combo_v}
@@ -307,17 +376,15 @@ def build_grid_validated(size, ds, difficulty, pool):
     for ct in type_pool:
         cell = get_valid_category(ct, seen)
         if cell is None:
-            # Fallback: try team
             cell = get_valid_category("team", seen)
         if cell is None and valid_teams:
-            # Last resort: pick any valid team even if seen
             for t in valid_teams:
                 c = {"type": "team", "value": t}
                 if has_player(c): cell = c; break
         if cell:
             seen.add(cell["value"]); cells.append(cell)
 
-    # If we couldn't fill all cells, pad with valid teams
+    # Pad if short
     while len(cells) < n and valid_teams:
         for t in valid_teams:
             c = {"type": "team", "value": t}
@@ -327,31 +394,53 @@ def build_grid_validated(size, ds, difficulty, pool):
 
     return cells[:n]
 
-def create_game_state(ds, grid_size, difficulty, seed=None):
+
+def create_game_state(ds, grid_size, difficulty, seed=None, player_type="all"):
+    """
+    Build a complete game state.
+    Step 1 — select 25 players via fame distribution.
+    Step 2 — derive grid categories exclusively from those 25 players
+              (guarantees every cell has ≥1 solution).
+    """
     if seed is not None: random.seed(seed)
-    pool = list(get_pool(ds))
-    if not pool:
+
+    full_pool = list(get_pool(ds))
+    if not full_pool:
         log.error(f"No players found for data source: {ds}"); return None
-    random.shuffle(pool)
-    n = grid_size * grid_size
-    selected = pool[:min(len(pool), n * 5)]
-    grid = build_grid_validated(grid_size, ds, difficulty, pool)
+
+    # ── Step 1: fame-based player selection ──────────────────────────────────
+    selected_players = select_players_by_fame(full_pool, difficulty, n=25, player_type=player_type)
+    if not selected_players:
+        log.error("Player selection returned empty list"); return None
+
+    # ── Step 2: build grid from the selected 25 players ──────────────────────
+    grid = build_grid_validated(grid_size, ds, difficulty, selected_players)
     if not grid:
         log.error("Grid build failed"); return None
 
-    # Pre-compute solutions for each cell
+    # ── Step 3: pre-compute solutions (only from the 25 selected) ────────────
     solutions = {}
     for i, cell in enumerate(grid):
-        matching = [p.get("name", p.get("id")) for p in pool if player_matches_cell(p, cell, ds)]
-        solutions[str(i)] = matching[:20]  # cap at 20 per cell
+        matching = [p.get("name", p.get("id")) for p in selected_players
+                    if player_matches_cell(p, cell, ds)]
+        solutions[str(i)] = matching[:20]
 
     state = {
-        "data_source": ds, "grid_size": grid_size, "difficulty": difficulty,
-        "grid": grid, "players": selected,
-        "current_player_idx": 0, "grid_state": [None] * n,
-        "skips_used": 0, "wildcard_used": False, "correct": 0, "wrong": 0,
-        "started_at": time.time(), "seed": seed or random.randint(0, 9999999),
-        "solutions": solutions,
+        "data_source":        ds,
+        "grid_size":          grid_size,
+        "difficulty":         difficulty,
+        "player_type":        player_type,
+        "grid":               grid,
+        "players":            selected_players,   # exactly 25
+        "current_player_idx": 0,
+        "grid_state":         [None] * (grid_size * grid_size),
+        "skips_used":         0,
+        "wildcard_used":      False,
+        "correct":            0,
+        "wrong":              0,
+        "started_at":         time.time(),
+        "seed":               seed or random.randint(0, 9999999),
+        "solutions":          solutions,
     }
     return state
 
@@ -384,7 +473,7 @@ def get_or_create_daily():
     row = query_db("SELECT * FROM daily_challenge WHERE challenge_date=?", (today,), one=True)
     if row: return json.loads(row["game_state"])
     seed  = int(hashlib.sha256(today.encode()).hexdigest(), 16) % 9999999
-    state = create_game_state("overall", 3, "normal", seed)
+    state = create_game_state("overall", 3, "normal", seed, player_type="all")
     if state:
         query_db("INSERT INTO daily_challenge(challenge_date,game_state) VALUES(?,?)",
                  (today, json.dumps(state, default=str)), commit=True)
@@ -605,6 +694,31 @@ body {
 select.input option { background: var(--sur); color: var(--txt); }
 .input-group { display: flex; flex-direction: column; }
 
+/* ── PLAYER TYPE SELECTOR ── */
+.player-type-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 4px;
+}
+.player-type-btn {
+  background: var(--sur2); border: 1.5px solid var(--bdr2);
+  border-radius: var(--r-lg); padding: 12px 10px; text-align: center;
+  cursor: pointer; transition: all .18s; font-family: var(--font-body);
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.player-type-btn:hover { border-color: var(--acc); background: var(--acc-dim); }
+.player-type-btn.selected { border-color: var(--acc); background: var(--acc-dim); }
+.player-type-btn .pt-icon  { font-size: 1.3rem; }
+.player-type-btn .pt-title { font-size: .78rem; font-weight: 700; color: var(--txt); font-family: var(--font-head); }
+.player-type-btn .pt-sub   { font-size: .66rem; color: var(--txt3); }
+/* fame hint pills */
+.fame-hint {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
+  padding: 10px 14px; background: var(--sur2); border-radius: var(--r-lg);
+  border: 1px solid var(--bdr); font-size: .72rem;
+}
+.fame-pill {
+  padding: 3px 9px; border-radius: 99px; font-weight: 600; font-size: .68rem;
+}
+
 /* ── SECTION HEADER ── */
 .section-header {
   display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
@@ -719,7 +833,6 @@ tr:hover td { background: var(--sur2); }
 }
 .cell:hover .cell-logo { transform: scale(1.06); }
 
-/* ── CELL FILL ANIMATION (no text, just green fade) ── */
 .cell.filled {
   background: rgba(45,211,111,.09);
   border-color: rgba(45,211,111,.45);
@@ -740,7 +853,6 @@ tr:hover td { background: var(--sur2); }
 }
 @keyframes check-appear { from{opacity:0;transform:scale(0);} to{opacity:1;transform:scale(1);} }
 
-/* Wildcard highlight pulse */
 .cell.wildcard-hint {
   border-color: var(--acc);
   background: var(--acc-dim);
@@ -751,7 +863,6 @@ tr:hover td { background: var(--sur2); }
 .cell.wrong  { animation: cell-shake .4s ease; border-color: var(--red); background: rgba(240,82,79,.08); }
 @keyframes cell-shake { 0%,100%{transform:translateX(0);}25%{transform:translateX(-7px);}75%{transform:translateX(7px);} }
 
-/* Wildcard auto-fill */
 .cell.wc-filled {
   background: rgba(155,114,247,.1);
   border-color: rgba(155,114,247,.45);
@@ -933,6 +1044,7 @@ hr { border:none; border-top: 1px solid var(--bdr); margin: 22px 0; }
   .step-item + .step-item::before { width: 20px; margin: 0 4px; }
   .bingo-grid.size-3 { max-width: 100%; }
   .bingo-grid.size-4 { max-width: 100%; }
+  .player-type-grid { grid-template-columns: 1fr 1fr 1fr; }
 }
 @media (max-width: 520px) {
   .grid-2 { grid-template-columns: 1fr; }
@@ -942,6 +1054,7 @@ hr { border:none; border-top: 1px solid var(--bdr); margin: 22px 0; }
   .tab-bar { width: 100%; }
   .tab-btn { flex: 1; justify-content: center; font-size: .78rem; padding: 7px 10px; }
   .modal { padding: 24px 18px; }
+  .player-type-grid { grid-template-columns: 1fr; }
 }
 </style>
 """
@@ -1095,7 +1208,7 @@ def page(body, title="Cricket Bingo", extra_head=""):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  PAGE BODIES
+#  HOME PAGE — with new Player Type step in Settings (Step 3)
 # ═══════════════════════════════════════════════════════════════════════════════
 
 HOME_BODY = """
@@ -1124,7 +1237,7 @@ HOME_BODY = """
 
   {% else %}
 
-  <!-- STEP 1 -->
+  <!-- STEP 1: Pool -->
   <div id="s1">
     <div class="section-header mt-6">
       <h2>Select Player Pool</h2>
@@ -1151,7 +1264,7 @@ HOME_BODY = """
     </div>
   </div>
 
-  <!-- STEP 2 -->
+  <!-- STEP 2: Mode -->
   <div id="s2" style="display:none;">
     <div class="section-header mt-6"><h2>Choose Mode</h2><span class="step-label">Step 2</span></div>
     <div class="grid-3 gap-4" style="max-width:720px;">
@@ -1177,27 +1290,65 @@ HOME_BODY = """
     </div>
   </div>
 
-  <!-- STEP 3 -->
+  <!-- STEP 3: Settings + Player Type -->
   <div id="s3" style="display:none;">
     <div class="section-header mt-6"><h2>Set Criteria</h2><span class="step-label">Step 3</span></div>
-    <div id="s3-game" style="max-width:520px;">
+
+    <!-- Game settings (solo / rated) -->
+    <div id="s3-game" style="max-width:560px;">
       <div class="card mb-4">
-        <div class="grid-2 gap-4">
+
+        <!-- Row 1: Grid size + Difficulty -->
+        <div class="grid-2 gap-4 mb-5">
           <div class="input-group">
             <label class="label" for="cfg-gs">Grid Size</label>
             <select id="cfg-gs" class="input"><option value="3">3×3 Standard</option><option value="4">4×4 Large</option></select>
           </div>
           <div class="input-group">
             <label class="label" for="cfg-df">Difficulty</label>
-            <select id="cfg-df" class="input">
+            <select id="cfg-df" class="input" onchange="updateFameHint()">
               <option value="easy">Easy — Teams only</option>
               <option value="normal" selected>Normal — Teams &amp; Nations</option>
               <option value="hard">Hard — All + Combos</option>
             </select>
           </div>
         </div>
+
+        <!-- Row 2: Player Type -->
+        <div class="input-group mb-4">
+          <label class="label">Player Type</label>
+          <div class="player-type-grid" id="pt-grid">
+            <div class="player-type-btn selected" id="pt-all" onclick="selectPlayerType('all',this)">
+              <span class="pt-icon">🌍</span>
+              <span class="pt-title">All Players</span>
+              <span class="pt-sub">Everyone</span>
+            </div>
+            <div class="player-type-btn" id="pt-indian" onclick="selectPlayerType('indian',this)">
+              <span class="pt-icon">🇮🇳</span>
+              <span class="pt-title">Indian Only</span>
+              <span class="pt-sub">India nationals</span>
+            </div>
+            <div class="player-type-btn" id="pt-international" onclick="selectPlayerType('international',this)">
+              <span class="pt-icon">✈️</span>
+              <span class="pt-title">International</span>
+              <span class="pt-sub">Non-Indian players</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fame distribution hint (updates with difficulty) -->
+        <div class="fame-hint" id="fame-hint">
+          <span style="color:var(--txt3);font-weight:600;margin-right:4px;">25 players selected:</span>
+          <span class="fame-pill" style="background:rgba(245,166,35,.15);color:var(--acc);" id="fh-high">🌟 13 High</span>
+          <span class="fame-pill" style="background:rgba(79,142,247,.12);color:var(--blue);" id="fh-med">🔵 12 Medium</span>
+          <span class="fame-pill" style="background:rgba(66,76,97,.3);color:var(--txt3);" id="fh-low" style="display:none;">⚪ 0 Low</span>
+          <span style="color:var(--txt3);font-size:.68rem;margin-left:auto;align-self:center;">Grid categories derived from these 25 only</span>
+        </div>
+
       </div>
     </div>
+
+    <!-- Friends sub-panel -->
     <div id="s3-friends" style="display:none;max-width:520px;">
       <div class="card mb-4">
         <div class="grid-2 gap-4">
@@ -1217,6 +1368,7 @@ HOME_BODY = """
         </div>
       </div>
     </div>
+
     <div class="flex gap-3 mt-2">
       <button class="btn btn-outline" onclick="goToStep2()">← Back</button>
       <button class="btn btn-primary btn-lg" onclick="startGame()">▶ Play Now</button>
@@ -1237,7 +1389,31 @@ HOME_BODY = """
 </div>
 
 <script>
-let selSrc = 'overall', selMode = null;
+let selSrc = 'overall', selMode = null, selPlayerType = 'all';
+
+/* ── Fame hint updater ── */
+const fameDist = {
+  easy:   {high: Math.round(25*.75), medium: 25 - Math.round(25*.75), low: 0},
+  normal: {high: Math.round(25*.50), medium: 25 - Math.round(25*.50), low: 0},
+  hard:   {high: Math.round(25*.30), medium: Math.round(25*.60), low: 25 - Math.round(25*.30) - Math.round(25*.60)},
+};
+function updateFameHint(){
+  const df = (document.getElementById('cfg-df')||{}).value || 'normal';
+  const d  = fameDist[df] || fameDist.normal;
+  document.getElementById('fh-high').textContent = '🌟 ' + d.high + ' High';
+  document.getElementById('fh-med').textContent  = '🔵 ' + d.medium + ' Medium';
+  const lowEl = document.getElementById('fh-low');
+  lowEl.textContent = '⚪ ' + d.low + ' Low';
+  lowEl.style.display = d.low > 0 ? '' : 'none';
+}
+
+/* ── Player-type selector ── */
+function selectPlayerType(type, btn){
+  selPlayerType = type;
+  document.querySelectorAll('.player-type-btn').forEach(b => b.classList.remove('selected'));
+  if(btn) btn.classList.add('selected');
+}
+
 function setStep(n){
   [1,2,3,4].forEach(i=>{
     const num=document.getElementById('sn'+i), txt=document.getElementById('st'+i);
@@ -1274,21 +1450,26 @@ function goToStep2(){showOnly('s2');setStep(2);}
 function goToStep3(){
   if(!selMode){toast('Please select a game mode','warn');return;}
   showOnly('s3');
-  document.getElementById('s3-game').style.display=selMode==='friends'?'none':'';
-  document.getElementById('s3-friends').style.display=selMode==='friends'?'':'none';
+  document.getElementById('s3-game').style.display    = selMode==='friends' ? 'none' : '';
+  document.getElementById('s3-friends').style.display = selMode==='friends' ? '' : 'none';
   setStep(3);
+  updateFameHint();
 }
 function startGame(){
   if(!selMode){toast('Please select a mode first','warn');return;}
-  const gs=(document.getElementById('cfg-gs')||{}).value||'3';
-  const df=(document.getElementById('cfg-df')||{}).value||'normal';
+  const gs  = (document.getElementById('cfg-gs')||{}).value || '3';
+  const df  = (document.getElementById('cfg-df')||{}).value || 'normal';
+  const pt  = selPlayerType || 'all';
   setStep(4);
-  if(selMode==='rated') window.location.href=`/matchmaking?data_source=${selSrc}&grid_size=${gs}&difficulty=${df}`;
-  else window.location.href=`/play?data_source=${selSrc}&grid_size=${gs}&difficulty=${df}&mode=solo`;
+  if(selMode==='rated')
+    window.location.href=`/matchmaking?data_source=${selSrc}&grid_size=${gs}&difficulty=${df}&player_type=${pt}`;
+  else
+    window.location.href=`/play?data_source=${selSrc}&grid_size=${gs}&difficulty=${df}&mode=solo&player_type=${pt}`;
 }
 function createRoom(){
-  const btn=event.currentTarget;btn.disabled=true;btn.textContent='Creating…';
-  fetch('/api/create_room',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data_source:selSrc})})
+  const btn=event.currentTarget; btn.disabled=true; btn.textContent='Creating…';
+  fetch('/api/create_room',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({data_source:selSrc})})
     .then(r=>r.json()).then(d=>{
       if(d.code) window.location.href='/room/'+d.code;
       else{toast('Error creating room','error');btn.disabled=false;btn.textContent='➕ Create Room';}
@@ -1299,7 +1480,7 @@ function joinRoom(){
   if(c.length===6) window.location.href='/room/'+c;
   else toast('Enter a valid 6-digit code','warn');
 }
-document.addEventListener('DOMContentLoaded',()=>{setStep(1);selectPool('overall');});
+document.addEventListener('DOMContentLoaded',()=>{setStep(1);selectPool('overall');updateFameHint();});
 </script>
 """
 
@@ -1404,14 +1585,12 @@ GAME_BODY = """
     <div class="score-display mt-3 mb-2" id="es">0</div>
     <p style="color:var(--txt2);font-size:.85rem;margin-bottom:6px;" id="ed"></p>
 
-    <!-- Rating change display -->
     <div id="rating-block" style="margin:14px 0;min-height:48px;">
       <div id="rating-change" style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;min-height:1.8rem;"></div>
       <div id="rank-display" style="font-size:.8rem;color:var(--txt2);margin-top:4px;"></div>
       <div id="rating-type" style="font-size:.72rem;color:var(--txt3);margin-top:2px;"></div>
     </div>
 
-    <!-- Solutions toggle -->
     <button onclick="toggleSolutions()" class="btn btn-outline btn-sm w-full mb-3" id="sol-btn">🔍 View All Solutions</button>
     <div id="solutions-panel" style="display:none;text-align:left;margin-bottom:16px;">
       <div id="solutions-content" style="max-height:220px;overflow-y:auto;"></div>
@@ -1662,11 +1841,9 @@ function end(reason){
     document.getElementById('es').textContent = score;
     document.getElementById('ed').textContent = 'Accuracy: '+acc+'% · Time: '+elapsed+'s · '+G.correct+'/'+a+' correct';
 
-    // Rating change animation
-    const rcEl   = document.getElementById('rating-change');
-    const rkEl   = document.getElementById('rank-display');
-    const rtEl   = document.getElementById('rating-type');
-
+    const rcEl = document.getElementById('rating-change');
+    const rkEl = document.getElementById('rank-display');
+    const rtEl = document.getElementById('rating-type');
     if(d.rating_change !== undefined && d.rating_change !== 0){
       const rc = Math.round(d.rating_change);
       const isUp = rc > 0;
@@ -1676,7 +1853,6 @@ function end(reason){
       if(d.new_rank){ rkEl.textContent = 'New rank: #'+d.new_rank; }
       if(d.new_rating){ rkEl.textContent += ' · '+Math.round(d.new_rating)+' ELO'; }
     }
-
     document.getElementById('emod').style.display='flex';
   })
   .catch(()=>{ document.getElementById('emod').style.display='flex'; });
@@ -1714,14 +1890,16 @@ MATCHMAKING_BODY = """
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
 <script>
 const sock=io();
-const ds={{ data_source|tojson }},gs={{ grid_size }},diff={{ difficulty|tojson }};
+const ds={{ data_source|tojson }},gs={{ grid_size }},diff={{ difficulty|tojson }},pt={{ player_type|tojson }};
 let el=0;
-sock.emit('join_matchmaking',{data_source:ds,grid_size:gs,difficulty:diff});
+sock.emit('join_matchmaking',{data_source:ds,grid_size:gs,difficulty:diff,player_type:pt});
 sock.on('match_found',d=>window.location.href='/room/'+d.room_code);
 sock.on('matchmaking_status',d=>document.getElementById('smsg').textContent=d.message);
 setTimeout(()=>document.getElementById('sbar').style.width='100%',100);
 const t=setInterval(()=>{el++;document.getElementById('etxt').textContent=el+'s elapsed';},1000);
-setTimeout(()=>{clearInterval(t);document.getElementById('smsg').textContent='No opponent found — starting solo…';setTimeout(()=>window.location.href=`/play?data_source=${ds}&grid_size=${gs}&difficulty=${diff}&mode=solo`,1800);},30000);
+setTimeout(()=>{clearInterval(t);document.getElementById('smsg').textContent='No opponent found — starting solo…';
+  setTimeout(()=>window.location.href=`/play?data_source=${ds}&grid_size=${gs}&difficulty=${diff}&mode=solo&player_type=${pt}`,1800);
+},30000);
 function cancel(){sock.emit('leave_matchmaking');window.location.href='/';}
 </script>
 """
@@ -2154,27 +2332,30 @@ def logout():
 @app.route("/play")
 @login_required
 def play():
-    game_mode  = request.args.get("mode", "solo")
-    ds         = request.args.get("data_source", "overall")
-    grid_size  = int(request.args.get("grid_size", 3))
-    difficulty = request.args.get("difficulty", "normal")
-    room_code  = request.args.get("room_code", None)
+    game_mode   = request.args.get("mode", "solo")
+    ds          = request.args.get("data_source", "overall")
+    grid_size   = int(request.args.get("grid_size", 3))
+    difficulty  = request.args.get("difficulty", "normal")
+    player_type = request.args.get("player_type", "all")
+    room_code   = request.args.get("room_code", None)
 
     if game_mode == "daily":
         state = get_or_create_daily()
         if state:
-            ds        = state.get("data_source", "overall")
-            grid_size = state.get("grid_size", 3)
-            difficulty = state.get("difficulty", "normal")
+            ds          = state.get("data_source", "overall")
+            grid_size   = state.get("grid_size", 3)
+            difficulty  = state.get("difficulty", "normal")
+            player_type = state.get("player_type", "all")
     elif room_code:
         row = query_db("SELECT * FROM active_games WHERE room_code=?", (room_code,), one=True)
         if not row: return redirect("/")
-        state     = json.loads(row["game_state"])
-        game_mode = row["mode"]
-        ds        = state.get("data_source", "overall")
-        grid_size = state.get("grid_size", 3)
+        state       = json.loads(row["game_state"])
+        game_mode   = row["mode"]
+        ds          = state.get("data_source", "overall")
+        grid_size   = state.get("grid_size", 3)
+        player_type = state.get("player_type", "all")
     else:
-        state = create_game_state(ds, grid_size, difficulty)
+        state = create_game_state(ds, grid_size, difficulty, player_type=player_type)
 
     if not state or not state.get("players"):
         log.error(f"Game state creation failed for ds={ds}")
@@ -2187,19 +2368,7 @@ def play():
     if len(state.get("grid_state", [])) != n:
         state["grid_state"] = [None] * n
 
-    # ─────────────────────────────────────────────────────────────────────────
-    # BUG FIX: Store ONLY the grid cells + grid_state in the Flask session.
-    #
-    # The old code stored the entire state dict — including state["players"]
-    # (up to 45 player objects with iplTeams, trophies, stats, etc.) — which
-    # easily exceeds Flask's ~4 KB cookie-session limit.  When the cookie is
-    # too large Flask silently drops the write, so every subsequent call to
-    # api_validate_move finds no session → returns correct=False → every
-    # answer is marked wrong.
-    #
-    # Players are looked up by ID from the in-memory OVERALL_DATA / IPL26_DATA
-    # pools on every validation request, so we don't need them in the session.
-    # ─────────────────────────────────────────────────────────────────────────
+    # ── Lean session: grid + grid_state only (no full players list) ──────────
     session["game_state"] = {
         "grid":        state["grid"],
         "grid_state":  [None] * n,
@@ -2220,12 +2389,11 @@ def play():
     players_json = json.dumps(state["players"], default=str, ensure_ascii=False)
     players_json = players_json.replace("</", r"<\/")
 
-    solutions   = state.get("solutions", {})
+    solutions      = state.get("solutions", {})
     solutions_json = json.dumps(solutions, ensure_ascii=False).replace("</", r"<\/")
 
-    # Grid JSON for solutions display (just type+value, no logos)
     grid_for_js = [{"type": c["type"], "value": c["value"]} for c in grid]
-    grid_json = json.dumps(grid_for_js, ensure_ascii=False).replace("</", r"<\/")
+    grid_json   = json.dumps(grid_for_js, ensure_ascii=False).replace("</", r"<\/")
 
     opponent = None
     if room_code:
@@ -2256,12 +2424,13 @@ def play():
 @app.route("/matchmaking")
 @login_required
 def matchmaking():
-    ds         = request.args.get("data_source", "overall")
-    grid_size  = int(request.args.get("grid_size", 3))
-    difficulty = request.args.get("difficulty", "normal")
+    ds          = request.args.get("data_source", "overall")
+    grid_size   = int(request.args.get("grid_size", 3))
+    difficulty  = request.args.get("difficulty", "normal")
+    player_type = request.args.get("player_type", "all")
     return render_template_string(
         page(MATCHMAKING_BODY, "Finding Match"),
-        data_source=ds, grid_size=grid_size, difficulty=difficulty)
+        data_source=ds, grid_size=grid_size, difficulty=difficulty, player_type=player_type)
 
 @app.route("/room/<room_code>")
 @login_required
@@ -2389,7 +2558,8 @@ def api_create_room():
     data = request.get_json(force=True)
     ds   = data.get("data_source", "overall")
     code = gen_room_code()
-    init = {"data_source": ds, "grid_size": 3, "difficulty": "normal", "grid": [], "players": []}
+    init = {"data_source": ds, "grid_size": 3, "difficulty": "normal",
+            "player_type": "all", "grid": [], "players": []}
     query_db("INSERT INTO active_games(room_code,player1_id,game_state,mode) VALUES(?,?,?,?)",
              (code, current_user.id, json.dumps(init), "friends"), commit=True)
     return jsonify({"code": code})
@@ -2402,23 +2572,20 @@ def api_validate_move():
     cidx = data.get("cell_idx")
     ds   = data.get("data_source", "overall")
 
-    # ── Read from the lean session (grid + grid_state only) ──────────────────
     gi = session.get("game_state")
     if not gi:
         log.warning("validate_move: no session found")
         return jsonify({"correct": False, "error": "no_session"})
 
-    # Flat structure: grid and grid_state stored directly on gi (not nested)
     grid   = gi.get("grid", [])
     gstate = gi.get("grid_state") or [None] * len(grid)
-    ds     = gi.get("data_source", ds)   # prefer session ds over POST body
+    ds     = gi.get("data_source", ds)
 
     if cidx is None or cidx >= len(grid):
         return jsonify({"correct": False})
     if gstate[cidx] is not None:
         return jsonify({"correct": False, "reason": "already_filled"})
 
-    # Look the player up from the in-memory pool (never stored in session)
     pool   = get_pool(ds)
     player = next((p for p in pool if str(p.get("id")) == str(pid)), None)
     if not player and isinstance(pid, str) and pid.startswith("player_"):
@@ -2438,7 +2605,7 @@ def api_validate_move():
             gstate = [None] * len(grid)
         gstate[cidx] = str(pid)
         gi["grid_state"] = gstate
-        session["game_state"] = gi   # save the updated lean session
+        session["game_state"] = gi
 
     return jsonify({"correct": correct})
 
@@ -2449,7 +2616,6 @@ def api_wildcard_hint():
     pid  = data.get("player_id")
     ds   = data.get("data_source", "overall")
 
-    # ── Read from lean session ───────────────────────────────────────────────
     gi = session.get("game_state")
     if not gi:
         return jsonify({"matching_cells": []})
@@ -2458,7 +2624,6 @@ def api_wildcard_hint():
     gstate = gi.get("grid_state") or [None] * len(grid)
     ds     = gi.get("data_source", ds)
 
-    # Look player up from in-memory pool
     pool   = get_pool(ds)
     player = next((p for p in pool if str(p.get("id")) == str(pid)), None)
     if not player and isinstance(pid, str) and pid.startswith("player_"):
@@ -2471,10 +2636,8 @@ def api_wildcard_hint():
     if not player:
         return jsonify({"matching_cells": []})
 
-    # Find all unfilled matching cells
     cells = [i for i, c in enumerate(grid) if gstate[i] is None and player_matches_cell(player, c, ds)]
 
-    # Mark them in the lean session grid_state
     player_name = player.get("name", str(pid))
     if len(gstate) != len(grid):
         gstate = [None] * len(grid)
@@ -2505,10 +2668,9 @@ def api_end_game():
     elif gmode in ("solo", "daily_solo") and season:
         ensure_season_rating(current_user.id, season["id"])
         old_solo = get_user_rating(current_user.id, season["id"], "solo_rating")
-        # Solo ELO: compare against a "ghost" rating based on score
-        ghost = 1200 + (score - 500) * 0.3
-        exp   = elo_expected(old_solo, ghost)
-        act   = 1.0 if score > 600 else 0.5 if score > 300 else 0.0
+        ghost   = 1200 + (score - 500) * 0.3
+        exp     = elo_expected(old_solo, ghost)
+        act     = 1.0 if score > 600 else 0.5 if score > 300 else 0.0
         new_solo = elo_update(old_solo, exp, act, k=20)
         delta_solo = round(new_solo - old_solo, 1)
         query_db("""UPDATE season_ratings SET solo_rating=?, solo_games=solo_games+1,
@@ -2558,7 +2720,6 @@ def api_end_game():
                 result["winner"]        = winner == current_user.id
                 new_rank = get_user_rank(current_user.id, season["id"])
                 if new_rank: result["new_rank"] = new_rank
-                # Notify other player via socket
                 socketio.emit("game_result", {
                     "rating_change": -my_delta,
                     "winner": winner != current_user.id
@@ -2593,8 +2754,12 @@ def on_move(data):
 @socketio.on("join_matchmaking")
 def on_queue(data):
     if not current_user.is_authenticated: return
-    ds   = data.get("data_source", "overall"); gs = data.get("grid_size", 3); diff = data.get("difficulty", "normal")
-    s    = get_current_season(); rat = get_user_rating(current_user.id, s["id"]) if s else 1200.0
+    ds          = data.get("data_source", "overall")
+    gs          = data.get("grid_size", 3)
+    diff        = data.get("difficulty", "normal")
+    player_type = data.get("player_type", "all")
+    s           = get_current_season()
+    rat         = get_user_rating(current_user.id, s["id"]) if s else 1200.0
     query_db("INSERT OR REPLACE INTO matchmaking_queue(user_id,rating,data_source,grid_size,difficulty) VALUES(?,?,?,?,?)",
              (current_user.id, rat, ds, gs, diff), commit=True)
     cands = query_db("""SELECT * FROM matchmaking_queue WHERE user_id!=? AND data_source=?
@@ -2603,7 +2768,8 @@ def on_queue(data):
     if cands:
         opp = cands[0]
         query_db("DELETE FROM matchmaking_queue WHERE user_id IN (?,?)", (current_user.id, opp["user_id"]), commit=True)
-        code  = gen_room_code(); state = create_game_state(ds, gs, diff)
+        code  = gen_room_code()
+        state = create_game_state(ds, gs, diff, player_type=player_type)
         query_db("INSERT INTO active_games(room_code,player1_id,player2_id,game_state,mode,status) VALUES(?,?,?,?,?,?)",
                  (code, opp["user_id"], current_user.id, json.dumps(state, default=str), "rated", "active"), commit=True)
         emit("match_found", {"room_code": code})
@@ -2621,9 +2787,10 @@ def on_leave_q():
 def on_start(data):
     rm   = data.get("room"); ds = data.get("data_source", "overall")
     gs   = data.get("grid_size", 3); diff = data.get("difficulty", "normal")
+    pt   = data.get("player_type", "all")
     row  = query_db("SELECT * FROM active_games WHERE room_code=?", (rm,), one=True)
     if not row or row["player1_id"] != current_user.id: return
-    state = create_game_state(ds, gs, diff)
+    state = create_game_state(ds, gs, diff, player_type=pt)
     query_db("UPDATE active_games SET game_state=?,status='active' WHERE room_code=?",
              (json.dumps(state, default=str), rm), commit=True)
     emit("game_start", {"room_code": rm}, to=rm)
@@ -2636,16 +2803,17 @@ if __name__ == "__main__":
     email_status = "✓ Configured" if SMTP_USER and SMTP_PASSWORD else "✗ Not configured"
     print(f"""
 ╔══════════════════════════════════════════════════════════╗
-║     🏏  Cricket Bingo v5.1  — Session Bug Fixed          ║
+║     🏏  Cricket Bingo v6  — Fame-Based Player Selection  ║
 ╠══════════════════════════════════════════════════════════╣
-║  URL     → http://localhost:{port:<6}                     ║
-║  DB      → {DATABASE:<20}                    ║
-║  Players → {len(OVERALL_DATA):<5} overall / {len(IPL26_DATA):<5} ipl26               ║
-║  Email   → {email_status:<40}║
-║  Font    → Outfit (display) + DM Sans (body)             ║
-║  Timer   → 10s across all modes                          ║
-║  Ratings → MP ELO + Solo ELO (separate)                  ║
-║  Fix     → Session stores grid only (not players list)   ║
+║  URL        → http://localhost:{port:<6}                  ║
+║  DB         → {DATABASE:<20}               ║
+║  Players    → {len(OVERALL_DATA):<5} overall / {len(IPL26_DATA):<5} ipl26            ║
+║  Email      → {email_status:<38}║
+║  Selection  → 25 players first, then grid categories     ║
+║  Easy       → 75% high / 25% medium fame                 ║
+║  Normal     → 50% high / 50% medium fame                 ║
+║  Hard       → 30% high / 60% medium / 10% low fame       ║
+║  Types      → All / Indian Only / International Only     ║
 ╚══════════════════════════════════════════════════════════╝
 """)
     socketio.run(app, host="0.0.0.0", port=port, debug=debug)
