@@ -250,22 +250,23 @@ def player_matches_cell(player, cell, ds):
 #  player_type filters the base pool before fame sampling.
 # ══════════════════════════════════════════════════════════════════════════════
 
-FAME_DISTRIBUTION = {
-    # player_type: {high%, medium%, low%}
-    # These are now driven by the Player Type dropdown, independent of grid difficulty.
-    "famous":     {"high": 0.75, "medium": 0.25, "low": 0.00},
-    "medium":     {"high": 0.50, "medium": 0.50, "low": 0.00},
-    "not_famous": {"high": 0.30, "medium": 0.60, "low": 0.10},
+# Unified difficulty config: controls BOTH fame distribution AND grid category types.
+# easy   → Teams only   + 75% high / 25% medium
+# normal → Teams+Nations + 50% high / 50% medium
+# hard   → Teams+Nations+Combos + 30% high / 60% medium / 10% low
+DIFFICULTY_CONFIG = {
+    "easy":   {"high": 0.75, "medium": 0.25, "low": 0.00, "grid": "easy"},
+    "normal": {"high": 0.50, "medium": 0.50, "low": 0.00, "grid": "normal"},
+    "hard":   {"high": 0.30, "medium": 0.60, "low": 0.10, "grid": "hard"},
 }
+# Keep alias so existing references to FAME_DISTRIBUTION still work
+FAME_DISTRIBUTION = {k: v for k, v in DIFFICULTY_CONFIG.items()}
 
-def select_players_by_fame(pool, difficulty, n=25, player_type="famous"):
+def select_players_by_fame(pool, difficulty, n=25, player_type=None):
     """
     Returns exactly `n` players from `pool`.
-    Fame distribution is controlled by `player_type`:
-      famous     → 75% high + 25% medium
-      medium     → 50% high + 50% medium
-      not_famous → 30% high + 60% medium + 10% low
-    `difficulty` is kept for API compatibility but no longer drives fame ratios.
+    Fame distribution is driven by `difficulty` (easy/normal/hard) via DIFFICULTY_CONFIG.
+    `player_type` is unused but kept for backwards compatibility.
     """
     filtered = list(pool)
 
@@ -274,7 +275,7 @@ def select_players_by_fame(pool, difficulty, n=25, player_type="famous"):
     medium_f = [p for p in filtered if p.get("famous") == "medium"]
     low_f    = [p for p in filtered if p.get("famous") == "low"]
 
-    dist = FAME_DISTRIBUTION.get(player_type, FAME_DISTRIBUTION["famous"])
+    dist = DIFFICULTY_CONFIG.get(difficulty, DIFFICULTY_CONFIG["normal"])
     n_high   = round(n * dist["high"])
     n_medium = round(n * dist["medium"])
     n_low    = n - n_high - n_medium   # absorbs rounding remainder
@@ -389,7 +390,7 @@ def build_grid_validated(size, ds, difficulty, pool):
     return cells[:n]
 
 
-def create_game_state(ds, grid_size, difficulty, seed=None, player_type="famous"):
+def create_game_state(ds, grid_size, difficulty, seed=None, player_type=None):
     """
     Build a complete game state.
     Step 1 — select 25 players via fame distribution.
@@ -403,7 +404,7 @@ def create_game_state(ds, grid_size, difficulty, seed=None, player_type="famous"
         log.error(f"No players found for data source: {ds}"); return None
 
     # ── Step 1: fame-based player selection ──────────────────────────────────
-    selected_players = select_players_by_fame(full_pool, difficulty, n=25, player_type=player_type)
+    selected_players = select_players_by_fame(full_pool, difficulty, n=25)
     if not selected_players:
         log.error("Player selection returned empty list"); return None
 
@@ -467,7 +468,7 @@ def get_or_create_daily():
     row = query_db("SELECT * FROM daily_challenge WHERE challenge_date=?", (today,), one=True)
     if row: return json.loads(row["game_state"])
     seed  = int(hashlib.sha256(today.encode()).hexdigest(), 16) % 9999999
-    state = create_game_state("overall", 3, "normal", seed, player_type="famous")
+    state = create_game_state("overall", 3, "normal", seed)
     if state:
         query_db("INSERT INTO daily_challenge(challenge_date,game_state) VALUES(?,?)",
                  (today, json.dumps(state, default=str)), commit=True)
@@ -1193,20 +1194,107 @@ def page(body, title="Cricket Bingo", extra_head=""):
 # ═══════════════════════════════════════════════════════════════════════════════
 
 HOME_BODY = """
-<div class="container page">
+<style>
+/* ── SETUP FLOW CENTER ALIGNMENT ── */
+.setup-wrap {
+  max-width: 680px; margin: 0 auto; padding: 40px 28px 88px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.setup-step {
+  width: 100%; animation: fade-in .22s ease;
+}
 
+/* Step indicator centered */
+.step-indicator {
+  justify-content: center; margin-bottom: 32px;
+}
+
+/* Pool cards */
+.pool-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  width: 100%; margin-bottom: 24px;
+}
+/* Mode cards */
+.mode-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  width: 100%; margin-bottom: 24px;
+}
+.sel-card {
+  background: var(--sur); border: 1.5px solid var(--bdr);
+  border-radius: var(--r-xl); padding: 20px 16px; text-align: center;
+  cursor: pointer; transition: border-color .18s, background .18s, transform .18s, box-shadow .18s;
+  user-select: none;
+}
+.sel-card:hover {
+  border-color: var(--acc); background: var(--acc-dim);
+  transform: translateY(-2px); box-shadow: 0 6px 20px var(--acc-glow);
+}
+.sel-card.active { border-color: var(--acc); background: var(--acc-dim); }
+.sel-card-icon   { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+.sel-card-title  { font-family: var(--font-head); font-size: .92rem; font-weight: 700;
+                   color: var(--txt); display: block; margin-bottom: 3px; }
+.sel-card-sub    { font-size: .72rem; color: var(--txt2); display: block; line-height: 1.4; }
+.sel-card-badge  {
+  display: inline-block; margin-top: 8px;
+  padding: 2px 9px; border-radius: 99px; font-size: .62rem; font-weight: 700;
+  background: var(--acc-dim); color: var(--acc); border: 1px solid rgba(245,166,35,.28);
+}
+
+/* Settings card */
+.settings-card {
+  background: var(--sur); border: 1px solid var(--bdr);
+  border-radius: var(--r-xl); padding: 24px 20px;
+  width: 100%; margin-bottom: 24px;
+}
+.settings-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.step-section-label {
+  font-size: .7rem; font-weight: 700; color: var(--acc);
+  text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: 16px; font-family: var(--font-head);
+  display: flex; align-items: center; gap: 10px;
+}
+.step-section-label::after { content:''; flex:1; height:1px; background:var(--bdr); }
+
+/* Fame hint strip */
+.fame-strip {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 7px;
+  margin-top: 10px; padding: 9px 14px;
+  background: var(--sur2); border-radius: var(--r-lg); border: 1px solid var(--bdr);
+  font-size: .72rem; color: var(--txt3);
+}
+.fame-strip .fp { padding: 2px 9px; border-radius: 99px; font-weight: 700; font-size: .68rem; }
+
+/* Action row */
+.action-row {
+  display: flex; gap: 12px; justify-content: center; width: 100%;
+}
+
+@media (max-width: 520px) {
+  .pool-grid  { grid-template-columns: 1fr; }
+  .mode-grid  { grid-template-columns: 1fr; }
+  .settings-row { grid-template-columns: 1fr; }
+  .setup-wrap { padding: 24px 14px 60px; }
+}
+</style>
+
+<div class="setup-wrap">
+
+  <!-- Step bar -->
   <div class="step-indicator" id="step-bar">
-    <div class="step-item"><div class="step-num active" id="sn1">1</div><span class="step-text active" id="st1">Choose Pool</span></div>
-    <div class="step-item"><div class="step-num" id="sn2">2</div><span class="step-text" id="st2">Select Mode</span></div>
+    <div class="step-item"><div class="step-num active" id="sn1">1</div><span class="step-text active" id="st1">Pool</span></div>
+    <div class="step-item"><div class="step-num" id="sn2">2</div><span class="step-text" id="st2">Mode</span></div>
     <div class="step-item"><div class="step-num" id="sn3">3</div><span class="step-text" id="st3">Settings</span></div>
     <div class="step-item"><div class="step-num" id="sn4">4</div><span class="step-text" id="st4">Play</span></div>
   </div>
 
   {% if not current_user.is_authenticated %}
-  <div class="hero-section">
+  <!-- HERO (logged-out) -->
+  <div style="text-align:center;padding:32px 0 20px;width:100%;">
     <span class="hero-badge">⚡ IPL Cricket Quiz Game</span>
     <h1 class="display mt-3 mb-4">Cricket <span style="color:var(--acc);">Bingo</span></h1>
-    <p class="subhead mb-8" style="max-width:480px;margin-left:auto;margin-right:auto;line-height:1.8;">
+    <p class="subhead mb-8" style="max-width:460px;margin:0 auto 32px;line-height:1.8;">
       Match cricket legends to their IPL teams, nations &amp; trophies.<br>Compete in rated matches or challenge friends.
     </p>
     <a href="/login/google" class="btn btn-primary btn-lg" style="gap:12px;">
@@ -1218,115 +1306,103 @@ HOME_BODY = """
 
   {% else %}
 
-  <!-- STEP 1: Pool -->
-  <div id="s1">
-    <div class="section-header mt-6">
-      <h2>Select Player Pool</h2>
-      <span class="step-label">Step 1</span>
-    </div>
-    <div class="tab-bar mb-4">
-      <button class="tab-btn active" onclick="pickTab('overall',this)">🌍 All-Time Overall</button>
-      <button class="tab-btn" onclick="pickTab('ipl26',this)">🏆 IPL 2026 Edition</button>
-    </div>
-    <div class="grid-2 gap-4" style="max-width:600px;">
-      <div class="match-card card-hover" id="pool-overall" onclick="selectPool('overall')" style="border-color:var(--acc);">
-        <div class="match-card-meta"><span class="match-card-id">🌍 2008 – 2026</span><span class="match-card-time">ALL TIME</span></div>
-        <div class="match-card-teams">All-Time <span class="vs">·</span> Overall</div>
-        <div class="match-card-venue">📍 Complete IPL history · 500+ players</div>
+  <!-- ── STEP 1: Pool ── -->
+  <div id="s1" class="setup-step">
+    <div class="step-section-label">Select Player Pool</div>
+    <div class="pool-grid">
+      <div class="sel-card active" id="pool-overall" onclick="selectPool('overall',this)">
+        <span class="sel-card-icon">🌍</span>
+        <span class="sel-card-title">All-Time Overall</span>
+        <span class="sel-card-sub">Complete IPL history<br>500+ players</span>
+        <span class="sel-card-badge">2008 – 2026</span>
       </div>
-      <div class="match-card card-hover" id="pool-ipl26" onclick="selectPool('ipl26')">
-        <div class="match-card-meta"><span class="match-card-id">🏆 Season 2026</span><span class="match-card-time" style="background:rgba(79,142,247,.15);color:var(--blue);">CURRENT</span></div>
-        <div class="match-card-teams">IPL 2026 <span class="vs">·</span> Edition</div>
-        <div class="match-card-venue">📍 Current season squads only</div>
+      <div class="sel-card" id="pool-ipl26" onclick="selectPool('ipl26',this)">
+        <span class="sel-card-icon">🏆</span>
+        <span class="sel-card-title">IPL 2026 Edition</span>
+        <span class="sel-card-sub">Current season squads<br>only</span>
+        <span class="sel-card-badge" style="background:rgba(79,142,247,.12);color:var(--blue);border-color:rgba(79,142,247,.25);">CURRENT SEASON</span>
       </div>
     </div>
-    <div class="flex gap-3 mt-6">
-      <button class="btn btn-primary btn-lg" onclick="goToStep2()">Next: Choose Mode →</button>
+    <div class="action-row">
+      <button class="btn btn-primary btn-lg" onclick="goToStep2()" style="min-width:200px;">Next: Choose Mode →</button>
     </div>
   </div>
 
-  <!-- STEP 2: Mode -->
-  <div id="s2" style="display:none;">
-    <div class="section-header mt-6"><h2>Choose Mode</h2><span class="step-label">Step 2</span></div>
-    <div class="grid-3 gap-4" style="max-width:720px;">
-      <div class="match-card card-hover" id="mode-rated" onclick="selectMode('rated')">
-        <div class="match-card-meta"><span class="match-card-id">⚡ Competitive</span><span class="match-card-time">RANKED</span></div>
-        <div class="match-card-teams" style="font-size:.95rem;">Rated Match</div>
-        <div class="match-card-venue">ELO matchmaking · Affects MP rating</div>
+  <!-- ── STEP 2: Mode (click auto-advances) ── -->
+  <div id="s2" class="setup-step" style="display:none;">
+    <div class="step-section-label">Choose Mode</div>
+    <div class="mode-grid">
+      <div class="sel-card" id="mode-rated" onclick="selectModeAndAdvance('rated',this)">
+        <span class="sel-card-icon">⚡</span>
+        <span class="sel-card-title">Rated Match</span>
+        <span class="sel-card-sub">ELO matchmaking<br>Affects MP rating</span>
+        <span class="sel-card-badge">RANKED</span>
       </div>
-      <div class="match-card card-hover" id="mode-friends" onclick="selectMode('friends')">
-        <div class="match-card-meta"><span class="match-card-id">👥 Social</span><span class="match-card-time" style="background:rgba(155,114,247,.15);color:var(--pur);">FRIENDS</span></div>
-        <div class="match-card-teams" style="font-size:.95rem;">Friends Room</div>
-        <div class="match-card-venue">Share a 6-digit room code</div>
+      <div class="sel-card" id="mode-friends" onclick="selectModeAndAdvance('friends',this)">
+        <span class="sel-card-icon">👥</span>
+        <span class="sel-card-title">Friends Room</span>
+        <span class="sel-card-sub">Share a 6-digit<br>room code</span>
+        <span class="sel-card-badge" style="background:rgba(155,114,247,.12);color:var(--pur);border-color:rgba(155,114,247,.25);">FRIENDS</span>
       </div>
-      <div class="match-card card-hover" id="mode-solo" onclick="selectMode('solo')">
-        <div class="match-card-meta"><span class="match-card-id">🎮 Practice</span><span class="match-card-time" style="background:rgba(45,211,111,.12);color:var(--green);">SOLO</span></div>
-        <div class="match-card-teams" style="font-size:.95rem;">Solo Practice</div>
-        <div class="match-card-venue">Affects solo rating · Unlimited</div>
+      <div class="sel-card" id="mode-solo" onclick="selectModeAndAdvance('solo',this)">
+        <span class="sel-card-icon">🎮</span>
+        <span class="sel-card-title">Solo Practice</span>
+        <span class="sel-card-sub">Affects solo rating<br>Unlimited replays</span>
+        <span class="sel-card-badge" style="background:rgba(45,211,111,.1);color:var(--green);border-color:rgba(45,211,111,.25);">SOLO</span>
       </div>
     </div>
-    <div class="flex gap-3 mt-6">
+    <div class="action-row">
       <button class="btn btn-outline" onclick="goToStep1()">← Back</button>
-      <button class="btn btn-primary btn-lg" onclick="goToStep3()">Next: Settings →</button>
     </div>
   </div>
 
-  <!-- STEP 3: Settings + Player Type -->
-  <div id="s3" style="display:none;">
-    <div class="section-header mt-6"><h2>Set Criteria</h2><span class="step-label">Step 3</span></div>
+  <!-- ── STEP 3: Settings ── -->
+  <div id="s3" class="setup-step" style="display:none;">
 
     <!-- Game settings (solo / rated) -->
-    <div id="s3-game" style="max-width:560px;">
-      <div class="card mb-4">
-
-        <!-- Row 1: Grid size + Difficulty -->
-        <div class="grid-2 gap-4 mb-5">
+    <div id="s3-game">
+      <div class="settings-card">
+        <div class="step-section-label">Game Settings</div>
+        <div class="settings-row mb-4">
           <div class="input-group">
             <label class="label" for="cfg-gs">Grid Size</label>
-            <select id="cfg-gs" class="input"><option value="3">3×3 Standard</option><option value="4">4×4 Large</option></select>
+            <select id="cfg-gs" class="input">
+              <option value="3">3×3 Standard</option>
+              <option value="4">4×4 Large</option>
+            </select>
           </div>
           <div class="input-group">
             <label class="label" for="cfg-df">Difficulty</label>
             <select id="cfg-df" class="input" onchange="updateFameHint()">
-              <option value="easy">Easy — Teams only</option>
-              <option value="normal" selected>Normal — Teams &amp; Nations</option>
-              <option value="hard">Hard — All + Combos</option>
+              <option value="easy">🟢 Easy</option>
+              <option value="normal" selected>🟡 Normal</option>
+              <option value="hard">🔴 Hard</option>
             </select>
           </div>
         </div>
-
-        <!-- Row 2: Player Type (fame-based) -->
-        <div class="input-group mb-4">
-          <label class="label" for="cfg-pt">Player Type</label>
-          <select id="cfg-pt" class="input" onchange="onPlayerTypeChange()">
-            <option value="famous">⭐ Famous Mode — Well-known stars only</option>
-            <option value="medium">🔵 Medium Mode — Mix of stars &amp; regulars</option>
-            <option value="not_famous">🎯 Not Famous Mode — Includes lesser-known players</option>
-          </select>
-          <div style="margin-top:8px;font-size:.75rem;color:var(--txt3);line-height:1.7;" id="pt-desc">
-            75% high-fame · 25% medium-fame players
-          </div>
+        <!-- Fame hint strip -->
+        <div class="fame-strip" id="fame-hint">
+          <span style="font-weight:600;color:var(--txt2);margin-right:2px;">25 players:</span>
+          <span class="fp" style="background:rgba(245,166,35,.15);color:var(--acc);" id="fh-high">🌟 13 High</span>
+          <span class="fp" style="background:rgba(79,142,247,.12);color:var(--blue);" id="fh-med">🔵 12 Medium</span>
+          <span class="fp" style="background:rgba(66,76,97,.35);color:var(--txt3);display:none;" id="fh-low">⚪ 0 Low</span>
+          <span id="fh-desc" style="margin-left:auto;font-size:.68rem;">Teams &amp; Nations · Grid categories from these 25 only</span>
         </div>
-
-        <!-- Fame distribution hint -->
-        <div class="fame-hint" id="fame-hint">
-          <span style="color:var(--txt3);font-weight:600;margin-right:4px;">25 players selected:</span>
-          <span class="fame-pill" style="background:rgba(245,166,35,.15);color:var(--acc);" id="fh-high">🌟 19 High</span>
-          <span class="fame-pill" style="background:rgba(79,142,247,.12);color:var(--blue);" id="fh-med">🔵 6 Medium</span>
-          <span class="fame-pill" style="background:rgba(66,76,97,.3);color:var(--txt3);display:none;" id="fh-low">⚪ 0 Low</span>
-          <span style="color:var(--txt3);font-size:.68rem;margin-left:auto;align-self:center;">Grid categories derived from these 25 only</span>
-        </div>
-
+      </div>
+      <div class="action-row">
+        <button class="btn btn-outline" onclick="goToStep2()">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="startGame()" style="min-width:160px;">▶ Play Now</button>
       </div>
     </div>
 
     <!-- Friends sub-panel -->
-    <div id="s3-friends" style="display:none;max-width:520px;">
-      <div class="card mb-4">
-        <div class="grid-2 gap-4">
-          <div style="display:flex;flex-direction:column;gap:10px;">
+    <div id="s3-friends" style="display:none;">
+      <div class="settings-card">
+        <div class="step-section-label">Friends Room</div>
+        <div class="settings-row">
+          <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;">
             <div style="font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;color:var(--txt);">Create a Room</div>
-            <p style="font-size:.82rem;color:var(--txt2);">Host a game and share the 6-digit code.</p>
+            <p style="font-size:.82rem;color:var(--txt2);">Host a game and share the 6-digit code with your friend.</p>
             <button class="btn btn-primary" onclick="createRoom()">➕ Create Room</button>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px;">
@@ -1339,18 +1415,18 @@ HOME_BODY = """
           </div>
         </div>
       </div>
+      <div class="action-row">
+        <button class="btn btn-outline" onclick="goToStep2()">← Back</button>
+      </div>
     </div>
 
-    <div class="flex gap-3 mt-2">
-      <button class="btn btn-outline" onclick="goToStep2()">← Back</button>
-      <button class="btn btn-primary btn-lg" onclick="startGame()">▶ Play Now</button>
-    </div>
   </div>
 
   {% endif %}
 
-  <div style="margin-top:64px;">
-    <div class="section-header"><h2>Features</h2></div>
+  <!-- Features strip (always visible at bottom) -->
+  <div style="width:100%;margin-top:56px;">
+    <div class="step-section-label">Features</div>
     <div class="grid-3 gap-4">
       <div class="feature-card"><div class="feature-icon">⚡</div><h3>Dual Ratings</h3><p>Separate ELO for Multiplayer &amp; Solo — 5 tiers from Beginner to Legend</p></div>
       <div class="feature-card"><div class="feature-icon">📅</div><h3>Daily Challenge</h3><p>One shared board daily — compete for fastest time worldwide</p></div>
@@ -1361,101 +1437,110 @@ HOME_BODY = """
 </div>
 
 <script>
-let selSrc = 'overall', selMode = null, selPlayerType = 'famous';
+let selSrc = 'overall', selMode = null;
 
-/* ── Fame distribution per player_type ── */
-const fameDist = {
-  famous:     {high: Math.round(25*.75), medium: 25 - Math.round(25*.75), low: 0,
-               desc: '75% high-fame · 25% medium-fame players'},
-  medium:     {high: Math.round(25*.50), medium: 25 - Math.round(25*.50), low: 0,
-               desc: '50% high-fame · 50% medium-fame players'},
-  not_famous: {high: Math.round(25*.30), medium: Math.round(25*.60),
-               low: 25 - Math.round(25*.30) - Math.round(25*.60),
-               desc: '30% high · 60% medium · 10% low-fame players'},
+/* ── Unified difficulty → fame + grid type ── */
+const diffConfig = {
+  easy:   { high: Math.round(25*.75), medium: 25-Math.round(25*.75), low: 0,
+            desc: 'Teams only · 75% stars / 25% known players' },
+  normal: { high: Math.round(25*.50), medium: 25-Math.round(25*.50), low: 0,
+            desc: 'Teams &amp; Nations · 50% stars / 50% known players' },
+  hard:   { high: Math.round(25*.30), medium: Math.round(25*.60),
+            low: 25-Math.round(25*.30)-Math.round(25*.60),
+            desc: 'Teams, Nations &amp; Combos · 30% stars / 60% known / 10% obscure' },
 };
-function onPlayerTypeChange(){
-  const pt  = (document.getElementById('cfg-pt')||{}).value || 'famous';
-  selPlayerType = pt;
-  const d   = fameDist[pt] || fameDist.famous;
+
+function updateFameHint() {
+  const df = (document.getElementById('cfg-df')||{}).value || 'normal';
+  const d  = diffConfig[df] || diffConfig.normal;
   document.getElementById('fh-high').textContent = '🌟 ' + d.high + ' High';
   document.getElementById('fh-med').textContent  = '🔵 ' + d.medium + ' Medium';
   const lowEl = document.getElementById('fh-low');
-  lowEl.textContent = '⚪ ' + d.low + ' Low';
-  lowEl.style.display = d.low > 0 ? '' : 'none';
-  const descEl = document.getElementById('pt-desc');
-  if(descEl) descEl.textContent = d.desc;
+  lowEl.textContent    = '⚪ ' + d.low + ' Low';
+  lowEl.style.display  = d.low > 0 ? '' : 'none';
+  document.getElementById('fh-desc').innerHTML = d.desc;
 }
-function updateFameHint(){ onPlayerTypeChange(); }
 
-function setStep(n){
-  [1,2,3,4].forEach(i=>{
-    const num=document.getElementById('sn'+i), txt=document.getElementById('st'+i);
+function setStep(n) {
+  [1,2,3,4].forEach(i => {
+    const num = document.getElementById('sn'+i);
+    const txt = document.getElementById('st'+i);
     if(!num) return;
-    num.className='step-num'+(i<n?' done':i===n?' active':'');
-    if(txt) txt.className='step-text'+(i===n?' active':'');
+    num.className = 'step-num' + (i < n ? ' done' : i === n ? ' active' : '');
+    if(txt) txt.className = 'step-text' + (i === n ? ' active' : '');
   });
 }
-function showOnly(id){
-  ['s1','s2','s3'].forEach(x=>{const e=document.getElementById(x);if(e)e.style.display='none';});
-  const el=document.getElementById(id);if(el)el.style.display='';
-}
-function selectPool(src){
-  selSrc=src;
-  ['overall','ipl26'].forEach(p=>{
-    const el=document.getElementById('pool-'+p);
-    if(el) el.style.borderColor=p===src?'var(--acc)':'var(--bdr)';
+
+function showOnly(id) {
+  ['s1','s2','s3'].forEach(x => {
+    const e = document.getElementById(x);
+    if(e) e.style.display = 'none';
   });
+  const el = document.getElementById(id);
+  if(el) el.style.display = '';
 }
-function pickTab(src,btn){
-  selectPool(src);
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
+
+function selectPool(src, card) {
+  selSrc = src;
+  document.querySelectorAll('.pool-grid .sel-card').forEach(c => c.classList.remove('active'));
+  if(card) card.classList.add('active');
 }
-function selectMode(m){
-  selMode=m;
-  ['rated','friends','solo'].forEach(x=>{
-    const el=document.getElementById('mode-'+x);
-    if(el) el.style.borderColor=x===m?'var(--acc)':'var(--bdr)';
-  });
-}
-function goToStep1(){showOnly('s1');setStep(1);}
-function goToStep2(){showOnly('s2');setStep(2);}
-function goToStep3(){
-  if(!selMode){toast('Please select a game mode','warn');return;}
+
+function goToStep1() { showOnly('s1'); setStep(1); }
+function goToStep2() { showOnly('s2'); setStep(2); }
+
+/* Clicking a mode card auto-advances to step 3 — no extra button needed */
+function selectModeAndAdvance(mode, card) {
+  selMode = mode;
+  document.querySelectorAll('.mode-grid .sel-card').forEach(c => c.classList.remove('active'));
+  if(card) card.classList.add('active');
+
   showOnly('s3');
-  document.getElementById('s3-game').style.display    = selMode==='friends' ? 'none' : '';
-  document.getElementById('s3-friends').style.display = selMode==='friends' ? '' : 'none';
   setStep(3);
+
+  const isF = mode === 'friends';
+  document.getElementById('s3-game').style.display    = isF ? 'none' : '';
+  document.getElementById('s3-friends').style.display = isF ? '' : 'none';
   updateFameHint();
 }
-function startGame(){
-  if(!selMode){toast('Please select a mode first','warn');return;}
-  const gs  = (document.getElementById('cfg-gs')||{}).value || '3';
-  const df  = (document.getElementById('cfg-df')||{}).value || 'normal';
-  const pt  = (document.getElementById('cfg-pt')||{}).value || selPlayerType || 'famous';
+
+function startGame() {
+  if(!selMode) { toast('Please choose a mode first','warn'); return; }
+  const gs = (document.getElementById('cfg-gs')||{}).value || '3';
+  const df = (document.getElementById('cfg-df')||{}).value || 'normal';
   setStep(4);
-  if(selMode==='rated')
-    window.location.href=`/matchmaking?data_source=${selSrc}&grid_size=${gs}&difficulty=${df}&player_type=${pt}`;
+  if(selMode === 'rated')
+    window.location.href = `/matchmaking?data_source=${selSrc}&grid_size=${gs}&difficulty=${df}`;
   else
-    window.location.href=`/play?data_source=${selSrc}&grid_size=${gs}&difficulty=${df}&mode=solo&player_type=${pt}`;
+    window.location.href = `/play?data_source=${selSrc}&grid_size=${gs}&difficulty=${df}&mode=solo`;
 }
-function createRoom(){
-  const btn=event.currentTarget; btn.disabled=true; btn.textContent='Creating…';
-  fetch('/api/create_room',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({data_source:selSrc})})
-    .then(r=>r.json()).then(d=>{
-      if(d.code) window.location.href='/room/'+d.code;
-      else{toast('Error creating room','error');btn.disabled=false;btn.textContent='➕ Create Room';}
-    });
+
+function createRoom() {
+  const btn = event.currentTarget;
+  btn.disabled = true; btn.textContent = 'Creating…';
+  fetch('/api/create_room', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({data_source: selSrc})
+  })
+  .then(r => r.json()).then(d => {
+    if(d.code) window.location.href = '/room/' + d.code;
+    else { toast('Error creating room','error'); btn.disabled=false; btn.textContent='➕ Create Room'; }
+  });
 }
-function joinRoom(){
-  const c=document.getElementById('jcode').value.trim();
-  if(c.length===6) window.location.href='/room/'+c;
+
+function joinRoom() {
+  const c = document.getElementById('jcode').value.trim();
+  if(c.length === 6) window.location.href = '/room/' + c;
   else toast('Enter a valid 6-digit code','warn');
 }
-document.addEventListener('DOMContentLoaded',()=>{setStep(1);selectPool('overall');onPlayerTypeChange();});
+
+document.addEventListener('DOMContentLoaded', () => {
+  setStep(1);
+  updateFameHint();
+});
 </script>
 """
+
 
 GAME_BODY = """
 <div class="container-sm page">
@@ -1863,15 +1948,15 @@ MATCHMAKING_BODY = """
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
 <script>
 const sock=io();
-const ds={{ data_source|tojson }},gs={{ grid_size }},diff={{ difficulty|tojson }},pt={{ player_type|tojson }};
+const ds={{ data_source|tojson }},gs={{ grid_size }},diff={{ difficulty|tojson }};
 let el=0;
-sock.emit('join_matchmaking',{data_source:ds,grid_size:gs,difficulty:diff,player_type:pt});
+sock.emit('join_matchmaking',{data_source:ds,grid_size:gs,difficulty:diff});
 sock.on('match_found',d=>window.location.href='/room/'+d.room_code);
 sock.on('matchmaking_status',d=>document.getElementById('smsg').textContent=d.message);
 setTimeout(()=>document.getElementById('sbar').style.width='100%',100);
 const t=setInterval(()=>{el++;document.getElementById('etxt').textContent=el+'s elapsed';},1000);
 setTimeout(()=>{clearInterval(t);document.getElementById('smsg').textContent='No opponent found — starting solo…';
-  setTimeout(()=>window.location.href=`/play?data_source=${ds}&grid_size=${gs}&difficulty=${diff}&mode=solo&player_type=${pt}`,1800);
+  setTimeout(()=>window.location.href=`/play?data_source=${ds}&grid_size=${gs}&difficulty=${diff}&mode=solo`,1800);
 },30000);
 function cancel(){sock.emit('leave_matchmaking');window.location.href='/';}
 </script>
@@ -2309,7 +2394,7 @@ def play():
     ds          = request.args.get("data_source", "overall")
     grid_size   = int(request.args.get("grid_size", 3))
     difficulty  = request.args.get("difficulty", "normal")
-    player_type = request.args.get("player_type", "famous")
+    player_type = None  # unified into difficulty
     room_code   = request.args.get("room_code", None)
 
     if game_mode == "daily":
@@ -2318,7 +2403,7 @@ def play():
             ds          = state.get("data_source", "overall")
             grid_size   = state.get("grid_size", 3)
             difficulty  = state.get("difficulty", "normal")
-            player_type = state.get("player_type", "all")
+    # player_type unified into difficulty
     elif room_code:
         row = query_db("SELECT * FROM active_games WHERE room_code=?", (room_code,), one=True)
         if not row: return redirect("/")
@@ -2326,9 +2411,9 @@ def play():
         game_mode   = row["mode"]
         ds          = state.get("data_source", "overall")
         grid_size   = state.get("grid_size", 3)
-        player_type = state.get("player_type", "all")
+        # player_type unified into difficulty
     else:
-        state = create_game_state(ds, grid_size, difficulty, player_type=player_type)
+        state = create_game_state(ds, grid_size, difficulty)
 
     if not state or not state.get("players"):
         log.error(f"Game state creation failed for ds={ds}")
@@ -2400,10 +2485,10 @@ def matchmaking():
     ds          = request.args.get("data_source", "overall")
     grid_size   = int(request.args.get("grid_size", 3))
     difficulty  = request.args.get("difficulty", "normal")
-    player_type = request.args.get("player_type", "famous")
+    player_type = None  # unified into difficulty
     return render_template_string(
         page(MATCHMAKING_BODY, "Finding Match"),
-        data_source=ds, grid_size=grid_size, difficulty=difficulty, player_type=player_type)
+        data_source=ds, grid_size=grid_size, difficulty=difficulty)
 
 @app.route("/room/<room_code>")
 @login_required
@@ -2727,12 +2812,11 @@ def on_move(data):
 @socketio.on("join_matchmaking")
 def on_queue(data):
     if not current_user.is_authenticated: return
-    ds          = data.get("data_source", "overall")
-    gs          = data.get("grid_size", 3)
-    diff        = data.get("difficulty", "normal")
-    player_type = data.get("player_type", "all")
-    s           = get_current_season()
-    rat         = get_user_rating(current_user.id, s["id"]) if s else 1200.0
+    ds   = data.get("data_source", "overall")
+    gs   = data.get("grid_size", 3)
+    diff = data.get("difficulty", "normal")
+    s    = get_current_season()
+    rat  = get_user_rating(current_user.id, s["id"]) if s else 1200.0
     query_db("INSERT OR REPLACE INTO matchmaking_queue(user_id,rating,data_source,grid_size,difficulty) VALUES(?,?,?,?,?)",
              (current_user.id, rat, ds, gs, diff), commit=True)
     cands = query_db("""SELECT * FROM matchmaking_queue WHERE user_id!=? AND data_source=?
@@ -2742,7 +2826,7 @@ def on_queue(data):
         opp = cands[0]
         query_db("DELETE FROM matchmaking_queue WHERE user_id IN (?,?)", (current_user.id, opp["user_id"]), commit=True)
         code  = gen_room_code()
-        state = create_game_state(ds, gs, diff, player_type=player_type)
+        state = create_game_state(ds, gs, diff)
         query_db("INSERT INTO active_games(room_code,player1_id,player2_id,game_state,mode,status) VALUES(?,?,?,?,?,?)",
                  (code, opp["user_id"], current_user.id, json.dumps(state, default=str), "rated", "active"), commit=True)
         emit("match_found", {"room_code": code})
@@ -2760,10 +2844,9 @@ def on_leave_q():
 def on_start(data):
     rm   = data.get("room"); ds = data.get("data_source", "overall")
     gs   = data.get("grid_size", 3); diff = data.get("difficulty", "normal")
-    pt   = data.get("player_type", "all")
     row  = query_db("SELECT * FROM active_games WHERE room_code=?", (rm,), one=True)
     if not row or row["player1_id"] != current_user.id: return
-    state = create_game_state(ds, gs, diff, player_type=pt)
+    state = create_game_state(ds, gs, diff)
     query_db("UPDATE active_games SET game_state=?,status='active' WHERE room_code=?",
              (json.dumps(state, default=str), rm), commit=True)
     emit("game_start", {"room_code": rm}, to=rm)
