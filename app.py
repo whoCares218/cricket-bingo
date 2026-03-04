@@ -442,6 +442,28 @@ def create_game_state(ds, grid_size, difficulty, seed=None, player_type=None):
 def elo_expected(a, b): return 1 / (1 + 10 ** ((b - a) / 400))
 def elo_update(r, exp, act, k=32): return r + k * (act - exp)
 
+# ── Difficulty-aware rating parameters ───────────────────────────────────────
+# K-factor: how many rating points are at stake each game
+DIFFICULTY_K = {"easy": 12, "normal": 24, "hard": 40}
+
+# Par threshold score per difficulty (3×3 grid, ~25 players):
+#   Score above par  → rating goes UP
+#   Score below par  → rating goes DOWN
+# The par also adjusts based on the player's current rating level so
+# high-rated players need to score more to keep gaining.
+DIFFICULTY_PAR_BASE = {"easy": 600, "normal": 480, "hard": 320}
+
+def calc_par(difficulty, grid_size, current_rating):
+    """
+    Expected score for a player at `current_rating` on a given difficulty.
+    • Higher-rated player → higher par (harder to gain points)
+    • 4×4 grid → 25% larger par (more cells = more opportunity)
+    """
+    base   = DIFFICULTY_PAR_BASE.get(difficulty, 480)
+    adjust = (current_rating - 1200) * 0.08   # ±8 pts per 100 ELO deviation
+    size_mult = 1.0 if grid_size <= 3 else 1.25
+    return (base + adjust) * size_mult
+
 def get_user_rating(uid, sid, col="rating"):
     row = query_db(f"SELECT {col} FROM season_ratings WHERE user_id=? AND season_id=?", (uid, sid), one=True)
     return row[col] if row else 1200.0
@@ -1663,17 +1685,21 @@ GAME_BODY = """
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
 <script>
 const G = {
-  room:    {{ room_code | tojson }},
-  mode:    {{ game_mode | tojson }},
-  ds:      {{ data_source | tojson }},
-  gs:      {{ grid_size }},
-  players: JSON.parse(document.getElementById('_pd').textContent),
-  solutions: JSON.parse(document.getElementById('_sol').textContent),
-  idx: 0,
-  gstate: new Array({{ grid_size * grid_size }}).fill(null),
-  filled_by: new Array({{ grid_size * grid_size }}).fill(null),
-  correct: 0, wrong: 0,
-  wcUsed: false,
+  room:       {{ room_code | tojson }},
+  mode:       {{ game_mode | tojson }},
+  ds:         {{ data_source | tojson }},
+  gs:         {{ grid_size }},
+  diff:       {{ difficulty | tojson }},
+  players:    JSON.parse(document.getElementById('_pd').textContent),
+  solutions:  JSON.parse(document.getElementById('_sol').textContent),
+  idx:        0,
+  gstate:     new Array({{ grid_size * grid_size }}).fill(null),
+  filled_by:  new Array({{ grid_size * grid_size }}).fill(null),
+  correct:    0,   // correct placements
+  wrong:      0,   // wrong placements + timeouts
+  skips:      0,   // skipped players (no score change)
+  wcUsed:     false,
+  wcPenalty:  0,   // −20 when wildcard used
   t0: Date.now(), tsec: 10, tleft: 10, tint: null,
   ended: false, clickable: false
 };
@@ -1693,16 +1719,24 @@ if(G.room){
 }
 
 function calcScore(){
-  const el   = (Date.now() - G.t0) / 1000;
-  const a    = G.correct + G.wrong;
-  const acc  = a > 0 ? G.correct / a * 100 : 0;
+  // Score rules:
+  //   Correct answer  : +100
+  //   Wrong / timeout : −40
+  //   Wildcard used   : −20 (one-time penalty)
+  //   Skip            : 0  (neutral — no change)
+  //   Grid complete   : +200 bonus
   const filled = G.gstate.every(x => x !== null);
-  return Math.max(0, Math.round(G.correct * 100 + acc * 2 + (filled ? 200 : 0) - Math.max(0,(el - G.gs*G.gs*10)*0.5)));
+  const raw = G.correct * 100
+            - G.wrong   * 40
+            - G.wcPenalty
+            + (filled ? 200 : 0);
+  return Math.max(0, raw);
 }
 
 function refresh(){
   document.getElementById('pl').textContent = Math.max(0, G.players.length - G.idx);
   document.getElementById('sc').textContent = calcScore();
+  // Accuracy = correct / (correct + wrong) — skips excluded
   const a = G.correct + G.wrong;
   document.getElementById('ac').textContent = a > 0 ? Math.round(G.correct/a*100)+'%' : '—';
   const pidxEl = document.getElementById('pidx');
@@ -1750,8 +1784,9 @@ function tickTimer(){
 }
 
 function timeUp(){
-  G.wrong++; G.idx++;
-  toast('⏰ Time up!','warn');
+  G.wrong++; G.idx++;   // timeout = wrong answer (−40 pts)
+  refresh();
+  toast('⏰ Time up! −40','warn');
   setTimeout(showP, 200);
 }
 
@@ -1791,17 +1826,22 @@ function clickCell(i){
 
 function doSkip(){
   if(G.ended) return;
-  G.wrong++; G.idx++;
+  G.skips++; G.idx++;   // skip = neutral (no score change)
   clearInterval(G.tint);
-  toast('⏭ Skipped','info');
-  setTimeout(showP,150);
+  refresh();
+  toast('⏭ Skipped — no score change','info');
+  if(G.room) sock.emit('player_move',{room:G.room, score:calcScore()});
+  setTimeout(showP, 150);
 }
 
 function doWildcard(){
   if(G.wcUsed || G.ended || G.idx >= G.players.length) return;
-  G.wcUsed = true;
+  G.wcUsed    = true;
+  G.wcPenalty = 20;   // wildcard = −20 pts penalty
   const btn = document.getElementById('wc-btn');
-  btn.disabled = true; btn.textContent = '🃏 Used';
+  btn.disabled = true; btn.textContent = '🃏 Used (−20)';
+  refresh();
+  toast('🃏 Wildcard used — −20 pts', 'warn');
 
   const p = G.players[G.idx];
   const pid = p.id || p.player_id || ('player_'+G.idx);
@@ -1881,34 +1921,62 @@ function renderSolutions(){
 function end(reason){
   if(G.ended) return;
   G.ended = true; clearInterval(G.tint);
-  const elapsed  = Math.round((Date.now()-G.t0)/1000);
-  const score    = calcScore();
-  const a        = G.correct + G.wrong;
-  const acc      = a > 0 ? Math.round(G.correct/a*100) : 0;
+  const elapsed = Math.round((Date.now()-G.t0)/1000);
+  const score   = calcScore();
+  const a       = G.correct + G.wrong;
+  const acc     = a > 0 ? Math.round(G.correct/a*100) : 0;
 
   fetch('/api/end_game',{
     method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({room_code:G.room, mode:G.mode, data_source:G.ds,
-      score, correct:G.correct, wrong:G.wrong, elapsed, accuracy:acc, reason})
+    body: JSON.stringify({
+      room_code: G.room, mode: G.mode, data_source: G.ds,
+      difficulty: G.diff, grid_size: G.gs,
+      score, correct: G.correct, wrong: G.wrong,
+      skips: G.skips, wc_used: G.wcUsed,
+      elapsed, accuracy: acc, reason
+    })
   })
   .then(r=>r.json()).then(d=>{
     const done = G.gstate.every(x=>x!==null);
     document.getElementById('ee').textContent = done ? '🏆' : (reason==='quit'?'🏳':'🎯');
     document.getElementById('et').textContent = done ? 'Grid Complete!' : (reason==='quit'?'Game Quit':'Game Over');
     document.getElementById('es').textContent = score;
-    document.getElementById('ed').textContent = 'Accuracy: '+acc+'% · Time: '+elapsed+'s · '+G.correct+'/'+a+' correct';
+
+    // Build detail line: correct/wrong/skip breakdown
+    const wcNote  = G.wcUsed ? ' · 🃏 −20 WC' : '';
+    const skipNote= G.skips  > 0 ? ' · ⏭ '+G.skips+' skip(s)' : '';
+    document.getElementById('ed').textContent =
+      'Acc: '+acc+'% · ✅ '+G.correct+' · ❌ '+G.wrong+' wrong'+wcNote+skipNote+' · '+elapsed+'s';
 
     const rcEl = document.getElementById('rating-change');
     const rkEl = document.getElementById('rank-display');
     const rtEl = document.getElementById('rating-type');
+
     if(d.rating_change !== undefined && d.rating_change !== 0){
-      const rc = Math.round(d.rating_change);
+      const rc   = Math.round(d.rating_change);
       const isUp = rc > 0;
-      rcEl.textContent = (isUp?'+':'')+rc+' Rating';
-      rcEl.className   = 'rating-anim-'+(isUp?'up':'down');
-      rtEl.textContent = G.mode === 'rated' ? '(Multiplayer ELO)' : '(Solo ELO)';
-      if(d.new_rank){ rkEl.textContent = 'New rank: #'+d.new_rank; }
-      if(d.new_rating){ rkEl.textContent += ' · '+Math.round(d.new_rating)+' ELO'; }
+      rcEl.innerHTML = `<span style="font-size:1.8rem;">${isUp?'▲':'▼'}</span> `
+                     + `<span style="font-size:1.8rem;font-weight:800;color:${isUp?'var(--green)':'var(--red)'};">`
+                     + `${isUp?'+':''}${rc}</span>`
+                     + ` <span style="font-size:.9rem;color:var(--txt2);">Rating</span>`;
+      const modeLabel = G.mode === 'rated' ? 'Multiplayer ELO'
+                      : G.mode === 'friends' ? 'Friends ELO' : 'Solo ELO';
+      const diffLabel = {easy:'🟢 Easy',normal:'🟡 Normal',hard:'🔴 Hard'}[G.diff] || G.diff;
+      rtEl.textContent = modeLabel + ' · ' + diffLabel;
+
+      // Solo: show par score context
+      if(d.par_score && G.mode === 'solo'){
+        const beat = score >= d.par_score;
+        rkEl.textContent = (beat ? '✅ Beat' : '❌ Below') + ' par (' + d.par_score + ')';
+        if(d.new_rating) rkEl.textContent += ' · Now ' + Math.round(d.new_rating) + ' ELO';
+      } else {
+        if(d.new_rank)   rkEl.textContent = 'Rank #' + d.new_rank;
+        if(d.new_rating) rkEl.textContent += (rkEl.textContent ? ' · ' : '') + Math.round(d.new_rating) + ' ELO';
+      }
+    } else {
+      rcEl.textContent = '';
+      rtEl.textContent = '';
+      rkEl.textContent = '';
     }
     document.getElementById('emod').style.display='flex';
   })
@@ -2472,6 +2540,7 @@ def play():
         game_mode        = game_mode,
         mode_label       = mode_labels.get(game_mode, game_mode),
         data_source      = ds,
+        difficulty       = difficulty,
         room_code        = room_code,
         opponent         = opponent,
         use_nation_flags = use_nation_flags,
@@ -2708,82 +2777,156 @@ def api_wildcard_hint():
 @app.route("/api/end_game", methods=["POST"])
 @login_required
 def api_end_game():
-    data      = request.get_json(force=True)
-    gmode     = data.get("mode", "solo"); ds = data.get("data_source", "overall")
-    score     = float(data.get("score", 0)); elapsed = float(data.get("elapsed", 0))
-    accuracy  = float(data.get("accuracy", 0)); room_code = data.get("room_code")
-    result    = {"rating_change": 0}; season = get_current_season()
+    """
+    Finalise a game and update ratings.
+
+    Score rules (applied in JS before this call):
+      Correct answer  → +100 pts
+      Wrong answer    → -40 pts
+      Wildcard used   → -20 pts (one-time)
+      Skip            → 0 pts (neutral)
+      Time up         → -40 pts (same as wrong)
+      Grid complete   → +200 bonus
+
+    Rating rules:
+      Solo  – score vs par threshold (difficulty-aware); K scales with difficulty
+      MP    – winner (higher score) gains, loser loses; K scales with difficulty
+    """
+    data       = request.get_json(force=True)
+    gmode      = data.get("mode", "solo")
+    ds         = data.get("data_source", "overall")
+    score      = float(data.get("score", 0))
+    elapsed    = float(data.get("elapsed", 0))
+    accuracy   = float(data.get("accuracy", 0))
+    difficulty = data.get("difficulty", "normal")
+    grid_size  = int(data.get("grid_size", 3))
+    room_code  = data.get("room_code")
+    result     = {"rating_change": 0}
+    season     = get_current_season()
 
     if gmode == "daily":
         today = date.today().isoformat()
         try:
-            query_db("INSERT OR IGNORE INTO daily_results(user_id,challenge_date,score,completion_time,accuracy) VALUES(?,?,?,?,?)",
-                     (current_user.id, today, score, elapsed, accuracy), commit=True)
+            query_db(
+                "INSERT OR IGNORE INTO daily_results"
+                "(user_id,challenge_date,score,completion_time,accuracy) VALUES(?,?,?,?,?)",
+                (current_user.id, today, score, elapsed, accuracy), commit=True)
         except Exception as e:
             log.error(f"Daily result insert failed: {e}")
 
     elif gmode in ("solo", "daily_solo") and season:
+        # ── Solo rating ──────────────────────────────────────────────────────
+        # Compare actual score against the "par" for this difficulty + rating level.
+        # act = 1.0 (full win) when score >= 1.5 × par
+        # act = 0.0 (full loss) when score <= 0.25 × par
+        # Linearly interpolated in between.
+        # Expected result is always 0.5 (playing against par = same-level opponent).
         ensure_season_rating(current_user.id, season["id"])
         old_solo = get_user_rating(current_user.id, season["id"], "solo_rating")
-        ghost   = 1200 + (score - 500) * 0.3
-        exp     = elo_expected(old_solo, ghost)
-        act     = 1.0 if score > 600 else 0.5 if score > 300 else 0.0
-        new_solo = elo_update(old_solo, exp, act, k=20)
-        delta_solo = round(new_solo - old_solo, 1)
-        query_db("""UPDATE season_ratings SET solo_rating=?, solo_games=solo_games+1,
-            total_games=total_games+1, accuracy_sum=accuracy_sum+?, time_sum=time_sum+?
+        k        = DIFFICULTY_K.get(difficulty, 24)
+        par      = calc_par(difficulty, grid_size, old_solo)
+        lo, hi   = par * 0.25, par * 1.5
+        raw_act  = (score - lo) / max(hi - lo, 1)
+        act      = max(0.0, min(1.0, raw_act))
+        new_solo    = elo_update(old_solo, 0.5, act, k=k)
+        delta_solo  = round(new_solo - old_solo, 1)
+
+        query_db("""UPDATE season_ratings
+            SET solo_rating=?, solo_games=solo_games+1,
+                total_games=total_games+1, accuracy_sum=accuracy_sum+?, time_sum=time_sum+?
             WHERE user_id=? AND season_id=?""",
             (new_solo, accuracy, elapsed, current_user.id, season["id"]), commit=True)
-        result["rating_change"] = delta_solo
-        result["new_rating"]    = new_solo
+
+        result.update({"rating_change": delta_solo, "new_rating": new_solo,
+                       "par_score": round(par), "difficulty": difficulty})
         new_rank = get_user_rank(current_user.id, season["id"], "solo_rating")
         if new_rank: result["new_rank"] = new_rank
+        log.info(f"SOLO rating uid={current_user.id} diff={difficulty} k={k} "
+                 f"score={score:.0f} par={par:.0f} act={act:.2f} "
+                 f"Δ={delta_solo:+.1f} ({old_solo:.0f}→{new_solo:.0f})")
 
     elif gmode in ("rated", "friends") and room_code and season:
+        # ── Multiplayer rating ───────────────────────────────────────────────
+        # K-factor comes from the game's difficulty stored in game_state.
+        # Winner = higher score; tiebreak = faster time.
         row = query_db("SELECT * FROM active_games WHERE room_code=?", (room_code,), one=True)
         if row and row["status"] != "finished":
-            gs      = json.loads(row["game_state"]); results = gs.get("results", {})
-            results[str(current_user.id)] = {"score": score, "elapsed": elapsed, "accuracy": accuracy}
-            gs["results"] = results
+            gs_data  = json.loads(row["game_state"])
+            mp_diff  = gs_data.get("difficulty", difficulty)
+            mp_gs    = gs_data.get("grid_size", grid_size)
+            k_mp     = DIFFICULTY_K.get(mp_diff, 24)
+            results  = gs_data.get("results", {})
+            results[str(current_user.id)] = {
+                "score": score, "elapsed": elapsed, "accuracy": accuracy}
+            gs_data["results"] = results
+
             if len(results) >= 2:
                 p1, p2 = row["player1_id"], row["player2_id"]
                 r1 = results.get(str(p1), {"score": 0, "elapsed": 9999})
                 r2 = results.get(str(p2), {"score": 0, "elapsed": 9999})
-                winner = p1 if r1["score"] > r2["score"] or (r1["score"] == r2["score"] and r1["elapsed"] <= r2["elapsed"]) else p2
-                rat1   = get_user_rating(p1, season["id"]); rat2 = get_user_rating(p2, season["id"])
-                exp1   = elo_expected(rat1, rat2); act1 = 1.0 if winner == p1 else 0.0
-                new1   = elo_update(rat1, exp1, act1); new2 = elo_update(rat2, 1-exp1, 1-act1)
-                delta  = round(new1 - rat1, 1)
-                ensure_season_rating(p1, season["id"]); ensure_season_rating(p2, season["id"])
-                for uid, nr, w, rd in [(p1, new1, 1 if winner==p1 else 0, r1), (p2, new2, 1 if winner==p2 else 0, r2)]:
-                    query_db("""UPDATE season_ratings SET rating=?,wins=wins+?,losses=losses+?,
-                        total_games=total_games+1,accuracy_sum=accuracy_sum+?,time_sum=time_sum+?,
-                        win_streak=CASE WHEN ?=1 THEN win_streak+1 ELSE 0 END,
-                        best_streak=MAX(best_streak,CASE WHEN ?=1 THEN win_streak+1 ELSE best_streak END)
+
+                # Determine winner by score, then time as tiebreak
+                if r1["score"] > r2["score"]:
+                    winner = p1
+                elif r2["score"] > r1["score"]:
+                    winner = p2
+                else:
+                    winner = p1 if r1.get("elapsed", 9999) <= r2.get("elapsed", 9999) else p2
+
+                rat1  = get_user_rating(p1, season["id"])
+                rat2  = get_user_rating(p2, season["id"])
+                exp1  = elo_expected(rat1, rat2)
+                act1  = 1.0 if winner == p1 else 0.0
+                new1  = elo_update(rat1, exp1,       act1,   k=k_mp)
+                new2  = elo_update(rat2, 1.0 - exp1, 1-act1, k=k_mp)
+                delta = round(new1 - rat1, 1)
+
+                ensure_season_rating(p1, season["id"])
+                ensure_season_rating(p2, season["id"])
+                for uid, nr, w, rd in [
+                    (p1, new1, 1 if winner == p1 else 0, r1),
+                    (p2, new2, 1 if winner == p2 else 0, r2),
+                ]:
+                    query_db("""UPDATE season_ratings
+                        SET rating=?, wins=wins+?, losses=losses+?,
+                            total_games=total_games+1,
+                            accuracy_sum=accuracy_sum+?, time_sum=time_sum+?,
+                            win_streak=CASE WHEN ?=1 THEN win_streak+1 ELSE 0 END,
+                            best_streak=MAX(best_streak,
+                                CASE WHEN ?=1 THEN win_streak+1 ELSE best_streak END)
                         WHERE user_id=? AND season_id=?""",
-                        (nr, w, 1-w, rd.get("accuracy",0), rd.get("elapsed",0), w, w, uid, season["id"]), commit=True)
-                query_db("""INSERT INTO matches(player1_id,player2_id,winner_id,
+                        (nr, w, 1-w,
+                         rd.get("accuracy", 0), rd.get("elapsed", 0),
+                         w, w, uid, season["id"]), commit=True)
+
+                query_db("""INSERT INTO matches(
+                    player1_id,player2_id,winner_id,
                     player1_score,player2_score,player1_time,player2_time,
                     player1_accuracy,player2_accuracy,rating_change,mode,season_id)
                     VALUES(?,?,?,?,?,?,?,?,?,?,?,?)""",
-                    (p1, p2, winner, r1["score"], r2["score"], r1["elapsed"], r2["elapsed"],
-                     r1.get("accuracy",0), r2.get("accuracy",0), abs(delta), gmode, season["id"]), commit=True)
+                    (p1, p2, winner,
+                     r1["score"], r2["score"], r1.get("elapsed",0), r2.get("elapsed",0),
+                     r1.get("accuracy",0), r2.get("accuracy",0),
+                     abs(delta), gmode, season["id"]), commit=True)
+
                 query_db("UPDATE active_games SET status='finished',game_state=? WHERE room_code=?",
-                         (json.dumps(gs), room_code), commit=True)
+                         (json.dumps(gs_data), room_code), commit=True)
+
                 my_delta = delta if current_user.id == p1 else -delta
-                my_new_r = new1 if current_user.id == p1 else new2
-                result["rating_change"] = my_delta
-                result["new_rating"]    = my_new_r
-                result["winner"]        = winner == current_user.id
+                my_new_r = new1  if current_user.id == p1 else new2
+                result.update({"rating_change": my_delta, "new_rating": my_new_r,
+                               "winner": winner == current_user.id, "difficulty": mp_diff})
                 new_rank = get_user_rank(current_user.id, season["id"])
                 if new_rank: result["new_rank"] = new_rank
-                socketio.emit("game_result", {
-                    "rating_change": -my_delta,
-                    "winner": winner != current_user.id
-                }, room=room_code)
+
+                socketio.emit("game_result",
+                    {"rating_change": -my_delta, "winner": winner != current_user.id},
+                    room=room_code)
+                log.info(f"MP result p1={p1} p2={p2} winner={winner} diff={mp_diff} k={k_mp} "
+                         f"scores={r1['score']:.0f}/{r2['score']:.0f} Δ={delta:+.1f}")
             else:
                 query_db("UPDATE active_games SET game_state=? WHERE room_code=?",
-                         (json.dumps(gs), room_code), commit=True)
+                         (json.dumps(gs_data), room_code), commit=True)
 
     session.pop("game_state", None)
     return jsonify(result)
