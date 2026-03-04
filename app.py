@@ -2200,23 +2200,53 @@ PROFILE_BODY = """
     <div class="section-header" style="margin-bottom:16px;"><h2>Recent Matches</h2></div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Result</th><th>Score</th><th class="hide-sm">Opponent</th><th class="hide-sm">Δ ELO</th><th>Mode</th><th class="hide-sm">Date</th></tr></thead>
+        <thead><tr>
+          <th>Result</th><th>Score</th>
+          <th class="hide-sm">Opponent</th>
+          <th class="hide-sm">Δ Rating</th>
+          <th>Mode</th>
+          <th class="hide-sm">Difficulty</th>
+          <th class="hide-sm">Date</th>
+        </tr></thead>
         <tbody>
           {% for m in matches %}
+          {% set is_solo = m.mode in ['solo','daily_solo'] %}
           <tr>
-            <td>{% if m.won %}<span style="color:var(--green);font-weight:700;font-size:.82rem;">WIN</span>
-                {% elif m.won==False %}<span style="color:var(--red);font-weight:700;font-size:.82rem;">LOSS</span>
-                {% else %}<span style="color:var(--txt3);font-size:.82rem;">—</span>{% endif %}</td>
+            <td>
+              {% if is_solo %}
+                {% if m.won %}<span style="color:var(--green);font-weight:700;font-size:.82rem;">✅ DONE</span>
+                {% else %}<span style="color:var(--red);font-weight:700;font-size:.82rem;">🏳 QUIT</span>{% endif %}
+              {% elif m.won == True %}<span style="color:var(--green);font-weight:700;font-size:.82rem;">WIN</span>
+              {% elif m.won == False %}<span style="color:var(--red);font-weight:700;font-size:.82rem;">LOSS</span>
+              {% else %}<span style="color:var(--txt3);font-size:.82rem;">—</span>{% endif %}
+            </td>
             <td style="font-weight:600;font-family:'Outfit',sans-serif;">{{ m.score|int }}</td>
-            <td class="hide-sm">{{ m.opponent or '—' }}</td>
-            <td class="hide-sm">{% if m.rating_change>0 %}<span style="color:var(--green);">+{{ m.rating_change|int }}</span>
-                {% elif m.rating_change<0 %}<span style="color:var(--red);">{{ m.rating_change|int }}</span>
-                {% else %}<span style="color:var(--txt3);">—</span>{% endif %}</td>
-            <td><span class="badge" style="color:var(--txt3);border-color:var(--bdr2);font-size:.65rem;">{{ m.mode }}</span></td>
-            <td class="hide-sm" style="color:var(--txt3);font-size:.78rem;">{{ m.played_at[:10] }}</td>
+            <td class="hide-sm" style="color:var(--txt2);">
+              {% if is_solo %}<span style="color:var(--pur);font-size:.78rem;">Solo</span>
+              {% else %}{{ m.opponent or '—' }}{% endif %}
+            </td>
+            <td class="hide-sm">
+              {% if m.rating_change > 0 %}<span style="color:var(--green);font-weight:700;">+{{ m.rating_change|int }}</span>
+              {% elif m.rating_change < 0 %}<span style="color:var(--red);font-weight:700;">{{ m.rating_change|int }}</span>
+              {% else %}<span style="color:var(--txt3);">0</span>{% endif %}
+            </td>
+            <td>
+              {% if is_solo %}<span class="badge" style="color:var(--pur);border-color:rgba(155,114,247,.3);font-size:.65rem;">🎮 Solo</span>
+              {% elif m.mode == 'rated' %}<span class="badge" style="color:var(--acc);border-color:rgba(245,166,35,.3);font-size:.65rem;">⚡ Rated</span>
+              {% else %}<span class="badge" style="color:var(--txt3);border-color:var(--bdr2);font-size:.65rem;">{{ m.mode }}</span>{% endif %}
+            </td>
+            <td class="hide-sm">
+              {% set diff_colors = {'easy':'var(--green)','normal':'var(--acc)','hard':'var(--red)'} %}
+              <span style="font-size:.72rem;color:{{ diff_colors.get(m.difficulty,'var(--txt3)') }};">
+                {{ {'easy':'🟢 Easy','normal':'🟡 Normal','hard':'🔴 Hard'}.get(m.difficulty, m.difficulty) }}
+              </span>
+            </td>
+            <td class="hide-sm" style="color:var(--txt3);font-size:.78rem;">
+              {{ m.played_at[:10] if m.played_at else '—' }}
+            </td>
           </tr>
           {% endfor %}
-          {% if not matches %}<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--txt3);">No matches yet.</td></tr>{% endif %}
+          {% if not matches %}<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--txt3);">No matches yet.</td></tr>{% endif %}
         </tbody>
       </table>
     </div>
@@ -2659,19 +2689,32 @@ def profile(user_id):
         "avg_time":     round(sr["time_sum"] / sr["total_games"]) if sr and sr["total_games"] > 0 else 0,
     }
     raw = query_db("""SELECT m.*,u1.name as p1name,u2.name as p2name FROM matches m
-        LEFT JOIN users u1 ON u1.id=m.player1_id LEFT JOIN users u2 ON u2.id=m.player2_id
-        WHERE m.player1_id=? OR m.player2_id=? ORDER BY m.played_at DESC LIMIT 10""", (user_id, user_id))
+        LEFT JOIN users u1 ON u1.id=m.player1_id
+        LEFT JOIN users u2 ON u2.id=m.player2_id
+        WHERE m.player1_id=? OR m.player2_id=?
+        ORDER BY m.played_at DESC LIMIT 20""", (user_id, user_id))
     matches = []
     for m in raw:
-        ip1   = m["player1_id"] == user_id
-        score = m["player1_score"] if ip1 else m["player2_score"]
-        opp   = m["p2name"] if ip1 else m["p1name"]
-        won   = None
-        if m["winner_id"] == user_id: won = True
-        elif m["winner_id"] is not None: won = False
-        rc = m["rating_change"] if ip1 else -m["rating_change"]
-        matches.append({"won": won, "score": score, "opponent": opp, "rating_change": rc,
-                        "mode": m["mode"], "played_at": m["played_at"]})
+        is_solo = m["mode"] in ("solo", "daily_solo") or m["player2_id"] is None
+        ip1     = m["player1_id"] == user_id
+        score   = m["player1_score"] if ip1 else m["player2_score"]
+
+        if is_solo:
+            opp = None              # no opponent in solo
+            won = not (m["winner_id"] is None)  # None winner_id = quit/loss
+            # solo stores signed delta directly in rating_change
+            rc  = m["rating_change"]
+        else:
+            opp = m["p2name"] if ip1 else m["p1name"]
+            won = m["winner_id"] == user_id if m["winner_id"] is not None else None
+            # MP stores abs(delta); sign depends on who the user is and who won
+            rc  = m["rating_change"] if (won is True) else (
+                  -m["rating_change"] if (won is False) else 0)
+
+        matches.append({"won": won, "score": score, "opponent": opp,
+                        "rating_change": rc, "mode": m["mode"],
+                        "difficulty": m["difficulty"] or "normal",
+                        "played_at": m["played_at"]})
     return render_template_string(page(PROFILE_BODY, ur["name"]),
         profile_user=ur, tier=tier, tier_color=tier_color, tier_icon=tier_icon,
         rating=rating, solo_rating=solo_rating, stats=stats, matches=matches)
@@ -2860,24 +2903,51 @@ def api_end_game():
         # ── Solo rating ──────────────────────────────────────────────────────
         # Quit = forced full loss (act=0). Otherwise compare score vs par.
         ensure_season_rating(current_user.id, season["id"])
-        old_solo = get_user_rating(current_user.id, season["id"], "solo_rating")
-        k        = DIFFICULTY_K.get(difficulty, 24)
-        par      = calc_par(difficulty, grid_size, old_solo)
+        old_solo  = get_user_rating(current_user.id, season["id"], "solo_rating")
+        k         = DIFFICULTY_K.get(difficulty, 24)
+        par       = calc_par(difficulty, grid_size, old_solo)
         quit_game = data.get("reason") == "quit"
+
         if quit_game:
-            act = 0.0   # full loss — quitting always hurts
+            act = 0.0   # full loss — quitting always costs rating
         else:
             lo, hi  = par * 0.25, par * 1.5
             raw_act = (score - lo) / max(hi - lo, 1)
             act     = max(0.0, min(1.0, raw_act))
+
         new_solo   = elo_update(old_solo, 0.5, act, k=k)
         delta_solo = round(new_solo - old_solo, 1)
 
-        query_db("""UPDATE season_ratings
-            SET solo_rating=?, solo_games=solo_games+1,
-                total_games=total_games+1, accuracy_sum=accuracy_sum+?, time_sum=time_sum+?
-            WHERE user_id=? AND season_id=?""",
-            (new_solo, accuracy, elapsed, current_user.id, season["id"]), commit=True)
+        try:
+            # ── 1. Update solo rating ─────────────────────────────────────
+            query_db("""UPDATE season_ratings
+                SET solo_rating       = ?,
+                    solo_games        = solo_games + 1,
+                    total_games       = total_games + 1,
+                    accuracy_sum      = accuracy_sum + ?,
+                    time_sum          = time_sum + ?
+                WHERE user_id = ? AND season_id = ?""",
+                (new_solo, accuracy, elapsed,
+                 current_user.id, season["id"]), commit=True)
+
+            # Verify the row was actually updated
+            check = get_user_rating(current_user.id, season["id"], "solo_rating")
+            log.info(f"Rating verify after update: stored={check:.1f} expected={new_solo:.1f}")
+
+            # ── 2. Write match history row (player2_id = NULL for solo) ──
+            query_db("""INSERT INTO matches(
+                player1_id, player2_id, winner_id,
+                player1_score, player1_time, player1_accuracy,
+                rating_change, mode, data_source, grid_size, difficulty, season_id)
+                VALUES(?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (current_user.id,
+                 current_user.id if not quit_game else None,
+                 score, elapsed, accuracy,
+                 delta_solo, "solo", ds, grid_size, difficulty,
+                 season["id"]), commit=True)
+
+        except Exception as e:
+            log.error(f"Solo DB write failed uid={current_user.id}: {e}", exc_info=True)
 
         result.update({"rating_change": delta_solo, "new_rating": new_solo,
                        "par_score": round(par), "difficulty": difficulty,
@@ -2952,14 +3022,16 @@ def api_end_game():
                          w, w, uid, season["id"]), commit=True)
 
                 query_db("""INSERT INTO matches(
-                    player1_id,player2_id,winner_id,
-                    player1_score,player2_score,player1_time,player2_time,
-                    player1_accuracy,player2_accuracy,rating_change,mode,season_id)
-                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?)""",
+                    player1_id, player2_id, winner_id,
+                    player1_score, player2_score, player1_time, player2_time,
+                    player1_accuracy, player2_accuracy,
+                    rating_change, mode, data_source, grid_size, difficulty, season_id)
+                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (p1, p2, winner,
-                     r1["score"], r2["score"], r1.get("elapsed",0), r2.get("elapsed",0),
-                     r1.get("accuracy",0), r2.get("accuracy",0),
-                     abs(delta), gmode, season["id"]), commit=True)
+                     r1["score"], r2["score"],
+                     r1.get("elapsed", 0), r2.get("elapsed", 0),
+                     r1.get("accuracy", 0), r2.get("accuracy", 0),
+                     abs(delta), gmode, ds, mp_gs, mp_diff, season["id"]), commit=True)
 
                 query_db("UPDATE active_games SET status='finished',game_state=? WHERE room_code=?",
                          (json.dumps(gs_data), room_code), commit=True)
