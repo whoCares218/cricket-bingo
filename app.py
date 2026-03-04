@@ -1884,8 +1884,44 @@ function doWildcard(){
 }
 
 function quitGame(){
-  if(confirm('Quit? Progress will be lost.')) end('quit');
+  if(G.ended) return;
+  // Send quit immediately — no confirm dialog (rating penalty applies)
+  end('quit');
 }
+
+// ── Catch ALL ways a user can leave mid-game ──────────────────────
+// 1. Tab/window close or hard navigation
+window.addEventListener('beforeunload', function(e){
+  if(!G.ended){
+    // Use sendBeacon so the request fires even as the page unloads
+    const payload = JSON.stringify({
+      room_code: G.room, mode: G.mode, data_source: G.ds,
+      difficulty: G.diff, grid_size: G.gs,
+      score: 0, correct: G.correct, wrong: G.wrong,
+      skips: G.skips, wc_used: G.wcUsed,
+      elapsed: Math.round((Date.now()-G.t0)/1000),
+      accuracy: 0, reason: 'quit'
+    });
+    navigator.sendBeacon('/api/end_game', new Blob([payload], {type:'application/json'}));
+    G.ended = true;
+  }
+});
+
+// 2. Tab hidden (switch away, phone lock screen, etc.)
+document.addEventListener('visibilitychange', function(){
+  if(document.visibilityState === 'hidden' && !G.ended){
+    const payload = JSON.stringify({
+      room_code: G.room, mode: G.mode, data_source: G.ds,
+      difficulty: G.diff, grid_size: G.gs,
+      score: 0, correct: G.correct, wrong: G.wrong,
+      skips: G.skips, wc_used: G.wcUsed,
+      elapsed: Math.round((Date.now()-G.t0)/1000),
+      accuracy: 0, reason: 'quit'
+    });
+    navigator.sendBeacon('/api/end_game', new Blob([payload], {type:'application/json'}));
+    G.ended = true;
+  }
+});
 
 function toggleSolutions(){
   const panel = document.getElementById('solutions-panel');
@@ -1937,16 +1973,19 @@ function end(reason){
     })
   })
   .then(r=>r.json()).then(d=>{
-    const done = G.gstate.every(x=>x!==null);
-    document.getElementById('ee').textContent = done ? '🏆' : (reason==='quit'?'🏳':'🎯');
-    document.getElementById('et').textContent = done ? 'Grid Complete!' : (reason==='quit'?'Game Quit':'Game Over');
-    document.getElementById('es').textContent = score;
+    const done   = G.gstate.every(x=>x!==null);
+    const isQuit = reason === 'quit';
+    document.getElementById('ee').textContent = done ? '🏆' : (isQuit ? '🏳' : '🎯');
+    document.getElementById('et').textContent = done ? 'Grid Complete!'
+                                              : (isQuit ? 'Game Quit — Rating Penalty' : 'Game Over');
+    document.getElementById('es').textContent = isQuit ? '0' : score;
 
-    // Build detail line: correct/wrong/skip breakdown
-    const wcNote  = G.wcUsed ? ' · 🃏 −20 WC' : '';
-    const skipNote= G.skips  > 0 ? ' · ⏭ '+G.skips+' skip(s)' : '';
-    document.getElementById('ed').textContent =
-      'Acc: '+acc+'% · ✅ '+G.correct+' · ❌ '+G.wrong+' wrong'+wcNote+skipNote+' · '+elapsed+'s';
+    // Detail line
+    const wcNote   = G.wcUsed ? ' · 🃏 −20 WC' : '';
+    const skipNote = G.skips  > 0 ? ' · ⏭ '+G.skips+' skip(s)' : '';
+    document.getElementById('ed').textContent = isQuit
+      ? 'You quit — full rating penalty applied.'
+      : 'Acc: '+acc+'% · ✅ '+G.correct+' · ❌ '+G.wrong+' wrong'+wcNote+skipNote+' · '+elapsed+'s';
 
     const rcEl = document.getElementById('rating-change');
     const rkEl = document.getElementById('rank-display');
@@ -1973,10 +2012,13 @@ function end(reason){
         if(d.new_rank)   rkEl.textContent = 'Rank #' + d.new_rank;
         if(d.new_rating) rkEl.textContent += (rkEl.textContent ? ' · ' : '') + Math.round(d.new_rating) + ' ELO';
       }
-    } else {
-      rcEl.textContent = '';
-      rtEl.textContent = '';
-      rkEl.textContent = '';
+    } else if(d.new_rating){
+      // No change but show current rating
+      const modeLabel = G.mode === 'rated' ? 'Multiplayer ELO'
+                      : G.mode === 'friends' ? 'Friends ELO' : 'Solo ELO';
+      rcEl.innerHTML = `<span style="font-size:1.1rem;color:var(--txt2);">No rating change</span>`;
+      rtEl.textContent = modeLabel;
+      rkEl.textContent = 'Current: ' + Math.round(d.new_rating) + ' ELO';
     }
     document.getElementById('emod').style.display='flex';
   })
@@ -2816,20 +2858,20 @@ def api_end_game():
 
     elif gmode in ("solo", "daily_solo") and season:
         # ── Solo rating ──────────────────────────────────────────────────────
-        # Compare actual score against the "par" for this difficulty + rating level.
-        # act = 1.0 (full win) when score >= 1.5 × par
-        # act = 0.0 (full loss) when score <= 0.25 × par
-        # Linearly interpolated in between.
-        # Expected result is always 0.5 (playing against par = same-level opponent).
+        # Quit = forced full loss (act=0). Otherwise compare score vs par.
         ensure_season_rating(current_user.id, season["id"])
         old_solo = get_user_rating(current_user.id, season["id"], "solo_rating")
         k        = DIFFICULTY_K.get(difficulty, 24)
         par      = calc_par(difficulty, grid_size, old_solo)
-        lo, hi   = par * 0.25, par * 1.5
-        raw_act  = (score - lo) / max(hi - lo, 1)
-        act      = max(0.0, min(1.0, raw_act))
-        new_solo    = elo_update(old_solo, 0.5, act, k=k)
-        delta_solo  = round(new_solo - old_solo, 1)
+        quit_game = data.get("reason") == "quit"
+        if quit_game:
+            act = 0.0   # full loss — quitting always hurts
+        else:
+            lo, hi  = par * 0.25, par * 1.5
+            raw_act = (score - lo) / max(hi - lo, 1)
+            act     = max(0.0, min(1.0, raw_act))
+        new_solo   = elo_update(old_solo, 0.5, act, k=k)
+        delta_solo = round(new_solo - old_solo, 1)
 
         query_db("""UPDATE season_ratings
             SET solo_rating=?, solo_games=solo_games+1,
@@ -2838,12 +2880,13 @@ def api_end_game():
             (new_solo, accuracy, elapsed, current_user.id, season["id"]), commit=True)
 
         result.update({"rating_change": delta_solo, "new_rating": new_solo,
-                       "par_score": round(par), "difficulty": difficulty})
+                       "par_score": round(par), "difficulty": difficulty,
+                       "quit": quit_game})
         new_rank = get_user_rank(current_user.id, season["id"], "solo_rating")
         if new_rank: result["new_rank"] = new_rank
-        log.info(f"SOLO rating uid={current_user.id} diff={difficulty} k={k} "
-                 f"score={score:.0f} par={par:.0f} act={act:.2f} "
-                 f"Δ={delta_solo:+.1f} ({old_solo:.0f}→{new_solo:.0f})")
+        log.info(f"SOLO {'QUIT' if quit_game else 'END'} uid={current_user.id} "
+                 f"diff={difficulty} k={k} score={score:.0f} par={par:.0f} "
+                 f"act={act:.2f} Δ={delta_solo:+.1f} ({old_solo:.0f}→{new_solo:.0f})")
 
     elif gmode in ("rated", "friends") and room_code and season:
         # ── Multiplayer rating ───────────────────────────────────────────────
@@ -2857,7 +2900,8 @@ def api_end_game():
             k_mp     = DIFFICULTY_K.get(mp_diff, 24)
             results  = gs_data.get("results", {})
             results[str(current_user.id)] = {
-                "score": score, "elapsed": elapsed, "accuracy": accuracy}
+                "score": score, "elapsed": elapsed, "accuracy": accuracy,
+                "quit": data.get("reason") == "quit"}
             gs_data["results"] = results
 
             if len(results) >= 2:
@@ -2865,8 +2909,16 @@ def api_end_game():
                 r1 = results.get(str(p1), {"score": 0, "elapsed": 9999})
                 r2 = results.get(str(p2), {"score": 0, "elapsed": 9999})
 
-                # Determine winner by score, then time as tiebreak
-                if r1["score"] > r2["score"]:
+                # Determine winner:
+                # If one player quit, the other wins automatically.
+                # Otherwise: higher score wins; faster time breaks ties.
+                q1 = results.get(str(p1), {}).get("quit", False)
+                q2 = results.get(str(p2), {}).get("quit", False)
+                if q1 and not q2:
+                    winner = p2
+                elif q2 and not q1:
+                    winner = p1
+                elif r1["score"] > r2["score"]:
                     winner = p1
                 elif r2["score"] > r1["score"]:
                     winner = p2
