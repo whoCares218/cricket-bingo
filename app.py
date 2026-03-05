@@ -2718,8 +2718,7 @@ PROFILE_BODY = """
         </div>
         {% if xp_data %}
         <div class="xp-bar-wrap" style="max-width:220px;margin-top:8px;" title="{{ xp_data.total }} total XP">
-          {% set to_next, range_val = xp_next_level(xp_data.total) %}
-          <div class="xp-bar" style="width:{{ [(range_val - to_next) / range_val * 100 if range_val > 0 else 100, 0]|max|int }}%;"></div>
+          <div class="xp-bar" style="width:{{ xp_data.pct }}%;"></div>
         </div>
         {% endif %}
       </div>
@@ -3193,7 +3192,7 @@ def play():
     grid_json   = json.dumps(grid_for_js, ensure_ascii=False).replace("</", r"<\/")
 
     opponent = None
-    if room_code:
+    if room_code and current_user.is_authenticated:
         row = query_db("SELECT * FROM active_games WHERE room_code=?", (room_code,), one=True)
         if row:
             oid = row["player2_id"] if row["player1_id"] == current_user.id else row["player1_id"]
@@ -3315,12 +3314,14 @@ def profile(user_id):
                         "rating_change": rc, "mode": m["mode"],
                         "difficulty": m["difficulty"] or "normal",
                         "played_at": m["played_at"]})
+    xp_d = get_xp_data(user_id)
+    _to_next, _range = xp_next_level(xp_d["total"])
+    xp_d["pct"] = max(0, int((_range - _to_next) / _range * 100)) if _range > 0 else 100
     return render_template_string(page(PROFILE_BODY, ur["name"]),
         profile_user=ur, tier=tier, tier_color=tier_color, tier_icon=tier_icon,
         rating=rating, solo_rating=solo_rating, stats=stats, matches=matches,
-        xp_data=get_xp_data(user_id),
+        xp_data=xp_d,
         streak_data=get_streak_data(user_id))
-
 @app.route("/daily")
 def daily():
     today = date.today().isoformat()
@@ -3681,8 +3682,8 @@ def api_end_game():
 
     session.pop("game_state", None)
 
-    # ── Streak update (all modes, authenticated users, non-quit) ─────────────
-    if is_auth and not quit_game:
+    # ── Streak update (daily mode only, authenticated users, non-quit) ──────────
+    if is_auth and not quit_game and gmode == "daily":
         try:
             streak_data = update_streak(current_user.id)
             result["streak"] = streak_data
@@ -3692,7 +3693,7 @@ def api_end_game():
     # ── XP update (authenticated users, non-quit) ─────────────────────────────
     if is_auth and not quit_game and score > 0:
         try:
-            streak_cur = result.get("streak", {}).get("current", 0)
+            streak_cur = result.get("streak", {}).get("current", 0) if result.get("streak") else 0
             xp_gain = calc_xp_gain(score, accuracy, streak_cur, difficulty)
             xp_data = update_xp(current_user.id, xp_gain)
             # Compute progress to next level
