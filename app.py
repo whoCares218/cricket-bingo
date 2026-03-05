@@ -1495,10 +1495,10 @@ def page(body, title="Cricket Bingo", extra_head=""):
 {CSS}
 {extra_head}
 <script>
-(function(){{{{
+(function(){{
   const t=localStorage.getItem('cb-theme')||'dark';
   document.documentElement.setAttribute('data-theme',t);
-}}}})();
+}})();
 </script>
 </head>
 <body>
