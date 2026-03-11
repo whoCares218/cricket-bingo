@@ -82,12 +82,10 @@ TEAM_LOGOS = {
     "Lucknow Super Giants":         "lsg.png",
     "Mumbai Indians":               "mi.png",
     "Punjab Kings":                 "pun.png",
-    "Kings XI Punjab":              "pun.png",
     "Royal Challengers Bengaluru":  "rcb.png",
     "Royal Challengers Bangalore":  "rcb.png",
     "Rajasthan Royals":             "rr.png",
     "Sunrisers Hyderabad":          "srh.png",
-    "Pune Warriors India":          "pune.jpeg",
     "Rising Pune Supergiant":       "pune.jpeg",
     "Rising Pune Supergiants":      "pune.jpeg",
 }
@@ -506,6 +504,8 @@ def gen_room_code():
 
 GOOGLE_ANALYTICS = """<script async src="https://www.googletagmanager.com/gtag/js?id=G-JGCTR9L8JJ"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JGCTR9L8JJ');</script>"""
+
+GOOGLE_ADSENSE = """<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9904803540658016" crossorigin="anonymous"></script>"""
 
 SEO_META = """
 <meta name="description" content="Cricket Bingo – Match IPL cricket legends to their teams, nations and trophies. Play solo, compete in rated matches, or challenge friends.">
@@ -1193,6 +1193,7 @@ def page(body, title="Cricket Bingo", extra_head=""):
 <title>{title} — Cricket Bingo</title>
 {SEO_META}
 {GOOGLE_ANALYTICS}
+{GOOGLE_ADSENSE}
 {CSS}
 {extra_head}
 <script>
