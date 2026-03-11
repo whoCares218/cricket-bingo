@@ -262,7 +262,6 @@
     "iplTeams": [
       "Kolkata Knight Riders",
       "Delhi Daredevils",
-      "Pune Warriors India",
       "Royal Challengers Bengaluru",
       "Deccan Chargers",
       "Rising Pune Supergiant"
@@ -363,7 +362,6 @@
     "iplTeams": [
       "Royal Challengers Bengaluru",
       "Mumbai Indians",
-      "Pune Warriors India",
       "Kolkata Knight Riders",
       "Rajasthan Royals",
       "Chennai Super Kings"
@@ -570,7 +568,6 @@
     ],
     "iplTeams": [
       "Royal Challengers Bengaluru",
-      "Pune Warriors India",
       "Sunrisers Hyderabad",
       "Punjab Kings",
       "Royal Challengers Bengaluru"
@@ -2546,7 +2543,6 @@
     ],
     "iplTeams": [
       "Kolkata Knight Riders",
-      "Pune Warriors India",
       "Rajasthan Royals",
       "Rising Pune Supergiant",
       "Delhi Capitals"
@@ -2823,7 +2819,6 @@
     ],
     "iplTeams": [
       "Delhi Daredevils",
-      "Pune Warriors India",
       "Rajasthan Royals"
     ],
     "famous": "low"
@@ -3210,8 +3205,7 @@
     ],
     "iplTeams": [
       "Delhi Daredevils",
-      "Rising Pune Supergiant",
-      "Pune Warriors India"
+      "Rising Pune Supergiant"
     ],
     "famous": "low"
   },
@@ -3442,8 +3436,7 @@
     "nation": "South Africa",
     "trophies": [],
     "iplTeams": [
-      "Chennai Super Kings",
-      "Pune Warriors India"
+      "Chennai Super Kings"
     ],
     "famous": "low"
   },
@@ -3776,8 +3769,7 @@
     ],
     "iplTeams": [
       "Mumbai Indians",
-      "Delhi Daredevils",
-      "Pune Warriors India"
+      "Delhi Daredevils"
     ],
     "famous": "low"
   },
@@ -4379,9 +4371,7 @@
     "name": "Elton Chigumbura",
     "nation": "Zimbabwe",
     "trophies": [],
-    "iplTeams": [
-      "Pune Warriors India"
-    ],
+    "iplTeams": [],
     "famous": "low"
   },
   {
@@ -4414,9 +4404,7 @@
     "trophies": [
       "ICC ODI World Cup"
     ],
-    "iplTeams": [
-      "Pune Warriors India"
-    ],
+    "iplTeams": [],
     "famous": "low"
   },
   {
@@ -4513,9 +4501,7 @@
     "name": "Moises Henriques",
     "nation": "Australia",
     "trophies": [],
-    "iplTeams": [
-      "Pune Warriors India"
-    ],
+    "iplTeams": [],
     "famous": "low"
   },
   {
@@ -5614,7 +5600,6 @@
     "nation": "India",
     "trophies": [],
     "iplTeams": [
-      "Pune Warriors India",
       "Royal Challengers Bengaluru",
       "Sunrisers Hyderabad"
     ],
