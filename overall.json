@@ -61,25 +61,6 @@
     "famous": "high"
   },
   {
-    "id": 5,
-    "name": "R Ashwin",
-    "nation": "India",
-    "trophies": [
-      "ICC T20 World Cup",
-      "ICC ODI World Cup",
-      "IPL"
-    ],
-    "iplTeams": [
-      "Chennai Super Kings",
-      "Rising Pune Supergiant",
-      "Punjab Kings",
-      "Delhi Capitals",
-      "Rajasthan Royals",
-      "Chennai Super Kings"
-    ],
-    "famous": "high"
-  },
-  {
     "id": 6,
     "name": "Jasprit Bumrah",
     "nation": "India",
@@ -251,7 +232,7 @@
     "iplTeams": [
       "Delhi Daredevils",
       "Royal Challengers Bengaluru",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Mumbai Indians",
       "Kolkata Knight Riders",
       "Royal Challengers Bengaluru"
@@ -323,7 +304,7 @@
     "nation": "India",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Royal Challengers Bengaluru",
       "Kolkata Knight Riders",
       "Chennai Super Kings"
@@ -366,7 +347,7 @@
       "ICC ODI World Cup"
     ],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Rajasthan Royals",
       "Kochi Tuskers Kerala"
     ],
@@ -397,7 +378,7 @@
       "ICC T20 World Cup"
     ],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Deccan Chargers",
       "Delhi Daredevils",
       "Rising Pune Supergiant",
@@ -463,7 +444,7 @@
       "ICC ODI World Cup"
     ],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Kolkata Knight Riders",
       "Chennai Super Kings",
       "Mumbai Indians"
@@ -515,7 +496,7 @@
     "nation": "India",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -526,7 +507,7 @@
     "trophies": [],
     "iplTeams": [
       "Chennai Super Kings",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Delhi Capitals",
       "Sunrisers Hyderabad",
       "Gujarat Titans"
@@ -540,7 +521,7 @@
     "trophies": [],
     "iplTeams": [
       "Chennai Super Kings",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Deccan Chargers"
     ],
     "famous": "low"
@@ -564,7 +545,7 @@
     "iplTeams": [
       "Mumbai Indians",
       "Kolkata Knight Riders",
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -727,7 +708,7 @@
       "ICC T20 World Cup"
     ],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Gujarat Lions",
       "Delhi Capitals"
     ],
@@ -1093,7 +1074,7 @@
     "nation": "India",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Sunrisers Hyderabad",
       "Delhi Capitals"
     ],
@@ -1196,7 +1177,7 @@
     "nation": "India",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Rajasthan Royals",
       "Sunrisers Hyderabad"
     ],
@@ -1209,7 +1190,7 @@
     "trophies": [],
     "iplTeams": [
       "Kolkata Knight Riders",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Royal Challengers Bengaluru",
       "Sunrisers Hyderabad"
     ],
@@ -1339,7 +1320,7 @@
     "trophies": [],
     "iplTeams": [
       "Rajasthan Royals",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Delhi Capitals",
       "Kolkata Knight Riders"
     ],
@@ -1606,7 +1587,7 @@
     "trophies": [],
     "iplTeams": [
       "Rajasthan Royals",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Delhi Capitals",
       "Gujarat Titans"
     ],
@@ -1759,7 +1740,6 @@
     "nation": "India",
     "trophies": [],
     "iplTeams": [
-      "Chhattisgarh",
       "Punjab Kings"
     ],
     "famous": "medium"
@@ -1867,7 +1847,7 @@
       "IPL"
     ],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Rajasthan Royals",
       "Royal Challengers Bengaluru"
     ],
@@ -2330,7 +2310,7 @@
     ],
     "iplTeams": [
       "Deccan Chargers",
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -2368,7 +2348,7 @@
       "Kolkata Knight Riders",
       "Rajasthan Royals",
       "Mumbai Indians",
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -2399,7 +2379,7 @@
     "nation": "Australia",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -2412,7 +2392,7 @@
     ],
     "iplTeams": [
       "Kolkata Knight Riders",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Mumbai Indians"
     ],
     "famous": "low"
@@ -2426,7 +2406,7 @@
       "ICC T20 World Cup"
     ],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Mumbai Indians"
     ],
     "famous": "low"
@@ -2447,7 +2427,7 @@
     "nation": "Australia",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Rajasthan Royals"
     ],
     "famous": "low"
@@ -2491,7 +2471,7 @@
     "iplTeams": [
       "Delhi Daredevils",
       "Mumbai Indians",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Royal Challengers Bengaluru"
     ],
     "famous": "high"
@@ -2594,7 +2574,7 @@
     "nation": "South Africa",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Rajasthan Royals",
       "Gujarat Titans",
       "Delhi Capitals"
@@ -2878,7 +2858,7 @@
     "nation": "West Indies",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Sunrisers Hyderabad",
       "Lucknow Super Giants"
     ],
@@ -3117,7 +3097,7 @@
     ],
     "iplTeams": [
       "Delhi Daredevils",
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -3168,7 +3148,7 @@
     ],
     "iplTeams": [
       "Deccan Chargers",
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -3216,7 +3196,7 @@
     "nation": "Sri Lanka",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Royal Challengers Bengaluru"
     ],
     "famous": "low"
@@ -3244,7 +3224,7 @@
     ],
     "iplTeams": [
       "Kolkata Knight Riders",
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -3268,7 +3248,7 @@
       "ICC T20 World Cup"
     ],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Chennai Super Kings"
     ],
     "famous": "low"
@@ -3409,7 +3389,7 @@
     "nation": "Afghanistan",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Rajasthan Royals",
       "Mumbai Indians"
     ],
@@ -3572,7 +3552,7 @@
     "iplTeams": [
       "Delhi Daredevils",
       "Kolkata Knight Riders",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Royal Challengers Bengaluru"
     ],
     "famous": "low"
@@ -3596,7 +3576,7 @@
     "nation": "South Africa",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Royal Challengers Bengaluru",
       "Delhi Capitals"
     ],
@@ -3645,7 +3625,7 @@
     "iplTeams": [
       "Rajasthan Royals",
       "Mumbai Indians",
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -3668,7 +3648,7 @@
     "nation": "Pakistan",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Kolkata Knight Riders",
       "Delhi Daredevils"
     ],
@@ -3682,7 +3662,7 @@
       "ICC T20 World Cup"
     ],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -3748,7 +3728,7 @@
     "nation": "England",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -3807,7 +3787,7 @@
     "nation": "England",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -4088,7 +4068,7 @@
     "trophies": [],
     "iplTeams": [
       "Kolkata Knight Riders",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Royal Challengers Bengaluru"
     ],
     "famous": "low"
@@ -4152,7 +4132,7 @@
     "iplTeams": [
       "Rajasthan Royals",
       "Mumbai Indians",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Kolkata Knight Riders",
       "Delhi Daredevils"
     ],
@@ -4164,7 +4144,7 @@
     "nation": "New Zealand",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Gujarat Lions",
       "Sunrisers Hyderabad",
       "Kolkata Knight Riders",
@@ -4456,7 +4436,7 @@
     "nation": "Australia",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -4484,7 +4464,7 @@
     ],
     "iplTeams": [
       "Delhi Daredevils",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Mumbai Indians",
       "Royal Challengers Bengaluru",
       "Kolkata Knight Riders"
@@ -4659,7 +4639,7 @@
       "ICC T20 World Cup"
     ],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Royal Challengers Bengaluru",
       "Sunrisers Hyderabad",
       "Punjab Kings",
@@ -4728,7 +4708,7 @@
       "ICC ODI World Cup"
     ],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -4863,7 +4843,7 @@
     "nation": "West Indies",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Deccan Chargers",
       "Royal Challengers Bengaluru"
     ],
@@ -4906,7 +4886,7 @@
     "nation": "West Indies",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -4978,9 +4958,7 @@
     "trophies": [
       "ICC T20 World Cup"
     ],
-    "iplTeams": [
-      "Lahore Lions"
-    ],
+    "iplTeams": [],
     "famous": "low"
   },
   {
@@ -4989,7 +4967,7 @@
     "nation": "Pakistan",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -5085,7 +5063,7 @@
     "trophies": [],
     "iplTeams": [
       "Sunrisers Hyderabad",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Punjab Kings",
       "Rajasthan Royals",
       "Lucknow Super Giants"
@@ -5334,7 +5312,7 @@
     "trophies": [],
     "iplTeams": [
       "Kolkata Knight Riders",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Chennai Super Kings"
     ],
     "famous": "low"
@@ -5528,7 +5506,7 @@
     "trophies": [],
     "iplTeams": [
       "Sunrisers Hyderabad",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Delhi Daredevils",
       "Gujarat Titans"
     ],
@@ -5616,7 +5594,7 @@
     "nation": "Australia",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -5659,7 +5637,7 @@
     "nation": "Sri Lanka",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
@@ -5715,21 +5693,6 @@
     "famous": "low"
   },
   {
-    "id": 490,
-    "name": "Mitch Marsh",
-    "nation": "Australia",
-    "trophies": [
-      "ICC T20 World Cup",
-      "WTC"
-    ],
-    "iplTeams": [
-      "Sunrisers Hyderabad",
-      "Delhi Capitals",
-      "Lucknow Super Giants"
-    ],
-    "famous": "low"
-  },
-  {
     "id": 491,
     "name": "Chris Green",
     "nation": "Australia",
@@ -5745,7 +5708,7 @@
     "nation": "Australia",
     "trophies": [],
     "iplTeams": [
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Punjab Kings"
     ],
     "famous": "low"
@@ -5832,7 +5795,7 @@
     ],
     "iplTeams": [
       "Chennai Super Kings",
-      "Kings XI Punjab",
+      "Punjab Kings",
       "Sunrisers Hyderabad",
       "Gujarat Titans"
     ],
@@ -5917,7 +5880,7 @@
     "iplTeams": [
       "Mumbai Indians",
       "Kolkata Knight Riders",
-      "Kings XI Punjab"
+      "Punjab Kings"
     ],
     "famous": "low"
   },
